@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import praptiLogo from '../images/logo.png'
 
 const Navbar = () => {
 
@@ -6,7 +7,7 @@ const Navbar = () => {
         <header>
             <div className="container">
                 <Link to="/">
-                    <h1>Prapti</h1>
+                    <h1><img src={praptiLogo} alt="Prapti" /></h1>
                 </Link>
             </div>
         </header>

@@ -16,7 +16,7 @@ header {
 header .container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 10px 20px;
+  padding: 0px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -25,6 +25,17 @@ header a {
   color: #18b069;
   text-decoration: none;
 }
+
+header h1{
+  margin: 0 10px;
+  margin-top: 20px;
+}
+
+header img{
+  margin: 0;
+  max-width: 150px;
+}
+
 .pages{
   max-width: 1400px;
   padding: 20px;
@@ -34,8 +45,18 @@ header a {
 /* Landing Requests Page */
 .home {
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 4fr 1fr;
   gap: 100px;
+  margin-top: 96px;
+}
+
+.home h1{
+  position: absolute;
+  padding: 15px 10px;
+  top: 120px;
+  left: 250px;
+  border-bottom: 2px solid rgb(205, 211, 206);
+  width: 975px;
 }
 
 .request-details {
@@ -68,4 +89,24 @@ header a {
   cursor: pointer;
   background: white;
   padding: 6px;
+}
+
+.requestbtn{
+  background: var(--primary);
+  border: 0;
+  color: rgb(255, 255, 255);
+  padding: 30px 75px;
+  margin: 10px 0px;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  position: absolute;
+  top: 240px;
+  left: 1320px;
+}
+
+.requestbtn:hover{
+  background: var(--primary);
+  border: 1px solid green;
+  cursor: pointer;
 }
