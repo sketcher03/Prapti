@@ -29,6 +29,27 @@ const getRequest = async (req, res) => {
 const createRequest = async (req, res) => {
     const { title, description, category, budget, timeline } = req.body;
 
+    let emptyFields = []
+
+    if(!title) {
+        emptyFields.push('title');
+    }
+    if(!description) {
+        emptyFields.push('description');
+    }
+    if(!category) {
+        emptyFields.push('category');
+    }
+    if(!budget) {
+        emptyFields.push('budget');
+    }
+    if(!timeline) {
+        emptyFields.push('timeline');
+    }
+    if(emptyFields.length > 0) {
+        return res.status(400).json({ error: 'Please fill in all the fields', emptyFields });
+    }
+
     //add document to DB
     try{
         const request = await Request.create({title, description, category, budget, timeline});

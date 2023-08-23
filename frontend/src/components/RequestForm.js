@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRequestContext } from '../hooks/useRequestsContext'
+import '../components/PopupForm.css'
 
 const RequestForm = (props) => {
     const { dispatch } = useRequestContext();
@@ -10,6 +11,7 @@ const RequestForm = (props) => {
     const [timeline, setTimeline] = useState('');
 
     const [error, setError] = useState(null);
+    const [emptyFields, setEmptyFields] = useState([]);
 
     
     const handleSubmit = async (e) => {
@@ -29,6 +31,7 @@ const RequestForm = (props) => {
 
         if(!response.ok){
             setError(json.error);
+            setEmptyFields(json.emptyFields);
         }
 
         if(response.ok){
@@ -38,6 +41,7 @@ const RequestForm = (props) => {
             setCategory('');
             setBudget('');
             setTimeline('');
+            setEmptyFields([]);
             
             props.setTrigger(false);
 
@@ -59,6 +63,7 @@ const RequestForm = (props) => {
                     required
                     onChange={(e) => setTitle(e.target.value)}
                     value={title}
+                    className={emptyFields.includes('title') ? 'error' : ''}
                 />
 
                 <label>What are you looking to get done?<br/>Give us a great description.</label>
@@ -66,6 +71,7 @@ const RequestForm = (props) => {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     required
+                    className={emptyFields.includes('description') ? 'error' : ''}
                 ></textarea>
 
                 <label>Which category best fits your project?</label>
@@ -74,6 +80,7 @@ const RequestForm = (props) => {
                     required
                     onChange={(e) => setCategory(e.target.value)}
                     value={category}
+                    className={emptyFields.includes('category') ? 'error' : ''}
                 />
 
                 <label>I'm willing to spend up to...</label>
@@ -82,6 +89,7 @@ const RequestForm = (props) => {
                     required
                     onChange={(e) => setBudget(e.target.value)}
                     value={budget}
+                    className={emptyFields.includes('budget') ? 'error' : ''}
                 />
 
                 <label>Expected Timeline (days) </label>
@@ -90,6 +98,7 @@ const RequestForm = (props) => {
                     required
                     onChange={(e) => setTimeline(e.target.value)}
                     value={timeline}
+                    className={emptyFields.includes('timeline') ? 'error' : ''}
                 />
 
                 <button>Submit for Review</button>

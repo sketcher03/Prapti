@@ -12,6 +12,10 @@ export const requestsReducer = (state, action) => {
             return {
                 requests: [action.payload, ...state.requests]
             }
+        case 'DELETE_REQUEST':
+            return {
+                requests: state.requests.filter((request) => request._id !== action.payload._id)
+            }
         default:
             return state
     }

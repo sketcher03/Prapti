@@ -2,11 +2,11 @@
 
 /* layout */
 :root {
-  --primary: #1aac79;
+  --primary: #00BF63;
   --error: #e7195a;
 }
 body {
-  background: #f1f1f1;
+  background: #ffffff;
   margin: 0;
   font-family: "Poppins";
 }
@@ -22,7 +22,7 @@ header .container {
   justify-content: space-between;
 }
 header a {
-  color: #18b069;
+  color:  var(--primary);
   text-decoration: none;
 }
 
@@ -33,6 +33,7 @@ header h1{
 
 header img{
   margin: 0;
+  padding-top: 20px;
   max-width: 150px;
 }
 
@@ -50,29 +51,34 @@ header img{
   margin-top: 96px;
 }
 
+.requests {
+  border: 1.5px solid rgb(199, 199, 199);
+  border-radius: 10px;
+  background: rgb(255, 255, 255);
+}
+
 .home h1{
   position: absolute;
-  padding: 15px 10px;
-  top: 120px;
-  left: 250px;
-  border-bottom: 2px solid rgb(205, 211, 206);
-  width: 975px;
+  top: 140px;
+  padding: 15px 15px;
+  color: rgb(68, 68, 68);
+  font-weight: 500;
+  font-size: 30px;
 }
 
 .request-details {
-  background: rgb(252, 255, 244);
-  border-radius: 5px;
-  padding: 30px 40px;
+  margin: 0;
+  padding: 40px 40px;
   margin: 20px auto;
   position: relative;
-  border: 1.5px solid rgb(199, 199, 199);
+  border-bottom: 1.5px solid rgb(199, 199, 199);
 }
 
 .request-details h4{
   margin: 0;
-  margin-top: 10px;
   margin-bottom: 10px;
   font-size: 22px;
+  font-weight: 600;
   color: var(--primary);
 }
 
@@ -84,11 +90,13 @@ header img{
 
 .request-details span{
   position: absolute;
-  top: 20px;
-  right: 20px;
+  bottom: 50px;
+  right: 40px;
   cursor: pointer;
-  background: white;
-  padding: 6px;
+  background:  var(--primary);
+  padding: 18px;
+  color: white;
+  border-radius: 15px;
 }
 
 .requestbtn{
@@ -97,16 +105,30 @@ header img{
   color: rgb(255, 255, 255);
   padding: 30px 75px;
   margin: 10px 0px;
-  border-radius: 10px;
+  border-radius: 15px;
   font-size: 20px;
   font-weight: 600;
   position: absolute;
   top: 240px;
-  left: 1320px;
+  left: 1250px;
 }
 
 .requestbtn:hover{
   background: var(--primary);
   border: 1px solid green;
   cursor: pointer;
+}
+
+p.date{
+  padding: 6px 0;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+footer{
+  margin-top: 40px;
+  padding: 40px;
+  background: var(--primary);
+  font-weight: 500;
+  text-align: center;
 }

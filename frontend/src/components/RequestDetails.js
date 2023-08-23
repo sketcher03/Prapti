@@ -1,11 +1,21 @@
+import { useRequestContext } from '../hooks/useRequestsContext'
+
+//date ffns
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+
 const RequestDetails = ({ request }) => {
+    const { dispatch } = useRequestContext();
 
     const handleClick = async () => {
         const response = await fetch('/api/requests/' + request._id, {
             method: 'DELETE'
         })
 
-        const json = await response.json
+        const json = await response.json();
+
+        if(response.ok){
+            dispatch({type: 'DELETE_REQUEST', payload: json});
+        }
     }
 
     return (
@@ -15,8 +25,8 @@ const RequestDetails = ({ request }) => {
             <p><strong>Service: </strong>{request.category}</p>
             <p><strong>Budget: </strong>{request.budget}</p>
             <p><strong>Time (days): </strong>{request.timeline}</p>
-            <p><strong>Date Created: </strong>{request.createdAt}</p>
-            <span onClick={handleClick}>Delete</span>
+            <p className='date'>Published {formatDistanceToNow(new Date(request.createdAt), { addSuffix: true })}</p>
+            <span class="material-symbols-outlined" onClick={handleClick}>Delete</span>
         </div>
     )
 }

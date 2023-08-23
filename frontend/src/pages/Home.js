@@ -28,8 +28,8 @@ const Home = () => {
 
     return (
         <div className="home">
-            <h1>All Requests Posted</h1>
             <div className="requests">
+                <h1>All Requests Posted</h1>
                 {requests && requests.map((request) => (
                     <RequestDetails key="request._id" request={request}/>
                 ))}
