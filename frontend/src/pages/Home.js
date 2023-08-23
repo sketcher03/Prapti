@@ -24,7 +24,7 @@ const Home = () => {
         }
 
         fetchRequests();
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className="home">
