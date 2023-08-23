@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useRequestContext } from '../hooks/useRequestsContext'
 
 const RequestForm = (props) => {
+    const { dispatch } = useRequestContext();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
@@ -30,6 +32,7 @@ const RequestForm = (props) => {
         }
 
         if(response.ok){
+
             setTitle('');
             setDescription('');
             setCategory('');
@@ -40,6 +43,8 @@ const RequestForm = (props) => {
 
             setError(null);
             console.log('New Request Added', json);
+
+            dispatch({type: 'CREATE_REQUEST', payload: json});
         }
     };
 

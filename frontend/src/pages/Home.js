@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useRequestContext } from '../hooks/useRequestsContext'
 
 //components
 import RequestDetails from '../components/RequestDetails';
@@ -6,8 +7,9 @@ import RequestForm from '../components/RequestForm';
 import '../components/PopupForm.css'
 
 const Home = () => {
+    const { requests, dispatch } = useRequestContext();
 
-    const [requests, setRequests] = useState(null);
+    //const [requests, setRequests] = useState(null);
     const [requestPopup, setRequestPopup] = useState(false);
 
     useEffect(() => {
@@ -16,7 +18,8 @@ const Home = () => {
             const json = await response.json();
 
             if(response.ok){
-                setRequests(json);
+                dispatch({type: 'SET_REQUESTS', payload: json});
+                //setRequests(json);
             }
         }
 
