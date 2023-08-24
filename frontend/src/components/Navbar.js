@@ -23,16 +23,18 @@ const Navbar = () => {
                             onclick ={() => setActive(i)}
                         >
                             <span 
-                                className={'text-s1 cursor-pointer  ${i === active && "-mt-6"}'}
-                                >
-                            <ion-icon name={menus.icon}></ion-icon>
+                                className={`text-s1 cursor-pointer duration-500 ${
+                                    i === active && "-mt-6"
+                                }`}
+                            >
+                                <ion-icon name={menus.icon}></ion-icon>
                             </span>
                             <span
-                                className={' ${
+                                className={` ${
                                 active === i 
                                   ? "translate-y-4 duration-700 opacity-100"
                                   :"opacity-0 translate-y-10"
-                                }'}
+                                }`}
                                 >
                                 {menus.name}
                             </span>
