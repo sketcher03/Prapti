@@ -85,8 +85,8 @@ const updateRequest = async (req, res) => {
         return res.status(404).json({ error: 'No Such Request' });
     }
 
-    const request = await Request.findOneAndUpdate({_id: id}, {
-        ...req.body
+    const request = await Request.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
     });
 
     if(!request){
