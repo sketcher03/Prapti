@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
+const validator = require('validator');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 const userSchema = new Schema({
     email: {
         type: String,
@@ -20,7 +24,21 @@ const userSchema = new Schema({
 });
 
 //static signup method
-userSchema.statics.signup = async (email, username, password) => {
+userSchema.statics.signup = async function(email, username, password) {
+
+    //validation using validator
+    if(!email || !username || !password) {
+        throw Error('Some fields are empty');
+    }
+
+    if(!validator.isEmail(email)){
+        throw Error('Email is not valid');
+    }
+
+    if(!validator.isStrongPassword(password))
+    {
+        throw Error('Password not strong enough')
+    }
     
     //find out if email already exists or username already taken during signup
     const emailExists = await this.findOne({ email });
@@ -35,7 +53,7 @@ userSchema.statics.signup = async (email, username, password) => {
     }
 
     //password hashing with salt
-    const salt = await bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(password, salt);
 
     const user = await this.create({ email, username, password: hash });
