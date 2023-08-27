@@ -20,8 +20,12 @@ const Navbar = () => {
             </Link>
         
     
-            <div className="bg-white max-h-[4.4rem] px-6 rounded-t-x1">
+            <div className="bg-black max-h-[4.4rem] px-6 rounded-t-x1">
                 <ul className="flex relative">
+                    <span className={`bg-rose-600 duration-500 ${Menus[active].dis} border-4 border-gray-900 h-16 w-16 absolute -top-5 rounded-full `}
+                    >
+                    <span className="='w-3.5 h-3.5 bg-red-300 absolute top-4"></span>
+                    </span>
                     {Menus.map((menus, i) => (
                         <li key={i} className="w-16">
                             <a
