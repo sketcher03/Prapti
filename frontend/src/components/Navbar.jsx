@@ -20,11 +20,11 @@ const Navbar = () => {
             </Link>
         
             
-            <div className="bg-tw-shadow-color: #f3f4f6 max-h-[6rem] px-6 rounded-t-xl">
+            <div className="shadow-lg -tw-shadow-color: #f3f4f6 max-h-[6rem] px-6 rounded-t-xl">
                 <ul className="flex relative">
                     
                     <span className={`bg-rose-600 duration-500 ${Menus[active].dis} border-4 border-white-900 h-16 w-16 absolute 
-                    -bottom-5 rounded-full`}
+                    -bottom-5 rounded-full `}
                     >
                     <span className="w-3.5 h-3.5 bg-transparent absolute top-4 -left-[18px] rounded-tr-[11px]
                     shadow-myShadow1"></span>
