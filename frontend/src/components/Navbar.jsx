@@ -3,15 +3,16 @@ import { Link } from 'react-router-dom';
 import praptiLogo from '../images/logo.png';
 import '../css/Navbar_Footer.css'
 
-const Navbar = () => {
+const Navbar =() =>{
     const Menus =[
-        {name: "Prapti", icon:"home-outline", dis:"translate-x-0"},
-        {name: "Find Talent", icon:"sunny-outline", dis:"translate-x-16"},
-        {name: "Find Work", icon:"telescope-outline", dis:"translate-x-32"},
-        {name: "Why Prapti", icon:"help-circle-outline", dis:"translate-x-48"},
-        {name: "Customer_Reviews", icon:"chatbox-ellipses-outline", dis:"translate-x-64"},
-    ];
-    const [active, setActive] = useState(0);
+        {name: "Find Talent", icon:"telescope-outline", dis:"translate-x-4"},
+        {name: "Requests", icon:"create-outline", dis:"translate-x-[110px]"},
+        {name: "Orders", icon:"layers-outline", dis:"translate-x-[208px]"},
+        {name: "Help", icon:"help-circle-outline", dis:"translate-x-[305px]"},
+        {name: "Notifications", icon:"notifications-outline", dis:"translate-x-[400px]"},
+        {name: "Inbox", icon:"chatbox-ellipses-outline", dis:"translate-x-[496px]"},
+        ];
+        const [active, setActive] = useState(0);
 
     return(
         <div className="container">
@@ -20,39 +21,39 @@ const Navbar = () => {
             </Link>
         
             
-            <div className="shadow-lg -tw-shadow-color: #f3f4f6 max-h-[6rem] px-6 rounded-t-xl">
-                <ul className="flex relative">
+            <div className="bg-green-100 max-h-32 px-10 rounded-2xl mt-8">
+                <ul className="flex relative items-center">
                     
-                    <span className={`bg-rose-600 duration-500 ${Menus[active].dis} border-4 border-white-900 h-16 w-16 absolute 
-                    -bottom-5 rounded-full `}
+                    <span className={`bg-lime-500 duration-500 ${Menus[active].dis} border-[6px] border-white h-16 w-16 absolute 
+                    -bottom-7 rounded-full scale-125`}
                     >
-                    <span className="w-3.5 h-3.5 bg-transparent absolute top-4 -left-[18px] rounded-tr-[11px]
-                    shadow-myShadow1"></span>
-                    
+                        <span className="w-4 h-4 bg-transparent absolute top-[14px] -left-[21.1px] rotate-90 rounded-tr-[10px]
+                        shadow-myShadow1"></span>
+                        
 
-                    <span className="w-3.5 h-3.5 bg-transparent absolute top-4 -right-[18px] rounded-tl-[11px]
-                    shadow-myShadow2"></span>
+                        <span className="w-4 h-4 bg-transparent absolute top-[14px] -right-[21.1px] -rotate-90 rounded-tl-[11px]
+                        shadow-myShadow2"></span>
                     </span>
 
                     {Menus.map((menu, i) => (
-                        <li key={i} className="w-20">
+                        <li key={i} className="w-24 translate-y-1 text-center">
+                            
                             <a
-                                className="flex flex-col text-center"
-                                onClick={() => setActive(i)
-                                }
+                                className="flex flex-col text-center mt-4 mb-5"
+                                onClick={() => setActive(i)}
                             >
                                 <span
-                                    className={`text-xl cursor-pointer duration-500 ${i === active && "-mt-6 text-black"}`}
-                                >
-                                    <ion-icon name={menu.icon}></ion-icon>
-                                </span>
-                                <span
-                                    className={` ${
+                                    className={`text-base text-green-600 font-semibold ${
                                         active === i
-                                            ? "translateY(42px) duration-700 opacity-100"
+                                            ? "translate-y-[10px] duration-700 opacity-100 "
                                             : "opacity-0 translate-y-10"}`}
                                 >
                                     {menu.name}
+                                </span>
+                                <span
+                                    className={`text-3xl font-[800] cursor-pointer mb-4 duration-500 ${i === active && "text-green-100 translate-y-12"}`}
+                                >
+                                    <ion-icon name={menu.icon}></ion-icon>
                                 </span>
                             </a>
                         </li>
