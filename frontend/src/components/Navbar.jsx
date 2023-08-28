@@ -6,10 +6,10 @@ import '../css/Navbar_Footer.css'
 const Navbar = () => {
     const Menus =[
         {name: "Prapti", icon:"home-outline", dis:"translate-x-0"},
-        {name: "Find Talent", icon:"talent-outline", dis:"translate-x-16"},
-        {name: "Find Work", icon:"work-outline", dis:"translate-x-32"},
-        {name: "Why Prapti", icon:"reason-outline", dis:"translate-x-48"},
-        {name: "Customer_Reviews", icon:"customer-outline", dis:"translate-x-64"},
+        {name: "Find Talent", icon:"sunny-outline", dis:"translate-x-16"},
+        {name: "Find Work", icon:"telescope-outline", dis:"translate-x-32"},
+        {name: "Why Prapti", icon:"help-circle-outline", dis:"translate-x-48"},
+        {name: "Customer_Reviews", icon:"chatbox-ellipses-outline", dis:"translate-x-64"},
     ];
     const [active, setActive] = useState(0)
 
@@ -24,8 +24,14 @@ const Navbar = () => {
                 <ul className="flex relative">
                     <span className={`bg-rose-600 duration-500 ${Menus[active].dis} border-4 border-gray-900 h-16 w-16 absolute -top-5 rounded-full `}
                     >
-                    <span className="='w-3.5 h-3.5 bg-red-300 absolute top-4"></span>
+                    <span className="='w-3.5 h-3.5 bg-transparent absolute top-4 -left-[18px] rounded-tr-[11px]
+                    shadow-myShadow1"></span>
+                    
+
+                    <span className="='w-3.5 h-3.5 bg-transparent absolute top-4 -right-[18px] rounded-tl-[11px]
+                    shadow-myShadow2"></span>
                     </span>
+
                     {Menus.map((menus, i) => (
                         <li key={i} className="w-16">
                             <a
@@ -51,14 +57,6 @@ const Navbar = () => {
                 </ul>
             </div>
         </div>
-    );
-
-
-
-
-
-        
-    
+    );    
 }
-
 export default Navbar;

@@ -11,7 +11,9 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar />
+      <div className='h-screen flex justify-center items-center bg-white'>
+      <Navbar />
+      </div>        
         <div className="pages">
           <Routes>
             <Route
