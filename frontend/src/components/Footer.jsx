@@ -1,3 +1,5 @@
+import '../css/Navbar_Footer.css'
+
 const Footer = () => {
     return (
         <footer>
