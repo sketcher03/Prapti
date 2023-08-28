@@ -20,11 +20,11 @@ const Navbar = () => {
             </Link>
         
             
-            <div className="bg-blue max-h-[6rem] px-6 rounded-t-xl">
+            <div className="bg-tw-shadow-color: #f3f4f6 max-h-[6rem] px-6 rounded-t-xl">
                 <ul className="flex relative">
                     
                     <span className={`bg-rose-600 duration-500 ${Menus[active].dis} border-4 border-white-900 h-16 w-16 absolute 
-                    -top-5 rounded-full`}
+                    -bottom-5 rounded-full`}
                     >
                     <span className="w-3.5 h-3.5 bg-transparent absolute top-4 -left-[18px] rounded-tr-[11px]
                     shadow-myShadow1"></span>
@@ -37,19 +37,19 @@ const Navbar = () => {
                     {Menus.map((menu, i) => (
                         <li key={i} className="w-20">
                             <a
-                                className="flex flex-col text-center pt-6"
-                                onclick={() => setActive(i)
+                                className="flex flex-col text-center"
+                                onClick={() => setActive(i)
                                 }
                             >
                                 <span
-                                    className={`text-x1 cursor-pointer duration-500 ${i === active && "-mt-6 text-white"}`}
+                                    className={`text-xl cursor-pointer duration-500 ${i === active && "-mt-6 text-black"}`}
                                 >
                                     <ion-icon name={menu.icon}></ion-icon>
                                 </span>
                                 <span
                                     className={` ${
                                         active === i
-                                            ? "translate-y-4 duration-700 opacity-100"
+                                            ? "translateY(42px) duration-700 opacity-100"
                                             : "opacity-0 translate-y-10"}`}
                                 >
                                     {menu.name}
