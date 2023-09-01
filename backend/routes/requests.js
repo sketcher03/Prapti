@@ -1,4 +1,5 @@
 const express = require('express');
+
 const {
     createRequest,
     getRequest,
@@ -22,6 +23,6 @@ router.post('/', createRequest);
 router.delete('/:id', deleteRequest);
 
 //UPDATE a request
-router.patch('/:id', updateRequest);
+router.put('/:id', updateRequest);
 
 module.exports = router;
