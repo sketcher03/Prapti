@@ -4,7 +4,7 @@ import { useRequestContext } from '../hooks/useRequestsContext'
 //components
 import RequestDetails from '../components/RequestDetails';
 import RequestForm from '../components/RequestForm';
-import '../css/PopupForm.css'
+
 
 const Home = () => {
     const { requests, dispatch } = useRequestContext();
