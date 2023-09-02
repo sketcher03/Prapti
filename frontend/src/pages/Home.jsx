@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRequestContext } from '../hooks/useRequestsContext'
+import { useAuthContext } from "../hooks/useAuthContext";
 
 //components
 import RequestDetails from '../components/RequestDetails';
@@ -8,13 +9,19 @@ import RequestForm from '../components/RequestForm';
 
 const Home = () => {
     const { requests, dispatch } = useRequestContext();
+    const { user } = useAuthContext();
 
     //const [requests, setRequests] = useState(null);
     const [requestPopup, setRequestPopup] = useState(false);
 
     useEffect(() => {
         const fetchRequests = async () => {
-            const response = await fetch('/api/requests');
+            const response = await fetch('/api/requests', {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+            
             const json = await response.json();
 
             if(response.ok){
@@ -23,8 +30,11 @@ const Home = () => {
             }
         }
 
-        fetchRequests();
-    }, [dispatch]);
+        if(user) {
+            fetchRequests();
+        }
+        
+    }, [dispatch, user]);
 
     return (
         <div className="home">

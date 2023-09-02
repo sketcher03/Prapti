@@ -1,4 +1,5 @@
 import { useRequestContext } from '../hooks/useRequestsContext'
+import { useAuthContext } from "../hooks/useAuthContext";
 
 //date ffns
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
@@ -6,9 +7,18 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 const RequestDetails = ({ request }) => {
     const { dispatch } = useRequestContext();
 
+    const { user } = useAuthContext();
+
     const handleClick = async () => {
+        if(!user) {
+            return
+        }
+
         const response = await fetch('/api/requests/' + request._id, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
         })
 
         const json = await response.json();
