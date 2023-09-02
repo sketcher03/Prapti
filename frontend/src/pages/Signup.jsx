@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import '../css/Login_Signup.css'
+import { useSignup } from '../hooks/useSignup';
 
 const Signup = () => {
 
@@ -7,10 +8,14 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
 
+    const { signup, isLoading, error } = useSignup();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(email, username, password);
+        //console.log(email, username, password);
+
+        await signup(email, username, password);
     }
 
     return (
@@ -38,7 +43,9 @@ const Signup = () => {
                 value={password}
             />
 
-            <button>Sign Up</button>
+            <button disabled={isLoading}>Sign Up</button>
+
+            {error && <div className='error'>{ error }</div>}
         </form>
     );
 }

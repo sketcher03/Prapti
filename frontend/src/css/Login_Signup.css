@@ -56,7 +56,7 @@ form button:hover{
     cursor: pointer;
 }
 
-div.error {
+form div.error {
     padding: 10px;
     background: rgb(255, 218, 224);
     border: 1px solid var(--error);
@@ -64,6 +64,6 @@ div.error {
     margin: 20px 0;
 }
 
-input.error{
+form input.error{
     border: 1px solid var(--error);
 }

@@ -26,7 +26,7 @@ const RequestDetails = ({ request }) => {
             <p><strong>Budget: </strong>{request.budget}</p>
             <p><strong>Time (days): </strong>{request.timeline}</p>
             <p className='date'>Published {formatDistanceToNow(new Date(request.createdAt), { addSuffix: true })}</p>
-            <span class="material-symbols-outlined" onClick={handleClick}>Delete</span>
+            <span className="material-symbols-outlined" onClick={handleClick}>Delete</span>
         </div>
     )
 }

@@ -6,7 +6,7 @@ export default defineConfig(() => {
   return {
     server:{
       proxy:{
-        '/api/requests':'http://localhost:4000'
+        '/api':'http://localhost:4000',
       }
     },
     build: {
