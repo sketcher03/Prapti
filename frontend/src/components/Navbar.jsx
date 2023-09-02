@@ -8,6 +8,8 @@ const Navbar = () => {
 
     const { dispatch } = useAuthContext();
 
+    const { user } = useAuthContext();
+
     const handleLogout = () => {
 
         //remove user from local storage of browser
@@ -76,23 +78,28 @@ const Navbar = () => {
                 </div>
             </div>
 
-            <div>
-                <button onClick={handleLogout}>Log out</button>
-            </div>
+            {user && (
+                <div>
+                    <span>{ user.email }</span>
+                    <button onClick={handleLogout}>Log out</button>
+                </div>
+            )}
 
-            <div className="text-l font-[500] mr-6 cursor-pointer align-center">
-                <Link  to="/login">
-                    
-                    Login
+            {!user && (
+                <div className="text-l font-[500] mr-6 cursor-pointer align-center">
+                    <Link  to="/login">
+                        
+                        Login
 
-                    {/* <span
-                        className="text-3xl font-[800] mr-6 cursor-pointer px-2 align-center"
-                    >
-                        <ion-icon className="nav-login" name="log-in-outline"></ion-icon>
-                    </span> */}
-                </Link>
-                <Link className="ml-5" to="/signup">Signup</Link>
-            </div>
+                        {/* <span
+                            className="text-3xl font-[800] mr-6 cursor-pointer px-2 align-center"
+                        >
+                            <ion-icon className="nav-login" name="log-in-outline"></ion-icon>
+                        </span> */}
+                    </Link>
+                    <Link className="ml-5" to="/signup">Signup</Link>
+                </div>
+            )}
         </div>
     );    
 }
