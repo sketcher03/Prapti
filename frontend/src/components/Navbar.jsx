@@ -2,19 +2,33 @@ import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import praptiLogo from '../images/logo.png';
 import '../css/Navbar_Footer.css'
+import { useAuthContext } from "../hooks/useAuthContext";
 
-const Navbar =() =>{
-    const Menus =[
+const Navbar = () => {
+
+    const { dispatch } = useAuthContext();
+
+    const handleLogout = () => {
+
+        //remove user from local storage of browser
+        localStorage.removeItem('user');
+
+        //dispatch a logout action
+        dispatch({type: 'LOGOUT'});
+    };
+
+    const Menus = [
         {name: "Find Talent", icon:"telescope-outline", dis:"translate-x-4"},
         {name: "Requests", icon:"create-outline", dis:"translate-x-[110px]"},
         {name: "Orders", icon:"layers-outline", dis:"translate-x-[208px]"},
         {name: "Help", icon:"help-circle-outline", dis:"translate-x-[305px]"},
         {name: "Notifications", icon:"notifications-outline", dis:"translate-x-[400px]"},
         {name: "Inbox", icon:"chatbox-ellipses-outline", dis:"translate-x-[496px]"},
-        ];
-        const [active, setActive] = useState(0);
+    ];
 
-    return(
+    const [active, setActive] = useState(0);
+
+    return (
         <div className="container">
             <Link to="/">
                 <h1><img src={praptiLogo} alt="Prapti" /></h1>
@@ -60,6 +74,10 @@ const Navbar =() =>{
                         ))}
                     </ul>
                 </div>
+            </div>
+
+            <div>
+                <button onClick={handleLogout}>Log out</button>
             </div>
 
             <div className="text-l font-[500] mr-6 cursor-pointer align-center">
