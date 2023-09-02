@@ -7,6 +7,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 const Navbar = () => {
 
     const { dispatch } = useAuthContext();
+    const { dispatch: requestDispatch } = useAuthContext();
 
     const { user } = useAuthContext();
 
@@ -17,6 +18,9 @@ const Navbar = () => {
 
         //dispatch a logout action
         dispatch({type: 'LOGOUT'});
+
+        //clear global request state
+        requestDispatch({type: 'SET_REQUESTS', payload: null})
     };
 
     const Menus = [
