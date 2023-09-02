@@ -28,7 +28,7 @@ userSchema.statics.signup = async function(email, username, password) {
 
     //validation using validator
     if(!email || !username || !password) {
-        throw Error('Some fields are empty');
+        throw Error('One or few fields are empty');
     }
 
     if(!validator.isEmail(email)){

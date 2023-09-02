@@ -9,6 +9,7 @@
   --primary: #00BF63;
   --error: #e7195a;
 }
+
 body {
   background: #ffffff;
   margin: 0;
@@ -19,6 +20,7 @@ body {
   max-width: 1400px;
   padding: 20px;
   margin: 0 auto;
+  min-height: 76vh;
 }
 
 /* Landing Requests Page */

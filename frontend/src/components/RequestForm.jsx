@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useRequestContext } from '../hooks/useRequestsContext'
-import '../css/PopupForm.css'
+import "../css/PopupForm.css"
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const RequestForm = (props) => {
     const { dispatch } = useRequestContext();
+    
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
@@ -13,9 +15,15 @@ const RequestForm = (props) => {
     const [error, setError] = useState(null);
     const [emptyFields, setEmptyFields] = useState([]);
 
+    const { user } = useAuthContext();
     
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if(!user) {
+            setError('You must be logged in');
+            return
+        }
         
         const request = {title, description, category, budget, timeline};
 
@@ -23,7 +31,8 @@ const RequestForm = (props) => {
             method: 'POST',
             body: JSON.stringify(request),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         });
 

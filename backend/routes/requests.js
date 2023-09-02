@@ -8,7 +8,12 @@ const {
     deleteRequest
 } = require('../controllers/requestController');
 
+const requireAuth = require('../middleware/requireAuthentication')
+
 const router = express.Router();
+
+//require authorization before firing all other routes
+router.use(requireAuth);
 
 //GET all requests
 router.get('/', getRequests);
