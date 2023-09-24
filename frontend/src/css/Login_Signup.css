@@ -7,12 +7,15 @@
 
 form.login, form.signup{
     position: relative;
-    padding: 50px;
+    padding: 20px;
     width: 100%;
-    max-width: 550px;
+    max-width: 500px;
     border-radius: 15px;
     margin: auto;
-    margin-top: 24px;
+}
+
+form.signup{
+    margin-top: -60px;
 }
 
 form h3{
@@ -26,7 +29,7 @@ form label, input{
     display: block;
 }
 
-form input{
+form input {
     padding: 15px;
     margin-top: 5px;
     margin-bottom: 15px;
@@ -67,3 +70,10 @@ form div.error {
 form input.error{
     border: 1px solid var(--error);
 }
+
+form .remember-container input{
+    height: 16px;
+    width: 16px;
+    border-radius: 30px;
+}
+
