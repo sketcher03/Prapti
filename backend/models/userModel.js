@@ -5,28 +5,28 @@ const Schema = mongoose.Schema;
 const validator = require('validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const ErrorHandler = require('../utilities/ErrorHandler');
 const saltRounds = 10;
 
 const userSchema = new Schema({
     email: {
         type: String,
-        required: [true, "Please enter your Email Address"],
+        required: true,
         unique: true
     },
     username: {
         type: String,
-        required: [true, "Please enter a Username"],
+        required: true,
         unique: true
     },
     password: {
         type: String,
-        required: [true, "Please enter your Password"],
+        required: true,
         minLength: [4, "Password too short!"],
         select: false
     },
     name: {
         type: String,
-        required: [true, "Please enter Your Name"]
     },
     phoneNumber: {
         type: Number
@@ -52,14 +52,8 @@ const userSchema = new Schema({
         default: "user"
     },
     profilePic: {
-        public_id: {
-            type: String,
-            required: true
-        },
-        url: {
-            type: String,
-            required: true
-        }
+        type: String,
+        required: true
     },
     createdAt: {
         type: Date,
@@ -88,39 +82,44 @@ userSchema.methods.getJwtToken = function () {
 */
 
 //static signup method
-userSchema.statics.signup = async function(email, username, password) {
+userSchema.statics.signup = async function(email, username, password, fileURL, next) {
 
     //validation using validator
     if(!email || !username || !password) {
-        throw Error('One or few fields are empty');
+        return next(new ErrorHandler('One or few fields are empty', 400));
     }
 
-    if(!validator.isEmail(email)){
-        throw Error('Email is not valid');
+    if (!validator.isEmail(email)) {
+        return next(new ErrorHandler('Email is not valid', 400));
     }
 
     if(!validator.isStrongPassword(password))
     {
-        throw Error('Password not strong enough')
+        return next(new ErrorHandler('Password not strong enough', 400));
     }
     
     //find out if email already exists or username already taken during signup
     const emailExists = await this.findOne({ email });
     const userExists = await this.findOne({ username });
 
-    if(emailExists){
-        throw Error('Email Already in Use');
+    if (emailExists) {
+        return next(new ErrorHandler('Email Already in Use', 400));
     }
 
     if(userExists){
-        throw Error('Username already taken');
+        return next(new ErrorHandler('Username Already Taken', 400));
     }
 
     //password hashing with salt
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(password, salt);
 
-    const user = await this.create({ email, username, password: hash });
+    const user = {
+        email: email,
+        username: username,
+        password: hash,
+        profilePic: fileURL
+    };
 
     return user;
 }

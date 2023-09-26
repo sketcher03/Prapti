@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import '../css/Login_Signup.css'
-import { useSignup } from '../hooks/useSignup';
+//import { useSignup } from '../hooks/useSignup';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link } from 'react-router-dom';
-import { RxAvatar } from "react-icons/rx"
+import { Link, useNavigate } from 'react-router-dom';
+import { RxAvatar } from "react-icons/rx";
+import axios from "axios";
+import { server } from '../../server';
+//const navigate = useNavigate();
 
 const Signup = () => {
 
@@ -13,19 +16,47 @@ const Signup = () => {
     const [visible, setVisible] = useState(false);
     const [profilePic, setProfilePic] = useState(null);
 
-    const { signup, isLoading, error } = useSignup();
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        //console.log(email, username, password);
-
-        await signup(email, username, password);
-    }
+    //const { signup, isLoading, error } = useSignup();
 
     const handleFileInput = (e) => {
         const file = e.target.files[0];
         setProfilePic(file);
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        console.log(email, username, password, profilePic);
+
+        //await signup(email, username, password);
+
+        const newForm = new FormData();
+
+        newForm.append("file", profilePic);
+        newForm.append("email", email);
+        newForm.append("username", username);
+        newForm.append("password", password);
+        
+        axios.post(`${server}/user/signup`, newForm, {
+            headers: {'Content-Type': 'multipart/form-data'}
+        })
+            .then((res) => {
+                console.log(res);
+
+                setEmail("");
+                setUsername("");
+                setPassword("");
+                setProfilePic();
+
+                alert(res.message);
+
+                // if (res.data.success === true) {
+                //     navigate("/");
+                // }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     return (
@@ -105,7 +136,7 @@ const Signup = () => {
                         
                         <input
                             type="file"
-                            name="avatar"
+                            name="profilePic"
                             id="file-input"
                             accept=".jpg,.jpeg,.png"
                             onChange={handleFileInput}
@@ -118,9 +149,9 @@ const Signup = () => {
 
             <div className='mt-6 text-center'>
 
-                <button disabled={isLoading}>Sign Up</button>
+                <button disabled={false}>Sign Up</button>
 
-                {error && <div className='error'>{error}</div>}
+                {/* {error && <div className='error'>{error}</div>} */}
                 
             </div>
 

@@ -1,10 +1,6 @@
 const app = require("./app");
 const connectDB = require("./db/database");
 
-
-const requestRoutes = require('./routes/requests');
-const userRoutes = require('./routes/user');
-
 process.on("uncaughtException", (err) => {
     console.log(`Error: ${err.message}`);
     console.log(`Shutting down Server to handle uncaught exception`)
@@ -18,10 +14,6 @@ app.use((req, res, next) => {
     console.log(req.path, req.method);
     next();
 })
-
-//route
-app.use('/api/requests', requestRoutes);
-app.use('/api/user', userRoutes);
 
 //connect database
 connectDB();
@@ -47,7 +39,7 @@ mongoose.connect(process.env.MONG_URI)
 */
 
 process.on("unhandledRejection", (err) => {
-    console.log(`Shutting down the server for ${err.message}`);
+    console.log(`Shutting down the server: ${err.message}`);
     console.log(`Shutting down the server for unhandled promise rejection`);
 
     server.close(() => {
