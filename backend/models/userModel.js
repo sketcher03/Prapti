@@ -47,6 +47,10 @@ const userSchema = new Schema({
             }
         }
     ],
+    verified: {
+        type: Boolean,
+        default: false
+    },
     role: {
         type: String,
         default: "user"
@@ -75,27 +79,26 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
 
-/*
+
 userSchema.methods.getJwtToken = function () {
-    return jwt.sign({ id: this._id }, process.env.SECRET, { expiresIn: process.env.JWT_EXPIRES });
+    return jwt.sign({ _id: this._id }, process.env.SECRET, { expiresIn: process.env.JWT_EXPIRES });
 };
-*/
 
 //static signup method
 userSchema.statics.signup = async function(email, username, password, fileURL, next) {
 
     //validation using validator
     if(!email || !username || !password) {
-        return next(new ErrorHandler('One or few fields are empty', 400));
+        throw Error('One or few fields are empty')
     }
 
     if (!validator.isEmail(email)) {
-        return next(new ErrorHandler('Email is not valid', 400));
+        throw Error('Email is not valid');
     }
 
     if(!validator.isStrongPassword(password))
     {
-        return next(new ErrorHandler('Password not strong enough', 400));
+        throw Error('Email is not valid');
     }
     
     //find out if email already exists or username already taken during signup
@@ -103,11 +106,11 @@ userSchema.statics.signup = async function(email, username, password, fileURL, n
     const userExists = await this.findOne({ username });
 
     if (emailExists) {
-        return next(new ErrorHandler('Email Already in Use', 400));
+        throw Error('Email Already in Use');
     }
 
     if(userExists){
-        return next(new ErrorHandler('Username Already Taken', 400));
+        throw Error('Username already taken');
     }
 
     //password hashing with salt
@@ -121,32 +124,9 @@ userSchema.statics.signup = async function(email, username, password, fileURL, n
         profilePic: fileURL
     };
 
-    return user;
-}
+    const newUser = await User.create({ email, username, password, profilePic });
 
-//static login method
-userSchema.statics.login = async function(email, password) {
-
-    //validation using validator
-    if(!email || !password) {
-        throw Error('Some fields are empty');
-    }
-
-    //find out if email already exists or username already taken during signup
-    const user = await this.findOne({ email });
-
-    if(!user){
-        throw Error('Incorrect Email');
-    }
-
-    const match = await bcrypt.compare(password, user.password);
-
-    if(!match) {
-        throw Error('Incorrect Password');
-    }
-
-    return user;
-
+    return newUser;
 }
 
 module.exports = mongoose.model('User', userSchema);

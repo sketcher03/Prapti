@@ -1,42 +1,20 @@
 const { response } = require('express');
-const User = require('../models/userModel')
+const User = require('../models/userModel');
+const Token = require("../models/token");
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const { upload } = require("../multer");
-//const fs = require("fs");
+const crypto = require("crypto");
 const catchAsyncErrors = require("../middleware/asyncErrors");
 
 const path = require("path");
-const ErrorHandler = require('../utilities/ErrorHandler');
 const sendMail = require('../utilities/sendMail');
-const sendToken = require('../utilities/jwtTokens');
 
 const router = express.Router();
 
 const createToken = (user) => {
     return jwt.sign(user, process.env.SECRET, { expiresIn: process.env.JWT_EXPIRES });
 }
-
-//login route
-router.post('/login', async (req, res) => {
-
-    const { email, password } = req.body;
-
-    try {
-        const user = await User.login(email, password);
-
-        //token creation
-        const token = createToken(user._id);
-
-        //username extraction
-        const username = user.username;
-
-        res.status(200).json({email, username, token});
-    } catch (error) {
-        res.status(400).json({error: error.message});
-    }
-
-});
 
 //signup route
 router.post('/signup', upload.single("file"), async (req, res, next) => {
@@ -52,51 +30,55 @@ router.post('/signup', upload.single("file"), async (req, res, next) => {
         const user = await User.signup(email, username, password, fileURL, next);
 
         //token creation
-        const activationtoken = createToken(user);
+        const token = await new Token({
+            userId: user._id,
+            token: crypto.randomBytes(32).toString("hex")
+        }).save();
 
-        const activationURL = `http://localhost:5173/activation/${activationtoken}`;
+        const url = `${process.env.BASE_URL}/user/${user._id}/verify/${token.token}`;
 
-        try {
-            await sendMail({
-                email: user.email,
-                subject: "Account Activation",
-                message: `Hello ${user.username}, please click on the link to activate your account: ${activationURL}`,
-            })
+        await sendMail(
+            user.email,
+            "Account Activation",
+            `Hello ${user.username}, please click on the link to activate your account: ${url}`,
+        )
 
-            res.status(201).json({ success: true, message: `Please Check your Email: ${user.email} to activate your account` });
+        res.status(201).send({ message: `Please Check your Email: ${user.email} to activate your account` });
             
-        } catch {
-            return next(new ErrorHandler(error.message, 500));
-        }
-
         //username extraction
-        const username1 = user.username;
+        //const username1 = user.username;
 
         //res.status(200).json({email, username1, activationtoken, success: true});
     } catch (error) {
-        return next(new ErrorHandler(error.message, 400));
+        res.status(500).send({ message: 'Internal Server Error' });
     }
 });
 
 //activation 
-router.post("/activation", catchAsyncErrors(async (req, res, next) => {
+router.get("/:id/verify/:token", catchAsyncErrors(async (req, res) => {
     try {
-        const { activationtoken } = req.body;
+        const user = await User.findOne({ _id: req.params.id });
 
-        const newUser = jwt.verify(activationtoken, process.env.SECRET);
-
-        if (!newUser) {
-            return next(new ErrorHandler("Invalid Token", 400));
+        if (!user) {
+            return res.status(400).send({ message: 'Invalid Link' });
         }
 
-        const { email, username, password, profilePic } = newUser;
+        const token = await Token.findOne({
+            userId: user._id,
+			token: req.params.token,
+        });
 
-        const user = await User.create({ email, username, password, profilePic });
+        if (!token) {
+            return res.status(400).send({ message: 'Invalid Link' });
+        }
 
-        sendToken(user, 201, res)
+        await User.updateOne({ _id: user._id, verified: true });
+        await token.remove();
+
+        res.status(200).send({ message: 'Email Verified Successfully' });
     }
     catch (error) {
-        
+        res.status(500).send({ message: 'Internal Server Error' });
     }
 }));
 

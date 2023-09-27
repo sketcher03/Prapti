@@ -1,22 +1,45 @@
 import { useState } from 'react';
 import '../css/Login_Signup.css'
-import { useLogin } from '../hooks/useLogin';
+//import { useLogin } from '../hooks/useLogin';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link } from 'react-router-dom';
+import { server } from '../../server';
+import axios from 'axios';
 
 const Login = () => {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const { login, isLoading, error } = useLogin();
+    const [data, setData] = useState({
+        email: "",
+        password: ""
+    });
+
+    const [error, setError] = useState("");
+
+    //const { login, isLoading, error } = useLogin();
     const [visible, setVisible] = useState(false);
+
+    const handleChange = ({ currentTarget: input }) => {
+		setData({ ...data, [input.name]: input.value });
+	};
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         //console.log(email, password);
 
-        await login(email, password);
+        try {
+            const url = `${server}/auth/login`;
+            const { data: res } = await axios.post(url, data);
+
+            localStorage.setItem("token", res.data);
+            window.location = "/";
+        }
+        catch (error) {
+            if (error.response && error.response.status >= 400 && error.response.status <= 500)
+            {
+                setError(error.response.data.message);
+            }
+        }
     }
 
     return (
@@ -29,8 +52,8 @@ const Login = () => {
                 name="email"
                 autoComplete='email'
                 required
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
+                onChange={handleChange}
+                value={data.email}
             />
 
             <label htmlFor='password'>Password</label>
@@ -40,8 +63,8 @@ const Login = () => {
                     name='password'
                     autoComplete='current-password'
                     required
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
+                    onChange={handleChange}
+                    value={data.password}
                 />
                 {
                     visible ? (

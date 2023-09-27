@@ -10,13 +10,22 @@ import { server } from '../../server';
 
 const Signup = () => {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [username, setUsername] = useState('');
+    const [data, setData] = useState({
+		email: "",
+		username: "",
+		password: "",
+	});
     const [visible, setVisible] = useState(false);
     const [profilePic, setProfilePic] = useState(null);
 
     //const { signup, isLoading, error } = useSignup();
+
+    const [error, setError] = useState("");
+    const [message, setMessage] = useState("");
+
+    const handleChange = ({ currentTarget: input }) => {
+		setData({ ...data, [input.name]: input.value });
+	};
 
     const handleFileInput = (e) => {
         const file = e.target.files[0];
@@ -26,37 +35,48 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(email, username, password, profilePic);
+        try {
+            console.log(email, username, password, profilePic);
 
-        //await signup(email, username, password);
+            //await signup(email, username, password);
 
-        const newForm = new FormData();
+            const newForm = new FormData();
 
-        newForm.append("file", profilePic);
-        newForm.append("email", email);
-        newForm.append("username", username);
-        newForm.append("password", password);
-        
-        axios.post(`${server}/user/signup`, newForm, {
-            headers: {'Content-Type': 'multipart/form-data'}
-        })
-            .then((res) => {
-                console.log(res);
-
-                setEmail("");
-                setUsername("");
-                setPassword("");
-                setProfilePic();
-
-                alert(res.message);
-
-                // if (res.data.success === true) {
-                //     navigate("/");
-                // }
+            newForm.append("file", profilePic);
+            newForm.append("email", email);
+            newForm.append("username", username);
+            newForm.append("password", password);
+            
+            axios.post(`${server}/user/signup`, newForm, {
+                headers: {'Content-Type': 'multipart/form-data'}
             })
-            .catch((err) => {
-                console.log(err);
-            });
+                .then((res) => {
+                    console.log(res);
+
+                    /*
+                    setEmail("");
+                    setUsername("");
+                    setPassword("");
+                    setProfilePic();
+                    */
+                    
+                    alert(res.message);
+
+                    // if (res.data.success === true) {
+                    //     navigate("/");
+                    // }
+                    setMessage(res.message);
+                })
+                .catch((err) => {
+                    setError(err.response.data.message);
+                });
+        }
+        catch (error) {
+            if (error.response && error.response.status >= 400 && error.response.status <= 500)
+            {
+                setError(error.response.data.message);
+            }
+        }
     }
 
     return (
@@ -69,8 +89,8 @@ const Signup = () => {
                 name="email"
                 autoComplete='email'
                 required
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
+                onChange={handleChange}
+                value={data.email}
             />
 
             <label>Username</label>
@@ -79,8 +99,8 @@ const Signup = () => {
                 name="username"
                 autoComplete='username'
                 required
-                onChange={(e) => setUsername(e.target.value)}
-                value={username}
+                onChange={handleChange}
+                value={data.username}
             />
 
             <label>Password</label>
@@ -89,8 +109,8 @@ const Signup = () => {
                     type={ visible ? "text" : "password"}
                     name='password'
                     required
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
+                    onChange={handleChange}
+                    value={data.password}
                 />
                 {
                     visible ? (
@@ -151,7 +171,8 @@ const Signup = () => {
 
                 <button disabled={false}>Sign Up</button>
 
-                {/* {error && <div className='error'>{error}</div>} */}
+                {error && <div className='error'>{error}</div>}
+                {message && <div className='message'>{message}</div>}
                 
             </div>
 

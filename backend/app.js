@@ -21,11 +21,13 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use("/", express.static("uploads"));
 
 const requestRoutes = require('./routes/requests');
+const authRoutes = require('./routes/auth');
 const userRoutes = require('./controllers/userController');
 
 //route
 app.use('/api/requests', requestRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/auth', authRoutes);
 
 //error handling
 app.use(ErrorHandler);

@@ -5,7 +5,7 @@ import { useAuthContext } from "./hooks/useAuthContext";
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Activation from './pages/Activation'
+import Activation from './pages/Activation/Activation'
 import Navbar from './components/Navbar';
 import Footer from './components/Footer'; 
 
@@ -33,8 +33,8 @@ function App() {
               element={!user ? <Signup/> : <Navigate to="/" />}
             />
             <Route
-              path="/activation/:url"
-              element={!user ? <Activation/> : <Navigate to="/" />}
+              path="/users/:id/verify/:token"
+              element={<Activation />}
             />
           </Routes>
         </div>
