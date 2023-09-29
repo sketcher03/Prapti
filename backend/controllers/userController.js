@@ -39,9 +39,9 @@ const signupUser = async (req, res) => {
         const token = createToken(user._id);
 
         //username extraction
-        const username = user.username;
+        const username1 = user.username;
 
-        res.status(200).json({email, username, token});
+        res.status(200).json({email, username1, token});
     } catch (error) {
         res.status(400).json({error: error.message});
     }
