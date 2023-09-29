@@ -3,7 +3,6 @@ const Token = require("../models/token");
 const express = require('express');
 const crypto = require("crypto");
 const sendMail = require('../utilities/sendMail');
-const Joi = require("joi");
 
 const router = express.Router();
 
@@ -11,28 +10,15 @@ const router = express.Router();
 router.post('/login', async (req, res) => {
 
     const { email, password } = req.body;
+    //console.log(email);
 
     try {
-        const { error } = validate(req.body);
+        const user = await User.login(email, password);
 
-        if (error) {
-            return res.status(400).send({ message: error.details[0].message });
-        }
+        console.log(user.verified);
 
-        const user = await User.findOne({ email: email });
-
-        if (!user) {
-            return res.status(400).send({ message: "Invalid Email" });
-        }
-
-        const validPass = user.comparePassword(password);
-
-        if (!validPass) {
-            return res.status(400).send({ message: "Invalid Password" });
-        }
-
-        if (!user.verified) {
-            let token = await Token.findOne({ userId: user._id });
+        if (user.verified === false) {
+            const token = await Token.findOne({ userId: user._id });
 
             if (!token) {
                 //token creation
@@ -41,7 +27,7 @@ router.post('/login', async (req, res) => {
                     token: crypto.randomBytes(32).toString("hex")
                 }).save();
 
-                const url = `${process.env.BASE_URL}/user/${user._id}/verify/${token.token}`;
+                const url = `${process.env.BASE_URL}/users/${user._id}/verify/${token.token}`;
 
                 await sendMail(
                     user.email,
@@ -49,7 +35,7 @@ router.post('/login', async (req, res) => {
                     `Hello ${user.username}, please click on the link to activate your account: ${url}`,
                 );
 
-                return res.status(400).send({ message: `Please Check your Email: ${user.email} to activate your account` });
+                throw Error(`Please Check your Email: ${user.email} to activate your account`);
             }
         }
 
@@ -59,19 +45,11 @@ router.post('/login', async (req, res) => {
         //username extraction
         const username = user.username;
 
-        res.status(200).json({email, username, token});
+        res.status(200).send({ email: email, username: username, token: token });
     } catch (error) {
-        res.status(400).json({error: error.message});
+        res.status(400).send({ message: error.message });
     }
 
 });
-
-const validate = (data) => {
-	const schema = Joi.object({
-		email: Joi.string().email().required().label("Email"),
-		password: Joi.string().required().label("Password"),
-	});
-	return schema.validate(data);
-};
 
 module.exports = router;

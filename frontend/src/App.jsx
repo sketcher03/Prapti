@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useAuthContext } from "./hooks/useAuthContext";
+//import { useAuthContext } from "./hooks/useAuthContext";
+import { useEffect } from "react";
 
 //Pages and Components
 import Home from './pages/Home';
@@ -12,7 +13,9 @@ import Footer from './components/Footer';
 const title = 'React';
 
 function App() {
-  const { user } = useAuthContext();
+  //const { user } = useAuthContext();
+  
+  const user = JSON.parse(localStorage.getItem('user'));
 
   return (
     <div className="App">

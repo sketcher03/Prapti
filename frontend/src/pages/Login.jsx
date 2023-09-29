@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import '../css/Login_Signup.css'
-import { useLogin } from '../hooks/useLogin';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link } from 'react-router-dom';
 import { server } from '../../server';
@@ -14,8 +13,6 @@ const Login = () => {
     });
 
     const [error, setError] = useState("");
-
-    const { login, isLoading } = useLogin();
     const [visible, setVisible] = useState(false);
 
     const handleChange = ({ currentTarget: input }) => {
@@ -28,11 +25,33 @@ const Login = () => {
         //console.log(email, password);
 
         try {
-            const url = `${server}/auth/login`;
-            const { data: res } = await axios.post(url, data);
+            //empty fields errors
+            if (data.email === "" || data.password === "") {
+                setError("One or Few fields are Empty");
+                throw Error();
+            }
 
-            localStorage.setItem("token", res.data);
-            window.location = "/";
+            const url = `${server}/auth/login`;
+
+            axios.post(url, data, {
+                headers: {'Content-Type': 'application/json'}
+            })
+                .then((res) => {
+                    console.log("Login Successful")
+                    console.log(JSON.stringify(res.data));
+
+                    setData({ 
+                        email: "",
+                        password: "",
+                    });
+                    
+                    setError(res.data.message);
+                    localStorage.setItem("user", JSON.stringify(res.data));
+                    window.location = "/";
+                })
+                .catch((err) => {
+                    setError(err.response.data.message);
+                });;
         }
         catch (error) {
             if (error.response && error.response.status >= 400 && error.response.status <= 500)
@@ -109,7 +128,7 @@ const Login = () => {
                 </div>
             </div>
             <div className='mt-1 text-center'>
-                <button disabled={isLoading}>Log In</button>
+                <button disabled={false}>Log In</button>
 
                 {error && <div className='error'>{ error }</div>}
             </div>

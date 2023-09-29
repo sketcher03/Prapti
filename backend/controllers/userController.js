@@ -44,10 +44,6 @@ router.post('/signup', upload.single("file"), async (req, res, next) => {
 
         res.status(201).send({ message: `Please Check your Email: ${user.email} to activate your account` });
             
-        //username extraction
-        //const username1 = user.username;
-
-        //res.status(200).json({email, username1, activationtoken, success: true});
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
@@ -56,15 +52,21 @@ router.post('/signup', upload.single("file"), async (req, res, next) => {
 //activation 
 router.get("/:id/verify/:token", async (req, res) => {
     try {
-        const user = await User.findOne({ _id: req.params.id });
-        console.log("Error Here")
+        
+        //console.log("Error Here")
 
         const token = await Token.findOne({
             userId: req.params.id,
 			token: req.params.token,
         });
 
-        if (!user || !token) {
+        if (!token) {
+            return res.status(401).send({ message: 'Link Expired' });
+        }
+
+        const user = await User.findOne({ _id: req.params.id });
+
+        if (!user) {
             return res.status(401).send({ message: 'No such user registered' });
         }
 

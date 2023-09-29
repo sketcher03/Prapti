@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import '../css/Login_Signup.css'
-//import { useSignup } from '../hooks/useSignup';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from 'react-router-dom';
 import { RxAvatar } from "react-icons/rx";
@@ -35,6 +34,11 @@ const Signup = () => {
         e.preventDefault();
 
         try {
+            //empty fields errors
+            if (data.email === "" || data.username === "" || data.password === "") {
+                setError("One or Few fields are Empty");
+                throw Error();
+            }
             
             if (profilePic === null) {
                 setError("Please add a profile picture");
@@ -63,8 +67,6 @@ const Signup = () => {
                     });
                     
                     setProfilePic(null);
-                    
-                    //alert(res.message);
 
                     // if (res.data.success === true) {
                     //     navigate("/");
