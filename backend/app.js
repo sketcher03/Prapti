@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use("/", express.static("uploads"));
 
 const requestRoutes = require('./routes/requests');
-const authRoutes = require('./routes/auth');
+const authRoutes = require('./controllers/authController');
 const userRoutes = require('./controllers/userController');
 
 //route

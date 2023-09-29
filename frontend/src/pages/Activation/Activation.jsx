@@ -1,46 +1,55 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from 'axios';
-import styles from './Activation_style.css?inline';
+import '../../css/Activation.css';
 import success from "../../images/success.png";
 
 const Activation = () => {
 
     const [validURL, setValidURL] = useState(true);
+    const [message, setMessage] = useState("");
     const param = useParams();
 
     useEffect(() => {
         const activationEmail = async () => {
 
             try {
-                const url = `http://localhost:4000/api/users/${param.id}/verify/${param.token}`
-                const { data } = await axios.get(url);
-
-                console.log(data);
-				setValidUrl(false);
+                const url = `http://localhost:4000/api/user/${param.id}/verify/${param.token}`
+            
+                axios.get(url)
+                    .then((response) => {
+                        console.log(response.data);
+                        setMessage(response.data.message);
+                    })
+                    .catch((err) => {
+                        console.log(err.response.data);
+                        setMessage(err.response.data.message);
+                    });
             }
-            catch (error) {
-                console.log(error);
-				setValidURL(false);
+            catch(err) {
+                setValidURL(false);
             }
+            
         };
 
         activationEmail();
 
-    }, [param])
+    }, [])
 
     return ( 
         <div>
             {validURL ? (
-                <div className={styles.container}>
-                    <img src={success} alt="success-image" className={styles.success_img} />
-                    <h1>Email verified successfully</h1>
+                <div className="ver-container">
+                    <img src={success} alt="success-image" className="success_img" />
+                    <h1 className="ver-message">{message}</h1>
 					<Link to="/login">
-						<button className={styles.green_btn}>Login</button>
+						<button className="green_btn">Login</button>
 					</Link>
                 </div>
             ) : (
-                <h1>404 Not Found</h1>
+                <div className="ver-container">
+                    <h1>404 Not Found</h1>
+                </div>
             )}
         </div>
      );

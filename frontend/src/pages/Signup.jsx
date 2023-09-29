@@ -21,7 +21,6 @@ const Signup = () => {
     //const { signup, isLoading, error } = useSignup();
 
     const [error, setError] = useState("");
-    const [message, setMessage] = useState("");
 
     const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
@@ -36,16 +35,20 @@ const Signup = () => {
         e.preventDefault();
 
         try {
-            console.log(email, username, password, profilePic);
+            
+            if (profilePic === null) {
+                setError("Please add a profile picture");
+                throw Error();
+            }
 
-            //await signup(email, username, password);
+            console.log(data.email, data.username, data.password, profilePic);
 
             const newForm = new FormData();
 
             newForm.append("file", profilePic);
-            newForm.append("email", email);
-            newForm.append("username", username);
-            newForm.append("password", password);
+            newForm.append("email", data.email);
+            newForm.append("username", data.username);
+            newForm.append("password", data.password);
             
             axios.post(`${server}/user/signup`, newForm, {
                 headers: {'Content-Type': 'multipart/form-data'}
@@ -53,19 +56,21 @@ const Signup = () => {
                 .then((res) => {
                     console.log(res);
 
-                    /*
-                    setEmail("");
-                    setUsername("");
-                    setPassword("");
-                    setProfilePic();
-                    */
+                    setData({ 
+                        email: "",
+                        username: "",
+                        password: "",
+                    });
                     
-                    alert(res.message);
+                    setProfilePic(null);
+                    
+                    //alert(res.message);
 
                     // if (res.data.success === true) {
                     //     navigate("/");
                     // }
-                    setMessage(res.message);
+
+                    setError(res.data.message);
                 })
                 .catch((err) => {
                     setError(err.response.data.message);
@@ -172,7 +177,6 @@ const Signup = () => {
                 <button disabled={false}>Sign Up</button>
 
                 {error && <div className='error'>{error}</div>}
-                {message && <div className='message'>{message}</div>}
                 
             </div>
 

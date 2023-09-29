@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import '../css/Login_Signup.css'
-//import { useLogin } from '../hooks/useLogin';
+import { useLogin } from '../hooks/useLogin';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link } from 'react-router-dom';
 import { server } from '../../server';
@@ -15,7 +15,7 @@ const Login = () => {
 
     const [error, setError] = useState("");
 
-    //const { login, isLoading, error } = useLogin();
+    const { login, isLoading } = useLogin();
     const [visible, setVisible] = useState(false);
 
     const handleChange = ({ currentTarget: input }) => {

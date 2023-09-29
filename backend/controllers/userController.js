@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const express = require('express');
 const { upload } = require("../multer");
 const crypto = require("crypto");
-const catchAsyncErrors = require("../middleware/asyncErrors");
 
 const path = require("path");
 const sendMail = require('../utilities/sendMail');
@@ -20,14 +19,14 @@ const createToken = (user) => {
 router.post('/signup', upload.single("file"), async (req, res, next) => {
 
     const { email, username, password } = req.body;
-
-    //const profilePic = fileURL;
+    //console.log(email);
 
     try {
         const filename = req.file.filename;
         const fileURL = path.join(filename);
 
         const user = await User.signup(email, username, password, fileURL, next);
+        //console.log("error here");
 
         //token creation
         const token = await new Token({
@@ -35,7 +34,7 @@ router.post('/signup', upload.single("file"), async (req, res, next) => {
             token: crypto.randomBytes(32).toString("hex")
         }).save();
 
-        const url = `${process.env.BASE_URL}/user/${user._id}/verify/${token.token}`;
+        const url = `${process.env.BASE_URL}/users/${user._id}/verify/${token.token}`;
 
         await sendMail(
             user.email,
@@ -50,36 +49,40 @@ router.post('/signup', upload.single("file"), async (req, res, next) => {
 
         //res.status(200).json({email, username1, activationtoken, success: true});
     } catch (error) {
-        res.status(500).send({ message: 'Internal Server Error' });
+        res.status(500).send({ message: error.message });
     }
 });
 
 //activation 
-router.get("/:id/verify/:token", catchAsyncErrors(async (req, res) => {
+router.get("/:id/verify/:token", async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.params.id });
-
-        if (!user) {
-            return res.status(400).send({ message: 'Invalid Link' });
-        }
+        console.log("Error Here")
 
         const token = await Token.findOne({
-            userId: user._id,
+            userId: req.params.id,
 			token: req.params.token,
         });
 
-        if (!token) {
-            return res.status(400).send({ message: 'Invalid Link' });
+        if (!user || !token) {
+            return res.status(401).send({ message: 'No such user registered' });
         }
 
-        await User.updateOne({ _id: user._id, verified: true });
-        await token.remove();
+        if (user.verified) {
+            return res.status(401).send({ message: 'Account already verified!' });
+        }
+
+        const filter = { _id: user._id };
+
+        await User.updateOne(filter, { verified: true });
+        //await token.remove();
 
         res.status(200).send({ message: 'Email Verified Successfully' });
     }
     catch (error) {
-        res.status(500).send({ message: 'Internal Server Error' });
+        console.log(error);
+        res.status(500).send({ message: "Internal Server Error. Please try again later." });
     }
-}));
+});
 
 module.exports = router;

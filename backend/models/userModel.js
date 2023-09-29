@@ -92,13 +92,15 @@ userSchema.statics.signup = async function(email, username, password, fileURL, n
         throw Error('One or few fields are empty')
     }
 
+    //console.log(email);
+
     if (!validator.isEmail(email)) {
         throw Error('Email is not valid');
     }
 
     if(!validator.isStrongPassword(password))
     {
-        throw Error('Email is not valid');
+        throw Error('Password is not Strong Enough');
     }
     
     //find out if email already exists or username already taken during signup
@@ -124,7 +126,7 @@ userSchema.statics.signup = async function(email, username, password, fileURL, n
         profilePic: fileURL
     };
 
-    const newUser = await User.create({ email, username, password, profilePic });
+    const newUser = await this.create(user);
 
     return newUser;
 }
