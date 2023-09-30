@@ -1,40 +1,27 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-//import { useAuthContext } from "./hooks/useAuthContext";
-import { useEffect, useState } from "react";
-import { server } from '../server';
+import { useEffect } from "react";
+import { useSelector } from 'react-redux';
 
 //Pages and Components
-import Home from './pages/Home';
+import Requests from './pages/Requests';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Activation from './pages/Activation/Activation'
 import Navbar from './components/Navbar';
 import Footer from './components/Footer'; 
-import axios from 'axios';
+import Store from './redux/store';
+import { saveUser } from './redux/actions/user';
+import Dashboard from './pages/Dashboard';
 
 const title = 'React';
 
 function App() {
-  //const { user } = useAuthContext();
-
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const url = `${server}/auth/saveuser`;
-
-    axios.get(url, {withCredentials: true})
-      .then((res) => {
-        console.log(res.data);
-
-        setUser(res.data.user);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
+    Store.dispatch(saveUser());
   }, []);
-  
-  //const user = JSON.parse(localStorage.getItem('user'));
+
+  const { isAuthenticated } = useSelector((state) => state.user);
 
   return (
     <div className="App">
@@ -44,15 +31,19 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={user ? <Home/> : <Navigate to="/login" />}
+              element={isAuthenticated ? <Dashboard/> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/requests"
+              element={isAuthenticated ? <Requests/> : <Navigate to="/login" />}
             />
             <Route
               path="/login"
-              element={!user ? <Login/> : <Navigate to="/" />}
+              element={!isAuthenticated ? <Login/> : <Navigate to="/" />}
             />
             <Route
               path="/signup"
-              element={!user ? <Signup/> : <Navigate to="/" />}
+              element={!isAuthenticated ? <Signup/> : <Navigate to="/" />}
             />
             <Route
               path="/users/:id/verify/:token"

@@ -1,14 +1,14 @@
 import '../css/Navbar_Footer.css';
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useSelector } from 'react-redux';
 
 const Footer = () => {
 
-    const { user } = useAuthContext();
+    const { isAuthenticated } = useSelector((state) => state.user);
 
     return (
 
         <div>
-            {user && (
+            {isAuthenticated && (
                 <footer>
                     Copyright &copy; Prapti Inc. 2023
                 </footer>

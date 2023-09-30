@@ -7,7 +7,7 @@ import RequestDetails from '../components/RequestDetails';
 import RequestForm from '../components/RequestForm';
 
 
-const Home = () => {
+const Requests = () => {
     const { requests, dispatch } = useRequestContext();
     const { user } = useAuthContext();
 
@@ -51,4 +51,4 @@ const Home = () => {
     )
 }
 
-export default Home;
+export default Requests;

@@ -2,17 +2,18 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 
 const requireAuth = async (req, res, next) => {
-    
-    //verify authentication
-    const token = req.cookies.user.token;
 
-    console.log(req.cookies.user.token);
+    try {
+        //verify authentication
+        //console.log("error here");
+        //console.log(req.cookies);
 
-    if(!token) {
-        return res.status(401).send({ message: 'You are not logged in' });
-    }
+        const token = req.cookies.user;
 
-    try{
+        if(!token) {
+            return res.status(401).send({ message: 'You are not logged in' });
+        }
+
         const { _id } = jwt.verify(token, process.env.SECRET);
 
         req.user = await User.findOne({ _id }).select('_id');
@@ -20,7 +21,7 @@ const requireAuth = async (req, res, next) => {
         next();
     }
     catch (error) {
-        console.log(error);
+        //console.log(error);
 
         res.status(401).send({ message: 'Unauthorized Request' });
     }

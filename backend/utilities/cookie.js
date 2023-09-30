@@ -9,14 +9,9 @@ const saveCookie = (user, res, statusCode) => {
         expires: new Date(Date.now() + 3 * 24 * 3600 * 1000)
     };
 
-    //username extraction
-    const username = user.username;
-    const email = user.email;
-
-    res.status(statusCode).cookie("user", { email, username, token }, options).send({
+    res.status(statusCode).cookie("user", token, options).send({
         user,
-        token,
-        success: true
+        token
     });
 };
 

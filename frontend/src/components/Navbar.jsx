@@ -2,25 +2,18 @@ import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import praptiLogo from '../images/logo.png';
 import '../css/Navbar_Footer.css'
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useSelector } from 'react-redux';
+import Store from "../redux/store";
+import { logoutUser } from "../redux/actions/user";
 
 const Navbar = () => {
 
-    const { dispatch } = useAuthContext();
-    const { dispatch: requestDispatch } = useAuthContext();
-
-    const { user } = useAuthContext();
+    const { isAuthenticated, user } = useSelector((state) => state.user);
 
     const handleLogout = () => {
 
-        //remove user from local storage of browser
-        localStorage.removeItem('user');
-
-        //dispatch a logout action
-        dispatch({type: 'LOGOUT'});
-
-        //clear global request state
-        requestDispatch({type: 'SET_REQUESTS', payload: null})
+        //console.log("logout");
+        Store.dispatch(logoutUser());
     };
 
     const Menus = [
@@ -40,7 +33,7 @@ const Navbar = () => {
                 <h1><img src={praptiLogo} alt="Prapti" /></h1>
             </Link>
         
-            {user && (
+            {isAuthenticated && (
                 <div className="nav-menu">
                     <div className="bg-green-100 max-h-32 px-10 rounded-2xl mt-8">
                         <ul className="flex relative items-center">
@@ -84,14 +77,14 @@ const Navbar = () => {
                 </div>
             )}
 
-            {user && (
+            {isAuthenticated && (
                 <div>
                     <span className="mr-5 text-green-600">{ user.username }</span>
                     <button onClick={handleLogout}>Log out</button>
                 </div>
             )}
 
-            {!user && (
+            {!isAuthenticated && (
                 <div className="text-l font-[500] mr-6 cursor-pointer align-center">
                     <Link  to="/login">
                         

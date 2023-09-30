@@ -66,4 +66,20 @@ router.get('/saveuser', requireAuth, async (req, res, next) => {
     }
 })
 
+//login route
+router.post('/logout', async (req, res) => {
+
+    try{
+
+        res.clearCookie("user");
+        //console.log(req.cookies.user);
+        res.status(200).send({ message: "User logged out successfully" });
+
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+
+});
+
+
 module.exports = router;
