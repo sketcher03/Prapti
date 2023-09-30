@@ -76,7 +76,7 @@ userSchema.pre("save", async function (next) {
 });
 */
 
-userSchema.methods.getJwtToken = function () {
+userSchema.methods.createJwtToken = function () {
     return jwt.sign({ _id: this._id }, process.env.SECRET, { expiresIn: process.env.JWT_EXPIRES });
 };
 

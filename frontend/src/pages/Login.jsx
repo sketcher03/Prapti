@@ -34,19 +34,20 @@ const Login = () => {
             const url = `${server}/auth/login`;
 
             axios.post(url, data, {
-                headers: {'Content-Type': 'application/json'}
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
             })
                 .then((res) => {
                     console.log("Login Successful")
-                    console.log(JSON.stringify(res.data));
+                    //console.log(JSON.stringify(res.data));
 
+                    /*
                     setData({ 
                         email: "",
                         password: "",
                     });
+                    */
                     
-                    setError(res.data.message);
-                    localStorage.setItem("user", JSON.stringify(res.data));
                     window.location = "/";
                 })
                 .catch((err) => {

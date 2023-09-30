@@ -3,6 +3,8 @@ const Token = require("../models/token");
 const express = require('express');
 const crypto = require("crypto");
 const sendMail = require('../utilities/sendMail');
+const saveCookie = require('../utilities/cookie');
+const requireAuth = require('../middleware/requireAuthentication');
 
 const router = express.Router();
 
@@ -39,17 +41,29 @@ router.post('/login', async (req, res) => {
             }
         }
 
-        //token creation
-        const token = user.getJwtToken();
+        saveCookie(user, res, 201);
 
-        //username extraction
-        const username = user.username;
-
-        res.status(200).send({ email: email, username: username, token: token });
     } catch (error) {
         res.status(400).send({ message: error.message });
     }
 
 });
+
+//save user information
+router.get('/saveuser', requireAuth, async (req, res, next) => {
+    
+    try {
+        const user = await this.findById(req.user.id);
+
+        if (!user) {
+            throw Error("User does not Exist");
+        }
+
+        res.status(200).send({ user, success: true });
+    }
+    catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+})
 
 module.exports = router;

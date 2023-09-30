@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 //import { useAuthContext } from "./hooks/useAuthContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { server } from '../server';
 
 //Pages and Components
 import Home from './pages/Home';
@@ -9,13 +10,31 @@ import Signup from './pages/Signup';
 import Activation from './pages/Activation/Activation'
 import Navbar from './components/Navbar';
 import Footer from './components/Footer'; 
+import axios from 'axios';
 
 const title = 'React';
 
 function App() {
   //const { user } = useAuthContext();
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const url = `${server}/auth/saveuser`;
+
+    axios.get(url, {withCredentials: true})
+      .then((res) => {
+        console.log(res.data);
+
+        //setUser(res.data.user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+  }, []);
   
-  const user = JSON.parse(localStorage.getItem('user'));
+  //const user = JSON.parse(localStorage.getItem('user'));
 
   return (
     <div className="App">
