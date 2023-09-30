@@ -26,7 +26,7 @@ function App() {
       .then((res) => {
         console.log(res.data);
 
-        //setUser(res.data.user);
+        setUser(res.data.user);
       })
       .catch((error) => {
         console.log(error);

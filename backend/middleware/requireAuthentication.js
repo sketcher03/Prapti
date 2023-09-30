@@ -4,9 +4,9 @@ const User = require('../models/userModel');
 const requireAuth = async (req, res, next) => {
     
     //verify authentication
-    const { token } = req.cookies;
+    const token = req.cookies.user.token;
 
-    console.log(token);
+    console.log(req.cookies.user.token);
 
     if(!token) {
         return res.status(401).send({ message: 'You are not logged in' });
