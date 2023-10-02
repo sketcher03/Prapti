@@ -1,14 +1,22 @@
 import React from 'react';
-import '../css/home.css';
+import "../css/home.css";
 
 //home page components
 import Hero from '../components/Home/Hero'
+import About from '../components/Home/About';
+import ClientHowTo from '../components/Home/ClientHowTo';
+import Reviews from '../components/Home/Reviews';
+import TalentHowTo from '../components/Home/TalentHowTo';
 
 const Home = () => {
   return (
-      <div className='home'>
-          <Hero/>
-      </div>
+    <div className='home'>
+      <Hero />
+      <About />
+      <ClientHowTo />
+      <Reviews />
+      <TalentHowTo/>
+    </div>
   )
 }
 
