@@ -16,6 +16,7 @@ const AdminSignup = () => {
         phoneNumber: "",
 		username: "",
 		password: "",
+        confirmPassword: "",
 	});
     const [visible, setVisible] = useState(false);
     const [profilePic, setProfilePic] = useState(null);
@@ -35,20 +36,26 @@ const AdminSignup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log ("signup clicked");
+        console.log (data);
 
         try {
             //empty fields errors
-            if (data.email === "" || data.username === "" || data.fname == ""|| data.lname == "" || data.phoneNumber== ""||data.password === "") {
+            if (data.email === "" || data.username === "" || data.fname === ""|| data.lname === "" || data.phoneNumber === ""||data.password === "") {
                 setError("One or Few fields are Empty");
                 throw Error();
             }
-            
+
+            if (data.confirmPassword !== data.password) {
+                setError("Password does not match");
+                throw Error();
+            }
+           
             if (profilePic === null) {
                 setError("Please add a profile picture");
                 throw Error();
             }
-
-            console.log(data.email, data.username, data.fname, data.lname, data.phoneNumber, data.password, profilePic);
+            console.log(data, profilePic);
 
             const newForm = new FormData();
 
@@ -59,6 +66,7 @@ const AdminSignup = () => {
             newForm.append("lname", data.lname);
             newForm.append("phoneNumber", data.phoneNumber);
             newForm.append("password", data.password);
+            newForm.append("confirmPassword", data.confirmPassword);
             
             await axios.post(`${server}/admin/signup`, newForm, {
                 headers: {'Content-Type': 'multipart/form-data'}
@@ -73,6 +81,7 @@ const AdminSignup = () => {
                         lname: "",
                         phoneNumber: "",
                         password: "",
+                        confirmPassword: "",
                     });
                     
                     setProfilePic(null);
@@ -111,9 +120,9 @@ const AdminSignup = () => {
 
             <label>First Name</label>
             <input
-                type="fname"
-                name="fname"
-                autoComplete='fname'
+                type= "text"
+                name= "fname"
+                autoComplete= 'fname'
                 required
                 onChange={handleChange}
                 value={data.fname}
@@ -121,9 +130,9 @@ const AdminSignup = () => {
             
             <label>Last Name</label>
             <input
-                type="lname"
-                name="lname"
-                autoComplete="lname"
+                type= "text"
+                name= "lname"
+                autoComplete= "lname"
                 required
                 onChange={handleChange}
                 value={data.lname}
@@ -173,6 +182,19 @@ const AdminSignup = () => {
                         />
                     )
                 }
+                
+            </div>
+
+            <label>Confirm Password</label>
+            <div>
+                <input
+                    type= "password"
+                    name='confirmPassword'
+                    required
+                    onChange={handleChange}
+                    value={data.confirmPassword}
+                />
+
                 
             </div>
 

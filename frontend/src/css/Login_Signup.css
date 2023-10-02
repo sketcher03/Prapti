@@ -5,7 +5,7 @@
     --error: #e7195a;
 }
 
-form.login, form.signup{
+form.login, form.signup, form.AdminSignup{
     position: relative;
     padding: 20px;
     width: 100%;
@@ -15,6 +15,10 @@ form.login, form.signup{
 }
 
 form.signup{
+    margin-top: -60px;
+}
+
+form.AdminSignup{
     margin-top: -60px;
 }
 
