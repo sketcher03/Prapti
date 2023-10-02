@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const saltRounds = 10;
 
-const userSchema = new Schema({
+const adminSchema = new Schema({
     email: {
         type: String,
         required: true,
@@ -24,35 +24,18 @@ const userSchema = new Schema({
         minLength: [4, "Password too short!"],
         select: false
     },
-    name: {
+    fname: {
+        type: String,
+    },
+    lname: {
         type: String,
     },
     phoneNumber: {
         type: Number,
     },
-    billingAddresses: [
-        {
-            country: {
-                type: String
-            },
-            city: {
-                type: String
-            },
-            address: {
-                type: String
-            },
-            postCode: {
-                type: Number
-            }
-        }
-    ],
     verified: {
         type: Boolean,
         default: false
-    },
-    role: {
-        type: String,
-        default: "user"
     },
     profilePic: {
         type: String,
@@ -66,22 +49,14 @@ const userSchema = new Schema({
     resetPasswordTime: Date
 });
 
-/*
-userSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) {
-        next();
-    }
-    
-    this.password = await bcrypt.hash(this.password, saltRounds);
-});
-*/
 
-userSchema.methods.createJwtToken = function () {
+
+adminSchema.methods.createJwtToken = function () {
     return jwt.sign({ _id: this._id }, process.env.SECRET, { expiresIn: process.env.JWT_EXPIRES });
 };
 
 //static signup method
-userSchema.statics.signup = async function(email, username, password, fileURL, next) {
+adminSchema.statics.signup = async function(email, username, password, fileURL, next) {
 
     //console.log(email);
 
@@ -125,7 +100,7 @@ userSchema.statics.signup = async function(email, username, password, fileURL, n
 }
 
 //static login method
-userSchema.statics.login = async function(email, password) {
+adminSchema.statics.login = async function(email, password) {
 
     //console.log(email);
 
@@ -134,23 +109,20 @@ userSchema.statics.login = async function(email, password) {
     }
 
     //find out if email already exists or username already taken during signup
-    const user = await this.findOne({ email }).select("+password");
+    const admin = await this.findOne({ email }).select("+password");
 
-    if(!user){
+    if(!admin){
         throw Error('No account exists with this email');
     }
 
-    //console.log(password);
-    //console.log(user.password);
 
-    const match = await bcrypt.compare(password, user.password);
+    const match = await bcrypt.compare(password, admin.password);
 
     if(!match) {
         throw Error('Incorrect Password');
     }
 
-    return user;
+    return admin;
 
 }
-
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Admin', adminSchema);

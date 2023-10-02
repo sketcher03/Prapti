@@ -54,7 +54,7 @@ const Signup = () => {
             newForm.append("username", data.username);
             newForm.append("password", data.password);
             
-            axios.post(`${server}/user/signup`, newForm, {
+            await axios.post(`${server}/user/signup`, newForm, {
                 headers: {'Content-Type': 'multipart/form-data'}
             })
                 .then((res) => {
@@ -96,7 +96,7 @@ const Signup = () => {
                 name="email"
                 autoComplete='email'
                 required
-                onChange={handleChange}
+                onChange={handleChange} //props
                 value={data.email}
             />
 
