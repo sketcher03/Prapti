@@ -12,6 +12,7 @@ import Footer from './components/Footer';
 import Store from './redux/store';
 import { saveUser } from './redux/actions/user';
 import Dashboard from './pages/Dashboard';
+import Home from './pages/Home'
 
 const title = 'React';
 
@@ -31,11 +32,11 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={isAuthenticated ? <Dashboard/> : <Navigate to="/login" />}
+              element={isAuthenticated ? <Dashboard/> : <Home/>}
             />
             <Route
               path="/requests"
-              element={isAuthenticated ? <Requests/> : <Navigate to="/login" />}
+              element={isAuthenticated ? <Requests/> : <Navigate to="/" />}
             />
             <Route
               path="/login"

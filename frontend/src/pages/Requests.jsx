@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRequestContext } from '../hooks/useRequestsContext'
 import { useAuthContext } from "../hooks/useAuthContext";
+import '../css/requests.css'
 
 //components
 import RequestDetails from '../components/RequestDetails';
@@ -37,7 +38,7 @@ const Requests = () => {
     }, [dispatch, user]);
 
     return (
-        <div className="home">
+        <div className="req-container">
             <div className="requests">
                 <h1>All Requests Posted</h1>
                 {requests && requests.map((request) => (
