@@ -76,16 +76,16 @@ const deleteRequest = async (req, res) => {
     const { id } = req.params;
 
     if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({ error: 'No Such Request' });
+        return res.status(404).send({ message: 'No Such Request' });
     }
 
     const request = await Request.findOneAndDelete({_id: id});
 
     if(!request){
-        return res.status(400).json({ error: 'No Such Request' });
+        return res.status(400).send({ message: 'No Such Request' });
     }
 
-    res.status(200).json(request);
+    res.status(200).send({ request });
 }
 
 //Update a request

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import "../css/PopupForm.css"
-import { useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import Store from "../redux/store";
 import { createRequest } from '../redux/actions/requests';
@@ -30,7 +29,7 @@ const RequestForm = (props) => {
     
     const handleSubmit = async (e) => {
       e.preventDefault();
-      console.log(data);
+      //console.log(data);
 
       const request = {
         title: data.title,
@@ -40,7 +39,7 @@ const RequestForm = (props) => {
         timeline: data.timeline,
       };
 
-      console.log(request);
+      //console.log(request);
 
       Store.dispatch(createRequest(request, setData, setEmptyFields, setError, props));
     };

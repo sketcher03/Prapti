@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-//import { useRequestContext } from '../hooks/useRequestsContext'
-//import { useAuthContext } from "../hooks/useAuthContext";
 import '../css/requests.css';
 import { useSelector } from 'react-redux';
 import Store from "../redux/store";
+import { FiArrowRight } from "react-icons/fi";
 import { setRequests } from '../redux/actions/requests';
 
 //components
@@ -12,11 +11,8 @@ import RequestForm from '../components/RequestForm';
 
 
 const Requests = () => {
-    const { isAuthenticated, user } = useSelector((state) => state.user);
+    //const { isAuthenticated, user } = useSelector((state) => state.user);
     const { requests } = useSelector((state) => state.requests)
-    //const { requests, dispatch } = useRequestContext();
-
-    //const [requests, setRequests] = useState(null);
     const [requestPopup, setRequestPopup] = useState(false);
 
     useEffect(() => {
@@ -24,21 +20,27 @@ const Requests = () => {
         // console.log(user)
         Store.dispatch(setRequests());
         
-    }, [requests, user]);
+    }, [requests]);
 
     return (
         <div className="req-container">
-            <div className="requests">
-                <h1>Your Requests</h1>
-                {requests && requests.map((request) => (
-                    <RequestDetails key={request._id} request={request}/>
-                ))}
-            </div>
-
-            <button className='requestbtn' onClick={() => setRequestPopup(true)}>Make a Request</button>
-            <RequestForm trigger={requestPopup} setTrigger={setRequestPopup}/>
+            <p className='req-subheading'>Can't find a Specific Service?</p>
+            <h2 className='req-heading'>Well... Look no further!</h2>
+        <button className="requestbtn" onClick={() => setRequestPopup(true)}>
+          Post a New Request <FiArrowRight />
+        </button>
+        <div className="requests">
+          <h1>Your Requests</h1>
+          <div className="requests-section">
+            {requests &&
+              requests.map((request) => (
+                <RequestDetails key={request._id} request={request} />
+              ))}
+          </div>
         </div>
-    )
+        <RequestForm trigger={requestPopup} setTrigger={setRequestPopup} />
+      </div>
+    );
 }
 
 export default Requests;

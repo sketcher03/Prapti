@@ -1,32 +1,14 @@
-// import { useRequestContext } from '../hooks/useRequestsContext'
-// import { useAuthContext } from "../hooks/useAuthContext";
-import { useSelector } from "react-redux";
+import Store from "../redux/store";
+import { deleteRequest } from "../redux/actions/requests";
 
 //date ffns
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 const RequestDetails = ({ request }) => {
-    // const { dispatch } = useRequestContext();
-
-    const { isAuthenticated } = useSelector((state) => state.user);
 
     const handleClick = async () => {
-        if(!isAuthenticated) {
-            return
-        }
 
-        // const response = await fetch('/api/requests/' + request._id, {
-        //     method: 'DELETE',
-        //     headers: {
-        //         'Authorization': `Bearer ${user.token}`
-        //     }
-        // })
-
-        // const json = await response.json();
-
-        // if(response.ok){
-        //     dispatch({type: 'DELETE_REQUEST', payload: json});
-        // }
+        Store.dispatch(deleteRequest(request._id));
     }
 
     return (

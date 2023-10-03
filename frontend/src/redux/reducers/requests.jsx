@@ -25,10 +25,17 @@ export const requestsReducer = createReducer(initialState, {
         state.loading = false;
         state.error = action.payload;
     },
-    DeleteRequest: (state, action) => {
-        state.requests = state.requests.filter((request) => request._id !== action.payload._id);
+    DeleteRequestSuccess: (state, action) => {
+        state.loading = false;
+        state.requests = state.requests.filter(
+            (request) => request._id !== action.payload._id
+        );
+    },
+    DeleteRequestFailure: (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
     },
     dissolveErrors: (state) => {
         state.error = null;
-  },
+    },
 });

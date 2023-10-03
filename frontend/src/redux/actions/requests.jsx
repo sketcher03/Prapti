@@ -45,7 +45,7 @@ export const createRequest = (request, setData, setEmptyFields, setError, props)
     await axios
         .post(`${server}/requests`, request, { withCredentials: true })
         .then((res) => {
-            console.log(res);
+            //console.log(res);
 
             setData({
             title: "",
@@ -61,18 +61,18 @@ export const createRequest = (request, setData, setEmptyFields, setError, props)
             setError(res.data.message);
 
             dispatch({
-            type: "CreateRequestSuccess",
-            payload: res.data.requests,
+                type: "CreateRequestSuccess",
+                payload: res.data.request,
             });
         })
         .catch((err) => {
-                setError(err.response.data.message);
-                setEmptyFields(err.response.data.emptyFields);
-                    
-                dispatch({
+            setError(err.response.data.message);
+            setEmptyFields(err.response.data.emptyFields);
+                
+            dispatch({
                 type: "CreateRequestFailure",
                 payload: err.response.data.message,
-                });
+            });
         });
     } catch (error) {
         dispatch({
@@ -80,4 +80,38 @@ export const createRequest = (request, setData, setEmptyFields, setError, props)
             payload: error.message,
         });
     }
+};
+
+export const deleteRequest = (id) => async (dispatch) => {
+
+    try {
+        dispatch({
+            type: "SetRequests",
+        });
+        
+        await axios
+            .delete(`${server}/requests/${id}`, { withCredentials: true })
+            .then((res) => {
+                console.log(res);
+
+                dispatch({
+                    type: "CreateRequestSuccess",
+                    payload: res.data.request,
+                });
+            })
+            .catch((err) => {
+                
+                dispatch({
+                    type: "DeleteRequestFailure",
+                    payload: err.response.data.message,
+                });
+            });
+    }
+    catch (error) {
+        dispatch({
+            type: "DeleteRequestFailure",
+            payload: error.message,
+        });
+    }
+    
 };
