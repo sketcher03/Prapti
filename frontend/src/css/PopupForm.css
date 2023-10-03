@@ -45,26 +45,27 @@ form input, textarea{
     font-size: 16px;
 }
 
-
 form textarea{
     height: 150px;
     resize: none;
+    padding: 15px;
 }
 
-form button{
+form .reqsub-btn{
     background: var(--primary);
     border: 0;
     color: rgb(255, 255, 255);
-    padding: 20px;
+    padding: 20px 30px;
     margin: 10px 0px;
-    border-radius: 10px;
+    border-radius: 20px;
     font-size: 18px;
     font-weight: 600;
+    transition: .2s;
 }
 
-form button:hover{
-    background: var(--primary);
-    border: 1px solid green;
+form .reqsub-btn:hover{
+    background-color: rgb(0, 161, 78);
+    border: 3px solid rgb(0, 73, 0);
     cursor: pointer;
 }
 
@@ -78,4 +79,34 @@ form div.error {
 
 form input.error{
     border: 1px solid var(--error);
+}
+
+form .createreq-bottom{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+form .close-popup{
+    max-width: 150px;
+    padding: 2% 3%;
+    border: 3px solid rgb(159, 0, 114);
+    border-radius: 15px;
+    text-align: center;
+    vertical-align: middle;
+    color: brown;
+    background-color: white;
+    transition: 0.2s;
+    font-size: 18px;
+}
+
+form .close-popup:hover {
+    border-color: rgb(89, 0, 0);
+    color: white;
+    background-color: rgb(201, 29, 29);
+}
+
+form .close-popup svg{
+   margin-left: 5px;
+   font-size: 28px;
 }

@@ -56,7 +56,7 @@ const createRequest = async (req, res) => {
         emptyFields.push('timeline');
     }
     if(emptyFields.length > 0) {
-        return res.status(400).json({ error: 'Please fill in all the fields', emptyFields });
+        return res.status(400).send({ message: 'Please fill in all the fields', emptyFields });
     }
 
     //add document to DB
@@ -64,10 +64,10 @@ const createRequest = async (req, res) => {
         const user_id = req.user._id;
 
         const request = await Request.create({title, description, category, budget, timeline, user_id});
-        res.status(200).json(request);
+        res.status(200).send({ request });
     } 
     catch (error){
-        res.status(400).json({error: error.message});
+        res.status(400).send({ message: error.message});
     }
 };
 

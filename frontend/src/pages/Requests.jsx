@@ -35,8 +35,8 @@ const Requests = () => {
                 ))}
             </div>
 
-            {/* <button className='requestbtn' onClick={() => setRequestPopup(true)}>Make a Request</button> */}
-            {/* <RequestForm trigger={requestPopup} setTrigger={setRequestPopup}/> */}
+            <button className='requestbtn' onClick={() => setRequestPopup(true)}>Make a Request</button>
+            <RequestForm trigger={requestPopup} setTrigger={setRequestPopup}/>
         </div>
     )
 }

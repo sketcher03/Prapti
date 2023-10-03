@@ -18,12 +18,11 @@ export const requestsReducer = createReducer(initialState, {
         state.error = action.payload;
     },
     CreateRequestSuccess: (state, action) => {
-        state.loading = true;
-        state.postSuccess = true;
-        state.requests = action.payload;
+        state.loading = false;
+        state.requests = [action.payload, ...state.requests];
     },
     CreateRequestFailure: (state, action) => {
-        state.postSuccess = false;
+        state.loading = false;
         state.error = action.payload;
     },
     DeleteRequest: (state, action) => {
