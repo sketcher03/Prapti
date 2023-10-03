@@ -56,6 +56,7 @@ router.get('/saveuser', requireAuth, async (req, res, next) => {
         const user = await User.findById(req.user.id);
 
         if (!user) {
+            console.log("cant find user")
             throw Error("User does not Exist");
         }
 

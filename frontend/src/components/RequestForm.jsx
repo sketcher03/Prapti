@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { useRequestContext } from '../hooks/useRequestsContext'
+//import { useRequestContext } from '../hooks/useRequestsContext'
 import "../css/PopupForm.css"
-import { useAuthContext } from "../hooks/useAuthContext";
+//import { useAuthContext } from "../hooks/useAuthContext";
+import { useSelector } from "react-redux";
 
 const RequestForm = (props) => {
-    const { dispatch } = useRequestContext();
+    //const { dispatch } = useRequestContext();
     
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -15,12 +16,14 @@ const RequestForm = (props) => {
     const [error, setError] = useState(null);
     const [emptyFields, setEmptyFields] = useState([]);
 
-    const { user } = useAuthContext();
+    //const { user } = useAuthContext();
+    const { isAuthenticated, user } = useSelector((state) => state.user);
+    const { requests } = useSelector((state) => state.requests);
     
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if(!user) {
+        if(!isAuthenticated) {
             setError('You must be logged in');
             return
         }

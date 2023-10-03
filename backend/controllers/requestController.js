@@ -6,9 +6,15 @@ const getRequests = async (req, res) => {
 
     const user_id = req.user._id;
 
-    const requests = await Request.find({ user_id }).sort({createdAt: -1});
+    try {
+        const requests = await Request.find({ user_id }).sort({createdAt: -1});
 
-    res.status(200).json(requests);
+        res.status(200).send({ requests, success: true });
+    }
+    catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+    
 };
 
 //GET a single request

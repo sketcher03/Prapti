@@ -17,12 +17,42 @@ const Navbar = () => {
     };
 
     const Menus = [
-        {name: "Find Talent", icon:"telescope-outline", dis:"translate-x-4"},
-        {name: "Requests", icon:"create-outline", dis:"translate-x-[110px]"},
-        {name: "Orders", icon:"layers-outline", dis:"translate-x-[208px]"},
-        {name: "Help", icon:"help-circle-outline", dis:"translate-x-[305px]"},
-        {name: "Notifications", icon:"notifications-outline", dis:"translate-x-[400px]"},
-        {name: "Inbox", icon:"chatbox-ellipses-outline", dis:"translate-x-[496px]"},
+      {
+        name: "Find Talent",
+        icon: "telescope-outline",
+        path: "/talent",
+        dis: "translate-x-4",
+      },
+      {
+        name: "Requests",
+        icon: "create-outline",
+        path: "/requests",
+        dis: "translate-x-[110px]",
+      },
+      {
+        name: "Orders",
+        icon: "layers-outline",
+        path: "/orders",
+        dis: "translate-x-[208px]",
+      },
+      {
+        name: "Help",
+        icon: "help-circle-outline",
+        path: "/help",
+        dis: "translate-x-[305px]",
+      },
+      {
+        name: "Notifications",
+        icon: "notifications-outline",
+        path: "/requests",
+        dis: "translate-x-[400px]",
+      },
+      {
+        name: "Inbox",
+        icon: "chatbox-ellipses-outline",
+        path: "/inbox",
+        dis: "translate-x-[496px]",
+      },
     ];
 
     const [active, setActive] = useState(0);
@@ -56,7 +86,8 @@ const Navbar = () => {
 
                 {Menus.map((menu, i) => (
                   <li key={i} className="w-24 translate-y-1 text-center">
-                    <a
+                    <Link
+                      to={menu.path}
                       className="flex flex-col text-center mt-4 mb-5"
                       onClick={() => setActive(i)}
                     >
@@ -76,7 +107,7 @@ const Navbar = () => {
                       >
                         <ion-icon name={menu.icon}></ion-icon>
                       </span>
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
