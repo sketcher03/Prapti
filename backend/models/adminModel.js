@@ -39,7 +39,7 @@ const adminSchema = new Schema({
     },
     profilePic: {
         type: String,
-        required: true
+        //required: true
     },
     createdAt: {
         type: Date,
@@ -56,28 +56,29 @@ adminSchema.methods.createJwtToken = function () {
 };
 
 //static signup method
-adminSchema.statics.signup = async function(email, username, password, fileURL, next) {
+adminSchema.statics.signup = async function(email, fname, lname, phoneNumber, username, password, fileURL) {
 
     //console.log(email);
 
     if (!validator.isEmail(email)) {
         throw Error('Email is not valid');
-    }
+    }console.log("error here");
 
     if(!validator.isStrongPassword(password))
     {
         throw Error('Password is not Strong Enough');
-    }
+    }console.log("error here");
+
     
     //find out if email already exists or username already taken during signup
     const emailExists = await this.findOne({ email });
-    const userExists = await this.findOne({ username });
+    const adminExists = await this.findOne({ username });
 
     if (emailExists) {
         throw Error('Email Already in Use');
     }
 
-    if(userExists){
+    if(adminExists){
         throw Error('Username already taken');
     }
 
@@ -87,16 +88,19 @@ adminSchema.statics.signup = async function(email, username, password, fileURL, 
 
     //console.log(hash);
 
-    const user = {
+    const admin = {
         email: email,
         username: username,
+        fname: fname,
+        lname: lname,
         password: hash,
+        phoneNumber: phoneNumber,
         profilePic: fileURL
     };
 
-    const newUser = await this.create(user);
+    const newAdmin = await this.create(admin);
 
-    return newUser;
+    return newAdmin;
 }
 
 //static login method

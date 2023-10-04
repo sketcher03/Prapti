@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import Requests from './pages/Requests';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import AdminSignup from './pages/AdminSignup';
 import RequestUpdateForm from './components/RequestUpdateForm'
 import Activation from './pages/Activation/Activation'
 import Navbar from './components/Navbar';
@@ -50,6 +51,10 @@ function App() {
             <Route
               path="/signup"
               element={!isAuthenticated ? <Signup /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/AdminSignup"
+              element={!isAuthenticated ? <AdminSignup/> : <Navigate to="/" />}
             />
             <Route
               path="/users/:id/verify/:token"

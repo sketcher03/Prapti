@@ -26,11 +26,13 @@ app.use("/", express.static("uploads"));
 const requestRoutes = require('./routes/requests');
 const authRoutes = require('./controllers/authController');
 const userRoutes = require('./controllers/userController');
+const adminRoutes = require('./controllers/adminController');
 
 //route
 app.use('/api/requests', requestRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
 
 //error handling
 app.use(ErrorHandler);
