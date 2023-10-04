@@ -22,3 +22,7 @@ body {
   margin: 0 auto;
   min-height: 76vh;
 }
+
+button{
+  border-radius: 12px;
+}

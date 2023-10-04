@@ -48,11 +48,11 @@ export const createRequest = (request, setData, setEmptyFields, setError, props)
             //console.log(res);
 
             setData({
-            title: "",
-            description: "",
-            category: "",
-            budget: "",
-            timeline: "",
+                title: "",
+                description: "",
+                category: "",
+                budget: "",
+                timeline: "",
             });
 
             setEmptyFields([]);
@@ -115,3 +115,51 @@ export const deleteRequest = (id) => async (dispatch) => {
     }
     
 };
+
+export const editRequest = (editrequest, id, setData, setEmptyFields, setError) => async (dispatch) => {
+    try {
+      dispatch({
+        type: "SetRequests",
+      });
+
+      //empty fields errors
+      //console.log(editrequest);
+
+      await axios
+        .put(`${server}/requests/${id}`, editrequest, { withCredentials: true })
+        .then((res) => {
+          //console.log(res);
+
+          setData({
+            title: res.data.request.title,
+            description: res.data.request.description,
+            category: res.data.request.category,
+            budget: res.data.request.budget,
+            timeline: res.data.request.timeline,
+          });
+
+          setEmptyFields([]);
+
+          setError(res.data.message);
+
+          dispatch({
+            type: "EditRequestSuccess",
+            payload: res.data.request,
+          });
+        })
+        .catch((err) => {
+          setError(err.response.data.message);
+          setEmptyFields(err.response.data.emptyFields);
+
+          dispatch({
+            type: "EditRequestFailure",
+            payload: err.response.data.message,
+          });
+        });
+    } catch (error) {
+      dispatch({
+        type: "EditRequestFailure",
+        payload: error.message,
+      });
+    }
+  };

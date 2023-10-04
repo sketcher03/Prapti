@@ -22,16 +22,16 @@ const getRequest = async (req, res) => {
     const { id } = req.params;
 
     if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({ error: 'No Such Request' });
+        return res.status(404).send({ message: 'No Such Request' });
     }
 
     const request = await Request.findById(id);
 
     if(!request){
-        return res.status(404).json({ error: 'No Such Request' });
+        return res.status(404).send({ message: 'No Such Request' });
     }
     
-    res.status(200).json(request);
+    res.status(200).send({request});
 };
 
 //Create a new request
@@ -90,10 +90,33 @@ const deleteRequest = async (req, res) => {
 
 //Update a request
 const updateRequest = async (req, res) => {
+    const { title, description, category, budget, timeline } = req.body;
+
+    let emptyFields = []
+
+    if(!title) {
+        emptyFields.push('title');
+    }
+    if(!description) {
+        emptyFields.push('description');
+    }
+    if(!category) {
+        emptyFields.push('category');
+    }
+    if(!budget) {
+        emptyFields.push('budget');
+    }
+    if(!timeline) {
+        emptyFields.push('timeline');
+    }
+    if(emptyFields.length > 0) {
+        return res.status(400).send({ message: 'Please fill in all the fields', emptyFields });
+    }
+
     const { id } = req.params;
 
     if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({ error: 'No Such Request' });
+        return res.status(404).send({ message: 'No Such Request' });
     }
 
     const request = await Request.findByIdAndUpdate(req.params.id, req.body, {
@@ -101,10 +124,10 @@ const updateRequest = async (req, res) => {
     });
 
     if(!request){
-        return res.status(400).json({ error: 'No Such Request' });
+        return res.status(400).send({ message: 'Could Not Update your Request. Please try again later.' });
     }
 
-    res.status(200).json(request);
+    res.status(200).send({ request, success: true, message: "Request Updated Successfully!" });
 }
 
 module.exports = {

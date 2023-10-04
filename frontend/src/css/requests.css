@@ -21,7 +21,7 @@
     border: 1.5px solid rgb(199, 199, 199);
     border-radius: 10px;
     background: rgb(255, 255, 255);
-    min-width: 360%;
+    width: 1200px;
 }
 
 .req-container h1 {
@@ -29,39 +29,6 @@
     color: rgb(68, 68, 68);
     font-weight: 500;
     font-size: 30px;
-}
-
-.request-details {
-    margin: 0;
-    padding: 40px 40px;
-    margin: 20px auto;
-    position: relative;
-    border-bottom: 1.5px solid rgb(199, 199, 199);
-}
-
-.request-details h4 {
-    margin: 0;
-    margin-bottom: 10px;
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--primary);
-}
-
-.request-details p {
-    margin: 0;
-    font-size: 19px;
-    color: rgb(65, 65, 65);
-}
-
-.request-details span {
-    position: absolute;
-    bottom: 50px;
-    right: 40px;
-    cursor: pointer;
-    background: var(--primary);
-    padding: 18px;
-    color: white;
-    border-radius: 15px;
 }
 
 .requestbtn {
@@ -88,12 +55,6 @@
     border: 3px solid rgb(0, 113, 0);
     background-color: #e6fff3;
     cursor: pointer;
-}
-
-p.date {
-    padding: 6px 0;
-    font-size: 18px;
-    font-weight: 300;
 }
 
 .req-heading{
