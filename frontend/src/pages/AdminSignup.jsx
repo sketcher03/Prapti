@@ -56,8 +56,9 @@ const AdminSignup = () => {
                 throw Error();
             }
             console.log(data, profilePic);
+            
 
-            const newForm = new FormData();
+            //const newForm = new FormData();
 
             newForm.append("file", profilePic);
             newForm.append("email", data.email);
@@ -66,11 +67,8 @@ const AdminSignup = () => {
             newForm.append("lname", data.lname);
             newForm.append("phoneNumber", data.phoneNumber);
             newForm.append("password", data.password);
-            newForm.append("confirmPassword", data.confirmPassword);
             
-            await axios.post(`${server}/admin/signup`, newForm, {
-                headers: {'Content-Type': 'multipart/form-data'}
-            })
+            await axios.post(`${server}/admin/signup`, data)
                 .then((res) => {
                     console.log(res);
 
