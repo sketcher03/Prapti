@@ -36,6 +36,10 @@ h1{
     transform: scale(0.8);
 }
 
+p{
+    color: #003e20;
+}
+
 button {
     background-color: #fff;
     color: var(--primary);

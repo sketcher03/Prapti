@@ -164,6 +164,10 @@ form .createreq-bottom{
     word-wrap: break-word;
 }
 
+span{
+    color: green;
+}
+
 .request-details span {
     position: absolute;
     bottom: 50px;

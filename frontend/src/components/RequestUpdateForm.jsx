@@ -77,7 +77,7 @@ const RequestUpdateForm = () => {
 
     return (
       <form className="update" onSubmit={handleSubmit}>
-        <h3>Post a New Request</h3>
+        <h3>Edit Request - <span>{data.title}</span></h3>
 
         <label>Give your request a title</label>
         <input

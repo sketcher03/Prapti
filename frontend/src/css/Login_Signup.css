@@ -6,7 +6,6 @@
 }
 
 form.login, form.signup, form.AdminSignup{
-form.login, form.signup{
     position: relative;
     padding: 20px;
     width: 100%;
