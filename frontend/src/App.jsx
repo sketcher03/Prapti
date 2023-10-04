@@ -7,12 +7,14 @@ import Requests from './pages/Requests';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdminSignup from './pages/AdminSignup';
+import RequestUpdateForm from './components/RequestUpdateForm'
 import Activation from './pages/Activation/Activation'
 import Navbar from './components/Navbar';
 import Footer from './components/Footer'; 
 import Store from './redux/store';
 import { saveUser } from './redux/actions/user';
 import Dashboard from './pages/Dashboard';
+import Home from './pages/Home'
 
 const title = 'React';
 
@@ -27,24 +29,28 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar />        
+        <Navbar />
         <div className="pages">
           <Routes>
             <Route
               path="/"
-              element={isAuthenticated ? <Dashboard/> : <Navigate to="/login" />}
+              element={isAuthenticated ? <Dashboard /> : <Home />}
             />
             <Route
               path="/requests"
-              element={isAuthenticated ? <Requests/> : <Navigate to="/login" />}
+              element={isAuthenticated ? <Requests /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/requests/update/:id"
+              element={isAuthenticated ? <RequestUpdateForm /> : <Navigate to="/" />}
             />
             <Route
               path="/login"
-              element={!isAuthenticated ? <Login/> : <Navigate to="/" />}
+              element={!isAuthenticated ? <Login /> : <Navigate to="/" />}
             />
             <Route
               path="/signup"
-              element={!isAuthenticated ? <Signup/> : <Navigate to="/" />}
+              element={!isAuthenticated ? <Signup /> : <Navigate to="/" />}
             />
             <Route
               path="/AdminSignup"
@@ -52,11 +58,10 @@ function App() {
             />
             <Route
               path="/users/:id/verify/:token"
-              element={<Activation />}
-            />
+              element={<Activation />} />
           </Routes>
         </div>
-        <Footer/>
+        <Footer />
       </BrowserRouter>
     </div>
   );

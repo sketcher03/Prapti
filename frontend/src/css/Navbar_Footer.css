@@ -4,15 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* layout */
-:root {
-  --primary: #00BF63;
-  --error: #e7195a;
-}
-
 /* Navbar */
 .container{
-    background: #fff;
+    background: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,7 +17,7 @@
 }
 
 a {
-    color:  var(--primary);
+    color: #00381d;
     text-decoration: none;
 }
 
@@ -32,10 +26,10 @@ h1{
     margin-top: 20px;
 }
 
-img{
+.container img{
     margin: 0;
-    padding-top: 20px;
-    max-width: 150px;
+    padding-top: 40px;
+    max-width: 200px;
 }
 
 .nav-menu{
@@ -47,17 +41,76 @@ button {
     color: var(--primary);
     border: 2px solid var(--primary);
     padding: 10px;
-    border-radius: 5px;
+ 
     cursor: pointer;
+}
+
+.signup-btn{
+    padding: 0.9rem 1.75rem;
+    background-color: white;
+    outline: none;
+    border: none;
+    border-radius: 5rem;
+    cursor: pointer;
+    transition: 0.3s;
+
+}
+
+.signup-btn:hover{
+    background-color: #002c17;
+    color: white;
+}
+
+.login-link{
+    transition: 0.3s;
+}
+
+.login-link:hover{
+    color: white;
 }
 
 
 /* footer */
-footer{
-    bottom: 0;
-    width: 100%;
-    padding: 24px;
-    background: var(--primary);
-    font-weight: 500;
-    text-align: center;
+
+
+.footer-wrapper {
+    margin: 5rem 20%;
+    display: flex;
+    margin-top: 10rem;
+}
+
+.footer-logo-container {
+    max-width: 240px;
+}
+
+.footer-icons {
+    display: flex;
+    margin-top: 1.5rem;
+    margin-left: 10%;
+}
+
+.footer-icons svg {
+    font-size: 1.7rem;
+    margin-right: 1.5rem;
+    color: #006600;
+}
+
+.footer-section-two {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.footer-section-columns {
+    display: flex;
+    flex-direction: column;
+    min-width: 190px;
+    margin-left: 2%;
+}
+
+.footer-section-columns span {
+    margin: 0.25rem 0rem;
+    font-weight: 600;
+    color: #4c4c4c;
+    cursor: pointer;
 }

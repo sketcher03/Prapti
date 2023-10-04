@@ -4,12 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* layout */
-:root {
-    --primary: #00BF63;
-    --error: #e7195a;
-}
-
 .ver-container {
     display: flex;
     flex-direction: column;

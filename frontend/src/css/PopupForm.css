@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-:root {
-    --primary: #00BF63;
-    --error: #e7195a;
-}
 
 .popup {
     position: fixed;
@@ -26,10 +22,22 @@
     border-radius: 15px;
 }
 
+.update{
+    position: relative;
+    margin: auto;
+    padding: 50px;
+    width: 100%;
+    max-width: 750px;
+    border-radius: 20px;
+    border: 3px solid rgb(168, 217, 168);
+    margin-top: 50px;
+}
+
 form h3{
     font-size: 27px;
     margin: 10px 0;
     margin-bottom: 20px;
+    color: rgb(0, 67, 0);
 }
 
 form label, input, textarea{
@@ -49,26 +57,27 @@ form input, textarea{
     font-size: 16px;
 }
 
-
 form textarea{
     height: 150px;
     resize: none;
+    padding: 15px;
 }
 
-form button{
+form .reqsub-btn{
     background: var(--primary);
     border: 0;
     color: rgb(255, 255, 255);
-    padding: 20px;
+    padding: 20px 30px;
     margin: 10px 0px;
-    border-radius: 10px;
+    border-radius: 20px;
     font-size: 18px;
     font-weight: 600;
+    transition: .2s;
 }
 
-form button:hover{
-    background: var(--primary);
-    border: 1px solid green;
+form .reqsub-btn:hover{
+    background-color: rgb(0, 161, 78);
+    border: 3px solid rgb(0, 73, 0);
     cursor: pointer;
 }
 
@@ -82,4 +91,140 @@ form div.error {
 
 form input.error{
     border: 1px solid var(--error);
+}
+
+form .createreq-bottom{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.req-button-grp{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 30px;
+}
+
+.close-popup{
+    max-width: 150px;
+    padding: 2% 3%;
+    border: 3px solid rgb(159, 0, 114);
+    border-radius: 15px;
+    text-align: center;
+    vertical-align: middle;
+    color: brown;
+    background-color: white;
+    transition: 0.2s;
+    font-size: 18px;
+}
+
+.close-popup:hover {
+    border-color: rgb(89, 0, 0);
+    color: rgb(86, 0, 0);
+}
+
+.close-popup svg{
+   margin-left: 5px;
+   font-size: 28px;
+}
+
+.request-details {
+    margin: 0;
+    padding: 75px 100px;
+    margin: 20px auto;
+    position: relative;
+    border-bottom: 1.5px solid rgb(199, 199, 199);
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 750px;
+    border-radius: 15px;
+}
+
+.request-details h4 {
+    margin: 0;
+    margin-bottom: 10px;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.request-each{
+    margin-left: 10px;
+    max-width: 600px;
+    padding: 5%;
+}
+
+.request-details p {
+    margin: 0;
+    font-size: 19px;
+    color: rgb(65, 65, 65);
+    width: 100%;
+    word-wrap: break-word;
+}
+
+.request-details span {
+    position: absolute;
+    bottom: 50px;
+    right: 40px;
+    cursor: pointer;
+    background: var(--primary);
+    padding: 18px;
+    color: white;
+    border-radius: 15px;
+}
+
+p.date {
+    padding: 6px 0;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.edit-req {
+    max-width: 150px;
+    padding: 2% 3%;
+    border: 3px solid rgb(0, 150, 60);
+    border-radius: 15px;
+    text-align: center;
+    vertical-align: middle;
+    color: rgb(23, 130, 63);
+    background-color: white;
+    transition: 0.2s;
+    font-size: 18px;
+}
+
+.edit-req:hover {
+    border-color: rgb(0, 89, 49);
+    color: rgb(0, 86, 44);
+    background-color: rgb(167, 255, 167);
+}
+
+.edit-req svg {
+    margin-left: 5px;
+    font-size: 28px;
+}
+
+.delete-req {
+    max-width: 150px;
+    padding: 2% 3%;
+    border: 3px solid red;
+    border-radius: 15px;
+    text-align: center;
+    vertical-align: middle;
+    color: red;
+    background-color: white;
+    transition: 0.2s;
+    font-size: 18px;
+}
+
+.delete-req:hover {
+    border-color: rgb(117, 0, 0);
+    color: rgb(255, 255, 255);
+    background-color: red;
+}
+
+.delete-req svg {
+    margin-left: 5px;
+    font-size: 28px;
 }

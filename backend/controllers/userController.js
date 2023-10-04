@@ -4,7 +4,6 @@ const Token = require("../models/token");
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const { upload } = require("../multer");
-const crypto = require("crypto");
 
 const path = require("path");
 const sendMail = require('../utilities/sendMail');
@@ -29,10 +28,7 @@ router.post('/signup', upload.single("file"), async (req, res, next) => {
         //console.log("error here");
 
         //token creation
-        const token = await new Token({
-            userId: user._id,
-            token: crypto.randomBytes(32).toString("hex")
-        }).save();
+        const token = await Token.createToken(user._id);
 
         const url = `${process.env.BASE_URL}/users/${user._id}/verify/${token.token}`;
 

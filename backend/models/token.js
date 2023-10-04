@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const crypto = require("crypto");
 
 const Schema = mongoose.Schema;
 
@@ -19,5 +20,17 @@ const tokenSchema = new Schema({
         expires: 3600
     }
 })
+
+tokenSchema.statics.createToken = async function (user) {
+    
+    const token = {
+        userId: user._id,
+        token: crypto.randomBytes(32).toString("hex")
+    };
+
+    const newToken = await this.create(token);
+
+    return newToken;
+}
 
 module.exports = mongoose.model('token', tokenSchema);
