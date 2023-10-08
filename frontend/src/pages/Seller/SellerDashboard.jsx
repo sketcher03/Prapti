@@ -4,7 +4,7 @@ import '../../css/seller.css'
 const SellerDashboard = () => {
   return (
     <div className='seller-container'>
-      
+      Seller Dashboard
     </div>
   )
 }

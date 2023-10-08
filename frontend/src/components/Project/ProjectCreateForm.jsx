@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "../../css/seller.css";
+import "../../css/project.css";
 import "../../css/PopupForm.css";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSelector } from "react-redux";
@@ -9,16 +9,20 @@ import { server } from "../../../server";
 import Store from "../../redux/store";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { editUser } from '../../redux/actions/user';
+import { RxAvatar } from "react-icons/rx";
+import Chip from "@mui/material/Chip";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
 
 const SellerStarterForm = () => {
-
   const { user } = useSelector((state) => state.user);
-  //console.log(user);
+    //console.log(user);
+    
+    const category = ["Photography", "Graphic Design", "Traditional Painting", "Printing Art", "Repairs", "Crafting", "Programming", "Banking"];
 
   const [error, setError] = useState(null);
   const [profilePic, setProfilePic] = useState(null);
-  const sellerStarter = true;
 
   const [image, setImage] = useState();
 
@@ -70,87 +74,53 @@ const SellerStarterForm = () => {
     e.preventDefault();
     //console.log(data);
 
-    const id = user._id;
-
-    const updateUser = new FormData();
-
-    console.log(data, talents, profilePic);
-
-    if (profilePic) {
-      updateUser.append("file", profilePic);
-    }
-    
-    if (!profilePic) {
-      updateUser.append("filename", image);
-    }
-    
-    updateUser.append("email", data.email);
-    updateUser.append("username", data.username);
-    updateUser.append("name", data.name);
-    updateUser.append("display_name", data.display_name);
-    updateUser.append("description", data.description);
-    updateUser.append("phoneNumber", data.phoneNumber);
-    updateUser.append("talents", JSON.stringify(talents));
-    updateUser.append("sellerStarter", sellerStarter);
-
-    console.log(updateUser);
-    
-    Store.dispatch(
-      editUser(updateUser, id, setData, setError, setImage, setTalents, profilePic)
-    );
-
     console.log("submit clicked");
   };
-
-  useEffect(() => {
-      
-    setData({
-      name: user.name || "",
-      display_name: user.display_name || "",
-      description: user.description || "",
-      phoneNumber: user.phoneNumber || "",
-      email: user.email,
-      username: user.username,
-    });
-    
-    setTalents(user.talents);
-    setImage(user.profilePic);
-    
-  }, []);
+  
 
   return (
-    <div className="seller-container">
-      <form className="update-user" onSubmit={handleSubmit}>
+    <div className="project-container">
+      <form className="create-project" onSubmit={handleSubmit}>
         <h3 style={{ textAlign: "center" }}>
-          Update Your Information <br />{" "}
-          <span>
-            A 100% completed profile has a higher chance to get recognized and
-            trusted
-          </span>
+          Create your First Project <br />{" "}
+          <span>Let's create something you excel at</span>
         </h3>
 
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div style={{ width: "420px" }}>
-            <label>Your Full Name</label>
-            <input
-              type="text"
-              name="name"
-              onChange={handleChange}
-              placeholder="John Doe"
-              value={data.name}
-            />
-          </div>
-          <div style={{ width: "360px" }}>
-            <label>Your Display Name</label>
-            <input
-              type="text"
-              name="display_name"
-              onChange={handleChange}
-              placeholder="This will appear on your seller profile"
-              value={data.display_name}
-            />
-          </div>
+        <div>
+          <label>Give your Project a Title</label>
+          <input
+            type="text"
+            name="name"
+            onChange={handleChange}
+            placeholder="I will paint a wall for you. . ."
+            value={data.name}
+          />
         </div>
+
+        <label>Select some categories you project fall into</label>
+        <Autocomplete
+          multiple
+          id="tags-outlined"
+          options={category}
+          filterSelectedOptions
+          ChipProps={{
+            sx: {
+              fontFamily: "poppins",
+              minHeight: "40px",
+              padding: "10px 5px",
+              "& .MuiChip-label": {
+                paddingTop: "18px",
+              },
+            },
+          }}
+          sx={{
+            fontFamily: "poppins",
+            margin: "15px 0px",
+          }}
+          renderInput={(params) => (
+            <TextField {...params} placeholder="Painting, Photography, etc" />
+          )}
+        />
 
         <label>Your Description</label>
         <textarea
@@ -159,15 +129,6 @@ const SellerStarterForm = () => {
           onChange={handleChange}
           placeholder="Tell us more about yourself "
         ></textarea>
-
-        <label>Your Phone Number</label>
-        <input
-          type="Number"
-          name="phoneNumber"
-          onChange={handleChange}
-          value={data.phoneNumber}
-          placeholder="+8801 --- --- ---"
-        />
 
         <div
           style={{
@@ -243,16 +204,7 @@ const SellerStarterForm = () => {
                     }}
                   />
                 ) : (
-                  <img
-                    style={{
-                      width: "120%",
-                      height: "120%",
-                      objectFit: "cover",
-                      paddingBottom: "10px",
-                    }}
-                    src={`${server}/${image}`}
-                    alt="Profile Picture"
-                  />
+                  <RxAvatar className="h-16 w-16 pt-0 text-gray-600 mt-2" />
                 )}
               </span>
               <label
@@ -336,13 +288,13 @@ const SellerStarterForm = () => {
                 }}
               >
                 {talents.length - 1 === i && !(talents.length === 3) && (
-                  <button className="sellerbtn3" onClick={handleAddMore}>
+                  <button className="projectbtn3" onClick={handleAddMore}>
                     <AddIcon />
                   </button>
                 )}
                 {talents.length !== 1 && (
                   <button
-                    className="sellerbtn3"
+                    className="projectbtn3"
                     onClick={() => handleRemove(i)}
                   >
                     <DeleteForeverIcon />
@@ -354,8 +306,8 @@ const SellerStarterForm = () => {
         })}
 
         <div className="createreq-bottom">
-          <button className="sellerbtn1">Save Information</button>
-          <Link to="/" className="sellerbtn2">
+          <button className="projectbtn1">Save Information</button>
+          <Link to="/" className="projectbtn2">
             Cancel <CloseIcon />
           </Link>
         </div>
@@ -364,6 +316,6 @@ const SellerStarterForm = () => {
       </form>
     </div>
   );
-}
+};
 
-export default SellerStarterForm
+export default SellerStarterForm;
