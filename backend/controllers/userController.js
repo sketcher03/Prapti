@@ -83,4 +83,38 @@ router.get("/:id/verify/:token", async (req, res) => {
     }
 });
 
+//update user route
+router.put('/signup/:id', upload.single("file"), async (req, res, next) => {
+
+    const { name, display_name, description, phoneNumber, email, username, talents } = req.body;
+    const { id } = req.params;
+    //console.log(email);
+
+    try {
+        const filename = req.file.filename;
+        const fileURL = path.join(filename);
+
+        const updateUser = {
+            id: id,
+            name: name,
+            display_name: display_name,
+            description: description,
+            phoneNumber: phoneNumber,
+            email: email,
+            username: username,
+            talents: talents,
+            profilePic: fileURL,
+            role: "user100"
+        }
+
+        const user = await User.update( updateUser, next);
+        //console.log("error here");
+
+        res.status(200).send({ user, success: true, message: "Your information has been saved Successfully!" });
+            
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+});
+
 module.exports = router;

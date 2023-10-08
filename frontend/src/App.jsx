@@ -7,7 +7,7 @@ import Requests from './pages/Requests';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdminSignup from './pages/AdminSignup';
-import RequestUpdateForm from './components/RequestUpdateForm'
+import RequestUpdateForm from './pages/RequestUpdateForm'
 import Activation from './pages/Activation/Activation'
 import Navbar from './components/Navbar';
 import Footer from './components/Footer'; 
@@ -15,16 +15,19 @@ import Store from './redux/store';
 import { saveUser } from './redux/actions/user';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home'
+import SellerStarter from './pages/Seller/SellerStarter';
+import ProjectStarter from './pages/Project/ProjectStarter';
 
 const title = 'React';
 
 function App() {
 
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
   useEffect(() => {
     Store.dispatch(saveUser());
+    //console.log("click")
   }, []);
-
-  const { isAuthenticated } = useSelector((state) => state.user);
 
   return (
     <div className="App">
@@ -32,18 +35,6 @@ function App() {
         <Navbar />
         <div className="pages">
           <Routes>
-            <Route
-              path="/"
-              element={isAuthenticated ? <Dashboard /> : <Home />}
-            />
-            <Route
-              path="/requests"
-              element={isAuthenticated ? <Requests /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/requests/update/:id"
-              element={isAuthenticated ? <RequestUpdateForm /> : <Navigate to="/" />}
-            />
             <Route
               path="/login"
               element={!isAuthenticated ? <Login /> : <Navigate to="/" />}
@@ -54,11 +45,53 @@ function App() {
             />
             <Route
               path="/AdminSignup"
-              element={!isAuthenticated ? <AdminSignup/> : <Navigate to="/" />}
+              element={!isAuthenticated ? <AdminSignup /> : <Navigate to="/" />}
+            />
+            <Route path="/users/:id/verify/:token" element={<Activation />} />
+            <Route
+              path="/"
+              element={isAuthenticated ? <Dashboard /> : <Home />}
             />
             <Route
-              path="/users/:id/verify/:token"
-              element={<Activation />} />
+              path="/requests"
+              element={isAuthenticated ? <Requests /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/requests/update/:id"
+              element={
+                isAuthenticated ? <RequestUpdateForm /> : <Navigate to="/" />
+              }
+            />
+            <Route
+              path="/seller/starter"
+              element={
+                user.role === "user" ? (
+                  <SellerStarter />
+                ) : (
+                  <Navigate to="/project/starter" />
+                )
+              }
+            />
+            <Route
+              path="/seller/dashboard"
+              element={
+                user.role === "seller" ? (
+                  <SellerDashboard />
+                ) : (
+                  <Navigate to="/project/starter" />
+                )
+              }
+            />
+            <Route
+              path="/project/starter"
+              element={
+                user.role === "user100" ? (
+                  <ProjectStarter />
+                ) : (
+                  <Navigate to="/seller/starter" />
+                )
+              }
+            />
           </Routes>
         </div>
         <Footer />

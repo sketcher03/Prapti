@@ -27,6 +27,22 @@ const userSchema = new Schema({
     name: {
         type: String,
     },
+    display_name: {
+        type: String,
+    },
+    description: {
+        type: String,
+    },
+    talents: [
+        {
+            talent: {
+                type: String,
+            },
+            talent_description: {
+                type: String,
+            },
+        }
+    ],
     phoneNumber: {
         type: Number,
     },
@@ -150,6 +166,39 @@ userSchema.statics.login = async function(email, password) {
     }
 
     return user;
+
+}
+
+//static update method
+userSchema.statics.update = async function(updateUser, next) {
+
+    //console.log(email);
+
+    if (!validator.isEmail(updateUser.email)) {
+        throw Error('Email is not valid');
+    }
+
+    //find out if email already exists or username already taken during signup
+    const emailExists = await this.findOne({ email: updateUser.email });
+    const userExists = await this.findOne({ username: updateUser.username });
+
+    if (emailExists._id !== updateUser.id) {
+        throw Error('Email Already in Use');
+    }
+
+    if(userExists._id !== updateUser.id){
+        throw Error('Username already taken');
+    }
+
+    const updateduser = await this.findByIdAndUpdate(updateUser.id, updateUser, {
+        new: true,
+    });
+
+    if(!updateduser){
+        throw Error('Could Not Save your information. Please try again later.');
+    }
+
+    return updateduser;
 
 }
 

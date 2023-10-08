@@ -7,7 +7,6 @@ const express = require('express');
 //express app setup
 const app = express();
 
-const ErrorHandler = require('./utilities/ErrorHandler');
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -21,7 +20,7 @@ app.use(cors({
     credentials: true,
 }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
-app.use("/", express.static("uploads"));
+app.use("/api", express.static("uploads"));
 
 const requestRoutes = require('./routes/requests');
 const authRoutes = require('./controllers/authController');
@@ -33,8 +32,5 @@ app.use('/api/requests', requestRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
-
-//error handling
-app.use(ErrorHandler);
 
 module.exports = app;
