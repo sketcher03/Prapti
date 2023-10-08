@@ -6,6 +6,7 @@ const { upload } = require("../multer");
 const path = require("path");
 const { fileURLToPath } = require('url');
 
+
 const router = express.Router();
 
 //signup route
@@ -20,7 +21,6 @@ router.post('/signup', upload.single("file"), async (req, res, next) => {
         console.log(fileURL);
 
         const admin = await Admin.signup(email, fname, lname, phoneNumber, username, password, fileURL);
-        console.log("error here");
 
         res.status(201).send({ message: "Please wait for validation" , success: true, admin});
             
@@ -28,7 +28,6 @@ router.post('/signup', upload.single("file"), async (req, res, next) => {
         res.status(500).send({ message: error.message });
     }
 });
-
 
 
 module.exports = router;

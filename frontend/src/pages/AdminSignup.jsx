@@ -68,7 +68,7 @@ const AdminSignup = () => {
             newForm.append("phoneNumber", data.phoneNumber);
             newForm.append("password", data.password);
             
-            await axios.post(`${server}/admin/signup`, data)
+            await axios.post(`${server}/admin/AdminSignup`, data)
                 .then((res) => {
                     console.log(res);
 
