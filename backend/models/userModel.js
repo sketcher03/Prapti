@@ -170,9 +170,7 @@ userSchema.statics.login = async function(email, password) {
 }
 
 //static update method
-userSchema.statics.update = async function(updateUser, next) {
-
-    //console.log(email);
+userSchema.statics.update = async function(id, updateUser, talents, next) {
 
     if (!validator.isEmail(updateUser.email)) {
         throw Error('Email is not valid');
@@ -182,21 +180,23 @@ userSchema.statics.update = async function(updateUser, next) {
     const emailExists = await this.findOne({ email: updateUser.email });
     const userExists = await this.findOne({ username: updateUser.username });
 
-    if (emailExists._id !== updateUser.id) {
+    if (String(emailExists._id) !== id) {
         throw Error('Email Already in Use');
     }
 
-    if(userExists._id !== updateUser.id){
+    if(String(userExists._id) !== id){
         throw Error('Username already taken');
     }
 
-    const updateduser = await this.findByIdAndUpdate(updateUser.id, updateUser, {
+    const updateduser = await this.findByIdAndUpdate(id, updateUser, {
         new: true,
     });
 
     if(!updateduser){
         throw Error('Could Not Save your information. Please try again later.');
     }
+
+    //console.log("success", updateduser);
 
     return updateduser;
 

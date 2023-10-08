@@ -14,10 +14,11 @@ import { editUser } from '../../redux/actions/user';
 const SellerStarterForm = () => {
 
   const { user } = useSelector((state) => state.user);
-  //console.log(user.role);
+  //console.log(user);
 
   const [error, setError] = useState(null);
   const [profilePic, setProfilePic] = useState(null);
+  const sellerStarter = true;
 
   const [image, setImage] = useState();
 
@@ -73,19 +74,29 @@ const SellerStarterForm = () => {
 
     const updateUser = new FormData();
 
-    updateUser.append("file", profilePic);
+    console.log(data, talents, profilePic);
+
+    if (profilePic) {
+      updateUser.append("file", profilePic);
+    }
+    
+    if (!profilePic) {
+      updateUser.append("filename", image);
+    }
+    
     updateUser.append("email", data.email);
     updateUser.append("username", data.username);
     updateUser.append("name", data.name);
     updateUser.append("display_name", data.display_name);
     updateUser.append("description", data.description);
     updateUser.append("phoneNumber", data.phoneNumber);
-    updateUser.append("talents", talents);
+    updateUser.append("talents", JSON.stringify(talents));
+    updateUser.append("sellerStarter", sellerStarter);
 
     console.log(updateUser);
     
     Store.dispatch(
-      editUser(updateUser, id, setData, setError, setImage, setTalents)
+      editUser(updateUser, id, setData, setError, setImage, setTalents, profilePic)
     );
 
     console.log("submit clicked");
@@ -94,14 +105,15 @@ const SellerStarterForm = () => {
   useEffect(() => {
       
     setData({
-      name: "",
-      display_name: "",
-      description: "",
-      phoneNumber: "",
+      name: user.name || "",
+      display_name: user.display_name || "",
+      description: user.description || "",
+      phoneNumber: user.phoneNumber || "",
       email: user.email,
       username: user.username,
     });
     
+    setTalents(user.talents);
     setImage(user.profilePic);
     
   }, []);

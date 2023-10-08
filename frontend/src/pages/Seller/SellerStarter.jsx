@@ -5,7 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import SellerStarterForm from '../../components/Seller/SellerStarterForm';
+import UpdateInfoForm from '../../components/Seller/UpdateInfoForm';
 
 const SellerStarter = () => {
   const [open, setOpen] = useState(false);
@@ -86,7 +86,7 @@ const SellerStarter = () => {
           </Dialog>
         </div>
       ) : (
-        <SellerStarterForm />
+        <UpdateInfoForm />
       )}
     </div>
   );
