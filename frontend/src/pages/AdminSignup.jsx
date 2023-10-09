@@ -68,7 +68,9 @@ const AdminSignup = () => {
             newForm.append("phoneNumber", data.phoneNumber);
             newForm.append("password", data.password);
             
-            await axios.post(`${server}/admin/AdminSignup`, data)
+            await axios.post(`${server}/admin/signup`, newForm,{
+                headers: {'Content-Type': 'multipart/form-data'}
+            })
                 .then((res) => {
                     console.log(res);
 

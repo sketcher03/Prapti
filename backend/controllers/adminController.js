@@ -4,7 +4,6 @@ const express = require('express');
 const { upload } = require("../multer");
 
 const path = require("path");
-const { fileURLToPath } = require('url');
 
 
 const router = express.Router();
