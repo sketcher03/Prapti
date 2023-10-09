@@ -1,7 +1,14 @@
 import { createReducer } from "@reduxjs/toolkit";
 
+const defaultUser = {
+  email: "",
+  username: "",
+  profilePic: "",
+};
+
 const initialState = {
     isAuthenticated: false,
+    user: defaultUser,
 };
 
 export const userReducer = createReducer(initialState, {

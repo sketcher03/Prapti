@@ -67,7 +67,7 @@ router.get('/saveuser', requireAuth, async (req, res, next) => {
     }
 })
 
-//login route
+//logout route
 router.post('/logout', async (req, res) => {
 
     try{

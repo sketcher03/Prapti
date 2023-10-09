@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* Seller Pages CSS */
+.project-container {
+    margin: 0;
+    display: flex;
+    margin-top: 20px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.projectbtn1 {
+    border: 3px solid rgb(0, 104, 0);
+    color: #ffffff;
+    background-color: rgb(0, 175, 47);
+    padding: 20px 60px;
+    margin: 10px 0px;
+    border-radius: 18px;
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+    margin-bottom: 20px;
+}
+
+.projectbtn1:hover {
+    border: 3px solid rgb(0, 165, 0);
+    color: #abffc6;
+    background-color: rgb(0, 74, 42);
+}
+
+.project-container h1 {
+    padding: 2%;
+    font-size: 20px;
+}
+
+.projectbtn2 {
+    max-width: 200px;
+    padding: 15px 20px;
+    border: 2px solid red;
+    border-radius: 15px;
+    text-align: center;
+    vertical-align: middle;
+    color: red;
+    background-color: white;
+    transition: 0.2s;
+    font-size: 18px;
+}
+
+.projectbtn2:hover {
+    border-color: rgb(117, 0, 0);
+    color: rgb(255, 255, 255);
+    background-color: red;
+}
+
+.create-project {
+    position: relative;
+    margin: auto;
+    padding: 20px;
+    width: 100%;
+    max-width: 900px;
+    border-radius: 20px;
+    margin-top: 40px;
+}
+
+.create-project span {
+    font-size: 15px;
+    font-weight: 400;
+    margin-top: -20px;
+}
+
+.create-project label {
+    font-size: 15px;
+    color: grey;
+    font-weight: 600;
+    padding-left: 1%;
+}
+
+.projectbtn3 {
+    border: 2px solid rgb(0, 104, 0);
+    background-color: white;
+    padding: 10px 18px;
+    color: green;
+    font-size: 18px;
+}
+
+.projectbtn3 svg{
+    font-size: 36px;
+}
+
+.projectbtn3:hover {
+    border: 2px solid rgb(0, 104, 0);
+    background-color: white;
+    color: green;
+    cursor: pointer;
+}

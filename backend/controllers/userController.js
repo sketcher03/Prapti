@@ -83,4 +83,95 @@ router.get("/:id/verify/:token", async (req, res) => {
     }
 });
 
+//update user route
+router.put('/updateall/:id', upload.single("file"), async (req, res, next) => {
+
+    const { name, display_name, description, phoneNumber, email, username, talents, sellerStarter } = req.body;
+    const { id } = req.params;
+    console.log(req.body);
+
+    try {
+        const filename = req.file.filename;
+        const fileURL = path.join(filename);
+
+        const jsonTalents = JSON.parse(talents);
+
+        const updateUser = sellerStarter ? {
+            name: name,
+            display_name: display_name,
+            description: description,
+            phoneNumber: phoneNumber,
+            email: email,
+            username: username,
+            profilePic: fileURL,
+            talents: jsonTalents,
+            role: "user100"
+        } : {
+            name: name,
+            display_name: display_name,
+            description: description,
+            phoneNumber: phoneNumber,
+            email: email,
+            username: username,
+            talents: jsonTalents,
+            profilePic: fileURL,
+        }
+
+        console.log(jsonTalents)
+
+        const user = await User.update(id, updateUser, jsonTalents, next);
+        console.log("error here");
+
+        res.status(200).send({ user, success: true, message: "Your information has been saved Successfully!" });
+            
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+});
+
+//update user route
+router.put('/update/:id', async (req, res, next) => {
+
+    const { name, display_name, description, phoneNumber, email, username, talents, filename, sellerStarter } = req.body;
+    const { id } = req.params;
+    console.log(req.body);
+
+    try {
+        const fileURL = filename;
+
+        const jsonTalents = JSON.parse(talents);
+
+        const updateUser = sellerStarter ? {
+            name: name,
+            display_name: display_name,
+            description: description,
+            phoneNumber: phoneNumber,
+            email: email,
+            username: username,
+            profilePic: fileURL,
+            talents: jsonTalents,
+            role: "user100"
+        } : {
+            name: name,
+            display_name: display_name,
+            description: description,
+            phoneNumber: phoneNumber,
+            email: email,
+            username: username,
+            talents: jsonTalents,
+            profilePic: fileURL,
+        }
+
+        console.log(jsonTalents)
+
+        const user = await User.update(id, updateUser, next);
+        console.log("error here");
+
+        res.status(200).send({ user, success: true, message: "Your information has been saved Successfully!" });
+            
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+});
+
 module.exports = router;

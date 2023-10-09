@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import '../css/Login_Signup.css'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { RxAvatar } from "react-icons/rx";
 import axios from "axios";
 import { server } from '../../server';
-//const navigate = useNavigate();
 
 const Signup = () => {
 
