@@ -113,8 +113,13 @@ const SellerStarterForm = () => {
       username: user.username,
     });
     
-    setTalents(user.talents);
+  
+    if (!user.talents)
+       {
+        setTalents(user.talents);
+       }
     setImage(user.profilePic);
+
     
   }, []);
 
