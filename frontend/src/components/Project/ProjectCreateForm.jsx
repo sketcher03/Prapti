@@ -14,6 +14,7 @@ import Chip from "@mui/material/Chip";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
+import '../../css/Login_Signup.css';
 
 const SellerStarterForm = () => {
   const { user } = useSelector((state) => state.user);
@@ -33,6 +34,11 @@ const SellerStarterForm = () => {
     phoneNumber: "",
     email: "",
     username: "",
+    deliverabilities: [
+      {
+        features: [],
+      },
+    ],
   });
 
   const handleFileInput = (e) => {
@@ -40,34 +46,32 @@ const SellerStarterForm = () => {
     setProfilePic(file);
   };
 
-  const [talents, setTalents] = useState([
-    {
-      talent: "",
-      talent_description: "",
-    },
-  ]);
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
   };
 
-  const handleTalentChange = (e, i) => {
-    const { name, value } = e.target;
-    const list = [...talents];
-    list[i][name] = value;
 
-    setTalents(list);
-  };
-
-  const handleRemove = (i) => {
-    const list = [...talents];
+  const handleRemoveDeliverability = (i) => {
+    const list = [...data.deliverabilities];
     list.splice(i, 1);
 
-    setTalents(list);
+    setData({ ...data, deliverabilities: list });
   };
 
-  const handleAddMore = () => {
-    setTalents([...talents, { talent: "", talent_description: "" }]);
+  const handleAddDeliverability = () => {
+    setData({
+      ...data,
+      deliverabilities: [...data.deliverabilities, {features: [] }],
+    });
+  };
+
+  const handleFeatureChange = (e, i, featureIndex) => {
+    const { value } = e.target;
+    const list = [...data.deliverabilities];
+    list[i].features[featureIndex] = value;
+
+    setData({ ...data, deliverabilities: list });
   };
 
   const handleSubmit = async (e) => {
@@ -81,7 +85,7 @@ const SellerStarterForm = () => {
   return (
     <div className="project-container">
       <form className="create-project" onSubmit={handleSubmit}>
-        <h3 style={{ textAlign: "center" }}>
+        <h3 style={{ textAlign: "center"}}>
           Create your First Project <br />{" "}
           <span>Let's create something you excel at</span>
         </h3>
@@ -127,8 +131,49 @@ const SellerStarterForm = () => {
           name="description"
           value={data.description}
           onChange={handleChange}
-          placeholder="Tell us more about yourself "
+          placeholder="Tell us more about yourself"
         ></textarea>
+
+
+      <label>Give your Deliverabilities</label>
+      <div>
+        {data.deliverabilities.map((item, i) => (
+          <div
+            key={i}
+            style={{
+            display: "flex",
+            flexDirection: "column",
+            marginBottom: "15px", 
+           }}
+         >
+            <div style={{ display: "flex", width: "100%" }}>
+              <div style={{ width: "300px", marginRight: "15px" }}>
+                <label>Deliverability {i + 1}</label>
+                <input
+                  type="text"
+                  name="talent"
+                  onChange={(e) => handleFeatureChange(e, i)}
+                  placeholder="Ex - Photography"
+                  value={item.talent}
+                />
+              </div>
+            </div>
+
+            <div>
+              {data.deliverabilities.length - 1 === i && !(data.deliverabilities.length === 3) && (
+                <button className="projectbtn3" onClick={handleAddDeliverability}>
+                  <AddIcon />
+                </button>
+              )}
+              {data.deliverabilities.length !== 1 && (
+                <button className="projectbtn3" onClick={() => handleRemoveDeliverability(i)}>
+                  <DeleteForeverIcon />
+                </button>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
 
         <div
           style={{
@@ -138,6 +183,8 @@ const SellerStarterForm = () => {
             margin: "30px 0px",
           }}
         >
+
+
           <div style={{ width: "360px" }}>
             <label>Your Email Address</label>
             <input
@@ -240,70 +287,6 @@ const SellerStarterForm = () => {
           </div>
         </div>
 
-        <label style={{ margin: "15px -3px" }}>
-          List your Talents with a Brief Description{" "}
-          <span>(maximum three)</span>
-        </label>
-        {talents.map((x, i) => {
-          return (
-            <div
-              key={i}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                border: "1.5px solid #c0c0c0",
-                borderRadius: "10px",
-                padding: "2%",
-                paddingTop: "20px",
-                marginBottom: "30px",
-              }}
-            >
-              <div style={{ width: "300px" }}>
-                <label>Talent</label>
-                <input
-                  type="text"
-                  name="talent"
-                  onChange={(e) => handleTalentChange(e, i)}
-                  placeholder="Ex - Photography"
-                  value={talents[i].talent}
-                />
-              </div>
-              <div style={{ width: "400px" }}>
-                <label>Talent Description</label>
-                <textarea
-                  name="talent_description"
-                  onChange={(e) => handleTalentChange(e, i)}
-                  placeholder="Ex - Photography"
-                  value={talents[i].talent_description}
-                ></textarea>
-              </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  margin: "0px",
-                  marginTop: "17px",
-                }}
-              >
-                {talents.length - 1 === i && !(talents.length === 3) && (
-                  <button className="projectbtn3" onClick={handleAddMore}>
-                    <AddIcon />
-                  </button>
-                )}
-                {talents.length !== 1 && (
-                  <button
-                    className="projectbtn3"
-                    onClick={() => handleRemove(i)}
-                  >
-                    <DeleteForeverIcon />
-                  </button>
-                )}
-              </div>
-            </div>
-          );
-        })}
 
         <div className="createreq-bottom">
           <button className="projectbtn1">Save Information</button>
