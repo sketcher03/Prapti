@@ -122,12 +122,12 @@ const SellerStarterForm = () => {
           )}
         />
 
-        <label>Your Description</label>
+        <label>Project Description</label>
         <textarea
           name="description"
           value={data.description}
           onChange={handleChange}
-          placeholder="Tell us more about yourself "
+          placeholder="What do you offer? Elaborate your service - the more details the better."
         ></textarea>
 
         <div
