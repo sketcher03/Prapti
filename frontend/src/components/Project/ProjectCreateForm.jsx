@@ -126,7 +126,7 @@ const SellerStarterForm = () => {
           )}
         />
 
-        <label>Your Description</label>
+        <label>Project Description</label>
         <textarea
           name="description"
           value={data.description}

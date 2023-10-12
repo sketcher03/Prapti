@@ -115,12 +115,12 @@ const SellerStarterForm = () => {
     
   
     if (!user.talents)
-       {
-        setTalents(user.talents);
-       }
+    {
+      setTalents(user.talents);
+    }
+
     setImage(user.profilePic);
 
-    
   }, []);
 
   return (
