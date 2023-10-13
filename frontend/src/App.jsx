@@ -17,6 +17,8 @@ import Dashboard from './pages/Dashboard';
 import Home from './pages/Home'
 import SellerStarter from './pages/Seller/SellerStarter';
 import ProjectStarter from './pages/Project/ProjectStarter';
+import MyProfile from './pages/MyProfile';
+import EditProfile from './pages/EditProfile';
 
 const title = 'React';
 
@@ -61,6 +63,14 @@ function App() {
               element={
                 isAuthenticated ? <RequestUpdateForm /> : <Navigate to="/" />
               }
+            />
+            <Route
+              path='/profile'
+              element={<MyProfile/>}
+            />
+            <Route
+              path='/profile/edit'
+              element={<EditProfile/>}
             />
             <Route
               path="/seller/starter"

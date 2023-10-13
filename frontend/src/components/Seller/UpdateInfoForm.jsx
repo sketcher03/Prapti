@@ -114,7 +114,7 @@ const SellerStarterForm = () => {
     });
     
   
-    if (!user.talents)
+    if (user.talents)
     {
       setTalents(user.talents);
     }
@@ -360,7 +360,7 @@ const SellerStarterForm = () => {
 
         <div className="createreq-bottom">
           <button className="sellerbtn1">Save Information</button>
-          <Link to="/" className="sellerbtn2">
+          <Link to="/profile" className="sellerbtn2">
             Cancel <CloseIcon />
           </Link>
         </div>

@@ -44,6 +44,10 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
+  const handleProfile = () => {
+    navigate("/profile")
+  };
+
   const handleSeller = () => {
 
     console.log("button clicked");
@@ -253,7 +257,7 @@ const Navbar = () => {
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
             <div className="account-menu">
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={handleProfile}>
                 <Avatar />
                 My Profile
               </MenuItem>

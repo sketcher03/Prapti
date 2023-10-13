@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../../css/project.css";
 import "../../css/PopupForm.css";
@@ -10,10 +10,8 @@ import Store from "../../redux/store";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { RxAvatar } from "react-icons/rx";
-import Chip from "@mui/material/Chip";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
 import '../../css/Login_Signup.css';
 
 const SellerStarterForm = () => {
@@ -85,7 +83,7 @@ const SellerStarterForm = () => {
   return (
     <div className="project-container">
       <form className="create-project" onSubmit={handleSubmit}>
-        <h3 style={{ textAlign: "center"}}>
+        <h3 style={{ textAlign: "center" }}>
           Create your First Project <br />{" "}
           <span>Let's create something you excel at</span>
         </h3>
@@ -134,46 +132,56 @@ const SellerStarterForm = () => {
           placeholder="Tell us more about yourself"
         ></textarea>
 
+        <label>Give your Deliverables</label>
+        <div>
+          {data.deliverabilities.map((item, i) => (
+            <div
+              key={i}
+              style={{
+                display: "flex",
+                marginBottom: "15px",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                border: "1.5px solid #c0c0c0",
+                borderRadius: "10px",
+                padding: "2%",
+              }}
+            >
+              <div style={{ display: "flex", width: "100%" }}>
+                <div style={{ width: "300px", marginRight: "15px" }}>
+                  {/* <label>Deliverable {i + 1}</label> */}
+                  <input
+                    type="text"
+                    name="talent"
+                    onChange={(e) => handleFeatureChange(e, i)}
+                    placeholder="Ex - Photography"
+                    value={item.talent}
+                  />
+                </div>
+              </div>
 
-      <label>Give your Deliverabilities</label>
-      <div>
-        {data.deliverabilities.map((item, i) => (
-          <div
-            key={i}
-            style={{
-            display: "flex",
-            flexDirection: "column",
-            marginBottom: "15px", 
-           }}
-         >
-            <div style={{ display: "flex", width: "100%" }}>
-              <div style={{ width: "300px", marginRight: "15px" }}>
-                <label>Deliverability {i + 1}</label>
-                <input
-                  type="text"
-                  name="talent"
-                  onChange={(e) => handleFeatureChange(e, i)}
-                  placeholder="Ex - Photography"
-                  value={item.talent}
-                />
+              <div>
+                {data.deliverabilities.length - 1 === i &&
+                  !(data.deliverabilities.length === 3) && (
+                    <button
+                      className="projectbtn3"
+                      onClick={handleAddDeliverability}
+                    >
+                      <AddIcon />
+                    </button>
+                  )}
+                {data.deliverabilities.length !== 1 && (
+                  <button
+                    className="projectbtn3"
+                    onClick={() => handleRemoveDeliverability(i)}
+                  >
+                    <DeleteForeverIcon />
+                  </button>
+                )}
               </div>
             </div>
-
-            <div>
-              {data.deliverabilities.length - 1 === i && !(data.deliverabilities.length === 3) && (
-                <button className="projectbtn3" onClick={handleAddDeliverability}>
-                  <AddIcon />
-                </button>
-              )}
-              {data.deliverabilities.length !== 1 && (
-                <button className="projectbtn3" onClick={() => handleRemoveDeliverability(i)}>
-                  <DeleteForeverIcon />
-                </button>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
         <div
           style={{
@@ -183,8 +191,6 @@ const SellerStarterForm = () => {
             margin: "30px 0px",
           }}
         >
-
-
           <div style={{ width: "360px" }}>
             <label>Your Email Address</label>
             <input
@@ -286,7 +292,6 @@ const SellerStarterForm = () => {
             </div>
           </div>
         </div>
-
 
         <div className="createreq-bottom">
           <button className="projectbtn1">Save Information</button>

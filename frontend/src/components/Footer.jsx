@@ -5,6 +5,7 @@ import { BsTwitter } from "react-icons/bs";
 import { SiLinkedin } from "react-icons/si";
 import { BsYoutube } from "react-icons/bs";
 import { FaFacebookF } from "react-icons/fa";
+import Tooltip from "@mui/material/Tooltip";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 const Footer = () => {
@@ -32,30 +33,26 @@ const Footer = () => {
         </div>
         <div className="footer-section-two">
           <div className="footer-section-columns">
-            <span>Qualtiy</span>
-            <span>Help</span>
-            <span>Share</span>
-            <span>Carrers</span>
-            <span>Testimonials</span>
-            <span>Work</span>
-          </div>
-          <div className="footer-section-columns">
-            <span>244-5333-7783</span>
-            <span>hello@food.com</span>
-            <span>press@food.com</span>
-            <span>contact@food.com</span>
+            <span>Help & Support</span>
+            <span>Trust & Safety</span>
+            <span>Sell on Prapti</span>
+            <span>Buying on Prapti</span>
+            <span>Guides</span>
+            <span>Forum</span>
           </div>
           <div className="footer-section-columns">
             <span>Terms & Conditions</span>
             <span>Privacy Policy</span>
+            <span>Intellectual Property Claims</span>
+            <span>Careers</span>
+            <span>News</span>
           </div>
 
-          <button
-            className="roundbtn"
-            onClick={handleAdmin}
-          >
-            <AdminPanelSettingsIcon />
-          </button>
+          <Tooltip title="Admin Panel" placement='top'>
+            <button className="roundbtn" onClick={handleAdmin}>
+              <AdminPanelSettingsIcon />
+            </button>
+          </Tooltip>
         </div>
       </div>
     );
