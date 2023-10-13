@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import '../css/Login_Signup.css'
+import '../css/Login_Signup.css';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from 'react-router-dom';
 import { RxAvatar } from "react-icons/rx";
@@ -58,7 +58,7 @@ const AdminSignup = () => {
             console.log(data, profilePic);
             
 
-            //const newForm = new FormData();
+            const newForm = new FormData();
 
             newForm.append("file", profilePic);
             newForm.append("email", data.email);
