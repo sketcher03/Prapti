@@ -29,7 +29,7 @@ function App() {
 
   useEffect(() => {
     Store.dispatch(saveUser());
-    //console.log("click")
+    //console.log(user)
   }, []);
 
   return (

@@ -27,7 +27,7 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
     //console.log(user.profilePic);
@@ -203,7 +203,7 @@ const Navbar = () => {
                 aria-haspopup="true"
                 aria-expanded={open ? "true" : undefined}
               >
-                {image !== "" ? (
+                {(image !== null) ? (
                   <Avatar sx={{ width: 50, height: 50 }}>
                     <img
                       className="profile-pic"

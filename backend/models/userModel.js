@@ -170,7 +170,7 @@ userSchema.statics.login = async function(email, password) {
 }
 
 //static update method
-userSchema.statics.update = async function(id, updateUser, talents, next) {
+userSchema.statics.update = async function(id, updateUser, next) {
 
     if (!validator.isEmail(updateUser.email)) {
         throw Error('Email is not valid');

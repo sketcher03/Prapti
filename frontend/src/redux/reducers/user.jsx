@@ -1,9 +1,18 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 const defaultUser = {
-  email: "",
-  username: "",
-  profilePic: "",
+    email: "",
+    username: "",
+    profilePic: "",
+    name: "",
+    display_name: "",
+    description: "",
+    phoneNumber: 0,
+    talents: [],
+    profilePic: null,
+    billingAddresses: [],
+    role: "user",
+    createdAt: null
 };
 
 const initialState = {
