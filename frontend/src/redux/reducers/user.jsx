@@ -11,7 +11,8 @@ const defaultUser = {
     talents: [],
     profilePic: null,
     billingAddresses: [],
-    role: "user"
+    role: "user",
+    createdAt: null
 };
 
 const initialState = {

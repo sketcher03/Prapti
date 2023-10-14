@@ -28,7 +28,7 @@ function App() {
 
   useEffect(() => {
     Store.dispatch(saveUser());
-    console.log(user)
+    //console.log(user)
   }, []);
 
   return (

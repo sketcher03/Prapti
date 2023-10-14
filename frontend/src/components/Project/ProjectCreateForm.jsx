@@ -535,6 +535,9 @@ const SellerStarterForm = () => {
                     color: "green",
                     fontSize: "30px",
                     margin: "auto"
+                  },
+                  "& .Mui-completed": {
+                    color: "green",
                   }
                 }}
                 key={label}>
@@ -549,6 +552,7 @@ const SellerStarterForm = () => {
                     <button
                       onClick={handleNext}
                       className="projectbtn4"
+                      type="button"
                     >
                       {index === steps.length - 1 ? 'Finish' : 'Continue'}
                     </button>
@@ -556,6 +560,7 @@ const SellerStarterForm = () => {
                       disabled={index === 0}
                       onClick={handleBack}
                       className="projectbtn4"
+                      type="button"
                     >
                       Back
                     </button>
@@ -569,8 +574,15 @@ const SellerStarterForm = () => {
         {activeStep === steps.length && (
           <Paper square elevation={0} sx={{ p: 3 }}>
             <Typography>All steps completed - You may proceed to your dashboard</Typography>
-            <button onClick={() => navigate('/')} sx={{ mt: 1, mr: 1 }}>
-              Go to dashboard
+            <button type="submit" sx={{ mt: 1, mr: 1 }}>
+              Submit for Review
+            </button>
+            <button
+              onClick={handleBack}
+              className="projectbtn4"
+              type="button"
+            >
+              Back
             </button>
           </Paper>
         )}

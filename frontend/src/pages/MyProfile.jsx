@@ -20,7 +20,7 @@ const MyProfile = () => {
     const { user } = useSelector((state) => state.user);
     const navigate = useNavigate();
 
-    const [image, setImage] = useState();
+    const [image, setImage] = useState(null);
     const [talents, setTalents] = useState([
         {
             talent: "",
@@ -53,11 +53,18 @@ const MyProfile = () => {
         <div className="profile-container">
             {/* <h1>Profile Information</h1> */}
             <Badge badgeContent={user.verified ? "Verified" : "Not Verified"} color={user.verified ? "success" : "error"}>
-                <Avatar
-                    sx={{ width: "200px", height: "200px", marginBottom: "30px" }}
-                    alt="Profile Picture"
-                    src={`${server}/${image}`}
-                />
+                {
+                    image ? (
+                        <Avatar
+                            sx={{ width: "200px", height: "200px", marginBottom: "30px" }}
+                            alt="Profile Picture"
+                            src={`${server}/${image}`}
+                        />
+                    ): (
+                        <Avatar sx={{ width: 50, height: 50 }}>A</Avatar>
+                    )
+                }
+                
             </Badge>
             
             <h1 style={{ margin: "0px" }}>{user.display_name}</h1>
@@ -96,9 +103,9 @@ const MyProfile = () => {
                         <h2>Joined</h2>
                     </div>
                     <div style={{ marginRight: "50px", textAlign: "right" }}>
-                        <h3>{ user.name }</h3>
+                        <h3>{ user.name ? user.name : "Not Yet Provided" }</h3>
                         <h3>{ user.email }</h3>
-                        <h3>{ user.phoneNumber }</h3> 
+                        <h3>{ user.phoneNumber ? user.phoneNumber : "Not Yet Provided" }</h3> 
                         <h3>{ format(new Date(user.createdAt), 'MM/dd/yyyy') }</h3> 
                     </div>
                 </AccordionDetails>
