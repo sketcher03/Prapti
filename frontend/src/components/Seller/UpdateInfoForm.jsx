@@ -10,6 +10,7 @@ import Store from "../../redux/store";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { editUser } from '../../redux/actions/user';
+import Avatar from "@mui/material/Avatar";
 
 const SellerStarterForm = () => {
 
@@ -18,9 +19,9 @@ const SellerStarterForm = () => {
 
   const [error, setError] = useState(null);
   const [profilePic, setProfilePic] = useState(null);
-  const sellerStarter = true;
+  const [role, setRole] = useState("user");
 
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(null);
 
   const [data, setData] = useState({
     name: "",
@@ -83,6 +84,17 @@ const SellerStarterForm = () => {
     if (!profilePic) {
       updateUser.append("filename", image);
     }
+
+    if (data.name === "" || data.description === "" || data.display_name === "" || data.phoneNumber === "" || talents.length === 0) {
+      setRole("user");
+    }
+    else {
+      setRole("user100");
+    }
+
+    if (data.email === "" || data.username === "") {
+      setError("Email and Username can't be empty");
+    }
     
     updateUser.append("email", data.email);
     updateUser.append("username", data.username);
@@ -91,7 +103,7 @@ const SellerStarterForm = () => {
     updateUser.append("description", data.description);
     updateUser.append("phoneNumber", data.phoneNumber);
     updateUser.append("talents", JSON.stringify(talents));
-    updateUser.append("sellerStarter", sellerStarter);
+    updateUser.append("role", role);
 
     console.log(updateUser);
     
@@ -119,9 +131,55 @@ const SellerStarterForm = () => {
       setTalents(user.talents);
     }
 
+    if(user.talents.length === 0) {
+      setTalents([
+        {
+          talent: "",
+          talent_description: "",
+        },
+      ]);
+    }
+
     setImage(user.profilePic);
 
-  }, []);
+  }, [user]);
+
+  const ImageControl = () => {
+    if (profilePic) {
+      return (
+        <img
+          src={URL.createObjectURL(profilePic)}
+          alt="Profile Picture"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            borderRadius: "9999px",
+            paddingTop: "0px",
+          }}
+        />
+      )
+    }
+    if (image !== null) {
+      return (
+        <img
+          style={{
+            width: "120%",
+            height: "120%",
+            objectFit: "cover",
+            paddingBottom: "10px",
+          }}
+          src={`${server}/${image}`}
+          alt="Profile Picture"
+        />
+      )
+    }
+    else {
+      return (
+        <Avatar sx={{ width: 50, height: 50 }}>A</Avatar>
+      )
+    }
+  }
 
   return (
     <div className="seller-container">
@@ -189,6 +247,7 @@ const SellerStarterForm = () => {
               name="email"
               onChange={handleChange}
               value={data.email}
+              required
             />
 
             <label>Your Username</label>
@@ -197,6 +256,7 @@ const SellerStarterForm = () => {
               name="username"
               onChange={handleChange}
               value={data.username}
+              required
             />
           </div>
 
@@ -235,30 +295,7 @@ const SellerStarterForm = () => {
                   marginLeft: "24px",
                 }}
               >
-                {profilePic ? (
-                  <img
-                    src={URL.createObjectURL(profilePic)}
-                    alt="Profile Picture"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      borderRadius: "9999px",
-                      paddingTop: "0px",
-                    }}
-                  />
-                ) : (
-                  <img
-                    style={{
-                      width: "120%",
-                      height: "120%",
-                      objectFit: "cover",
-                      paddingBottom: "10px",
-                    }}
-                    src={`${server}/${image}`}
-                    alt="Profile Picture"
-                  />
-                )}
+                <ImageControl/>
               </span>
               <label
                 htmlFor="file-input"

@@ -18,7 +18,7 @@ const createToken = (user) => {
 router.post('/signup', upload.single("file"), async (req, res, next) => {
 
     const { email, username, password } = req.body;
-    //console.log(email);
+    console.log(email);
 
     try {
         const filename = req.file.filename;
@@ -86,7 +86,7 @@ router.get("/:id/verify/:token", async (req, res) => {
 //update user route
 router.put('/updateall/:id', upload.single("file"), async (req, res, next) => {
 
-    const { name, display_name, description, phoneNumber, email, username, talents, sellerStarter } = req.body;
+    const { name, display_name, description, phoneNumber, email, username, talents, role } = req.body;
     const { id } = req.params;
     console.log(req.body);
 
@@ -96,7 +96,7 @@ router.put('/updateall/:id', upload.single("file"), async (req, res, next) => {
 
         const jsonTalents = JSON.parse(talents);
 
-        const updateUser = sellerStarter ? {
+        const updateUser = {
             name: name,
             display_name: display_name,
             description: description,
@@ -105,21 +105,12 @@ router.put('/updateall/:id', upload.single("file"), async (req, res, next) => {
             username: username,
             profilePic: fileURL,
             talents: jsonTalents,
-            role: "user100"
-        } : {
-            name: name,
-            display_name: display_name,
-            description: description,
-            phoneNumber: phoneNumber,
-            email: email,
-            username: username,
-            talents: jsonTalents,
-            profilePic: fileURL,
+            role: role
         }
 
         console.log(jsonTalents)
 
-        const user = await User.update(id, updateUser, jsonTalents, next);
+        const user = await User.update(id, updateUser, next);
         console.log("error here");
 
         res.status(200).send({ user, success: true, message: "Your information has been saved Successfully!" });
@@ -132,7 +123,7 @@ router.put('/updateall/:id', upload.single("file"), async (req, res, next) => {
 //update user route
 router.put('/update/:id', async (req, res, next) => {
 
-    const { name, display_name, description, phoneNumber, email, username, talents, filename, sellerStarter } = req.body;
+    const { name, display_name, description, phoneNumber, email, username, talents, filename, role } = req.body;
     const { id } = req.params;
     console.log(req.body);
 
@@ -141,7 +132,7 @@ router.put('/update/:id', async (req, res, next) => {
 
         const jsonTalents = JSON.parse(talents);
 
-        const updateUser = sellerStarter ? {
+        const updateUser = {
             name: name,
             display_name: display_name,
             description: description,
@@ -150,16 +141,7 @@ router.put('/update/:id', async (req, res, next) => {
             username: username,
             profilePic: fileURL,
             talents: jsonTalents,
-            role: "user100"
-        } : {
-            name: name,
-            display_name: display_name,
-            description: description,
-            phoneNumber: phoneNumber,
-            email: email,
-            username: username,
-            talents: jsonTalents,
-            profilePic: fileURL,
+            role: role
         }
 
         console.log(jsonTalents)

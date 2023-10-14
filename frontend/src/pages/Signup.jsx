@@ -44,7 +44,7 @@ const Signup = () => {
                 throw Error();
             }
 
-            console.log(data.email, data.username, data.password, profilePic);
+            //console.log(data.email, data.username, data.password, profilePic);
 
             const newForm = new FormData();
 
