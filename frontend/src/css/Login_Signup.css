@@ -5,7 +5,7 @@
     --error: #e7195a;
 }
 
-form.login, form.signup, form.AdminSignup, form.ProjectCreate{
+form.login, form.signup, form.AdminSignup, form.AdminLogin, form.ProjectCreate{
     position: relative;
     padding: 20px;
     width: 100%;

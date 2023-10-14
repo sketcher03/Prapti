@@ -7,6 +7,7 @@ import Requests from './pages/Requests';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdminSignup from './pages/AdminSignup';
+import AdminLogin from './pages/AdminLogin';
 import RequestUpdateForm from './pages/RequestUpdateForm'
 import Activation from './pages/Activation/Activation'
 import Navbar from './components/Navbar';
@@ -46,8 +47,12 @@ function App() {
               element={!isAuthenticated ? <Signup /> : <Navigate to="/" />}
             />
             <Route
-              path="/AdminSignup"
-              element={!isAuthenticated ? <AdminSignup /> : <Navigate to="/" />}
+              path="/admin/signup"
+              element={<AdminSignup />}
+            />
+             <Route
+              path="/admin/login"
+              element={<AdminLogin />}
             />
             <Route path="/users/:id/verify/:token" element={<Activation />} />
             <Route

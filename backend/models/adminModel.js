@@ -129,4 +129,5 @@ adminSchema.statics.login = async function(email, password) {
     return admin;
 
 }
+
 module.exports = mongoose.model('Admin', adminSchema);

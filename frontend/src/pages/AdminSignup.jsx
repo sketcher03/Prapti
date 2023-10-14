@@ -247,7 +247,7 @@ const AdminSignup = () => {
                 
                 <h4>Already have an account?</h4>
 
-                <Link to="/login" className="text-green-600 pl-4">
+                <Link to="/Adminlogin" className="text-green-600 pl-4">
                     Login
                 </Link>
             </div>

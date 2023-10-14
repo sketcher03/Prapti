@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const Admin = require('../models/adminModel');
 const Token = require("../models/token");
 const express = require('express');
 const crypto = require("crypto");
@@ -8,7 +9,7 @@ const requireAuth = require('../middleware/requireAuthentication');
 
 const router = express.Router();
 
-//login route
+//user login route
 router.post('/login', async (req, res) => {
 
     const { email, password } = req.body;
@@ -49,6 +50,25 @@ router.post('/login', async (req, res) => {
 
 });
 
+//admin login route
+router.post('/admin/login', async (req, res) => {
+
+    const { email, password } = req.body;
+    console.log(email);
+
+    try {
+        const admin = await Admin.login(email, password);
+
+        console.log(admin.verified);
+        res.status(200).send({admin, message: "login successfull"})
+        //saveCookie(admin, res, 201);
+
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+
+});
+
 //save user information
 router.get('/saveuser', requireAuth, async (req, res, next) => {
     
@@ -67,7 +87,25 @@ router.get('/saveuser', requireAuth, async (req, res, next) => {
     }
 })
 
-//logout route
+//save admin information
+router.get('/saveadmin', requireAuth, async (req, res, next) => {
+    
+    try {
+        const admin = await admin.findById(req.user.id);
+
+        if (!admin) {
+            console.log("cant find user")
+            throw Error("User does not Exist");
+        }
+
+        res.status(200).send({ admin, success: true });
+    }
+    catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+})
+
+//user logout route
 router.post('/logout', async (req, res) => {
 
     try{
@@ -75,6 +113,20 @@ router.post('/logout', async (req, res) => {
         res.clearCookie("user");
         //console.log(req.cookies.user);
         res.status(200).send({ message: "User logged out successfully" });
+
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+})
+
+//admin logout route
+router.post('/logout', async (req, res) => {
+
+    try{
+
+        res.clearCookie("admin");
+        //console.log(req.cookies.user);
+        res.status(200).send({ message: "Admin logged out successfully" });
 
     } catch (error) {
         res.status(400).send({ message: error.message });
