@@ -1,4 +1,5 @@
 const Project = require('../models/projectModel');
+const User = require('../models/userModel');
 const mongoose = require('mongoose');
 
 const path = require("path");
@@ -6,7 +7,7 @@ const path = require("path");
 //Create a new request
 const createProject = async (req, res) => {
 
-    const { user_id, title, category, description, deliverables, priceTiers, requirements } = req.body;
+    const { user_id, role, title, category, description, deliverables, priceTiers, requirements } = req.body;
 
     console.log(req.body, req.files);
     //add document to DB
@@ -39,7 +40,7 @@ const createProject = async (req, res) => {
             requirements: jsonRequirements,
             description: description,
             deliverables: jsonDeliverables,
-            user_id: user_id,
+            user_id: user_id
         }
 
         if (!mongoose.Types.ObjectId.isValid(user_id)) {
@@ -49,7 +50,11 @@ const createProject = async (req, res) => {
         console.log(project);
 
         const newProject = await Project.create(project);
-        console.log("New Project Created Successfully")
+        //console.log("New Project Created Successfully")
+
+        const user = await User.findByIdAndUpdate(user_id, { role: role }, {
+            new: true
+        })
 
         res.status(200).send({ project: newProject, success: true, message: "Your Project has been Submitted for Review Successfully!" });
     } 

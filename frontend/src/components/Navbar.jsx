@@ -22,7 +22,7 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 
 const Navbar = () => {
-  const { isAuthenticated, user } = useSelector((state) => state.user);
+  const { isAuthenticated, isSeller, user } = useSelector((state) => state.user);
   //console.log(user.role);
 
   const navigate = useNavigate();
@@ -50,8 +50,6 @@ const Navbar = () => {
 
   const handleSeller = () => {
 
-    console.log("button clicked");
-
     if (user.role === "user") {
       navigate("/seller/starter");
       console.log("user recognised");
@@ -62,7 +60,7 @@ const Navbar = () => {
       console.log("user100 recognised");
     }
 
-    if (user.role === "seller") {
+    if (isSeller) {
       navigate("/seller/dashboard");
       console.log("seller recognised");
     }
@@ -78,13 +76,13 @@ const Navbar = () => {
     {
       name: "Dashboard",
       icon: "home-outline",
-      path: "/",
+      path: isSeller ? `/seller/dashboard` : `/`,
       dis: "translate-x-4",
     },
     {
-      name: "Categories",
+      name: isSeller ? `My Projects` : `Categories`,
       icon: "shapes-outline",
-      path: "/",
+      path: isSeller ? `/seller/projects` : `/projects`,
       dis: "translate-x-[110px]",
     },
     {
@@ -266,7 +264,7 @@ const Navbar = () => {
                 <ListItemIcon>
                   <StorefrontIcon fontSize="small" />
                 </ListItemIcon>
-                {user.role === "seller"
+                {isSeller
                   ? "Seller Dashboard"
                   : "Become a Seller"}
               </MenuItem>

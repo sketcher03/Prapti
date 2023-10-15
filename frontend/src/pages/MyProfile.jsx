@@ -38,7 +38,7 @@ const MyProfile = () => {
     ]);
 
     useEffect(() => {
-        console.log(user.talents);
+        //console.log(user.talents);
         setImage(user.profilePic);
 
         if (user.talents) {

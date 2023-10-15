@@ -16,6 +16,12 @@ export const saveUser = () => async (dispatch) => {
           type: "SaveUserSuccess",
           payload: res.data.user
         });
+
+        if (res.data.user.role === "seller") {
+          dispatch({
+            type: "SaveUserRole",
+          });
+        }
       })
       .catch((error) => {
         dispatch({

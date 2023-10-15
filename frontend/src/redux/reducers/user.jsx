@@ -17,11 +17,15 @@ const defaultUser = {
 const initialState = {
     isAuthenticated: false,
     user: defaultUser,
+    isSeller: false,
 };
 
 export const userReducer = createReducer(initialState, {
     SaveUserRequest: (state) => {
         state.loading = true;
+    },
+    SaveUserRole: (state) => {
+        state.isSeller = true;
     },
     SaveUserSuccess: (state, action) => {
         state.isAuthenticated = true;

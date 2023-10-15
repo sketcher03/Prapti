@@ -17,6 +17,22 @@ const getRequests = async (req, res) => {
     
 };
 
+//GET all requests
+const getAllRequests = async (req, res) => {
+
+    const user_id = req.user._id;
+
+    try {
+        const requests = await Request.find({ user_id }).sort({createdAt: -1});
+
+        res.status(200).send({ requests, success: true });
+    }
+    catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+    
+};
+
 //GET a single request
 const getRequest = async (req, res) => {
     const { id } = req.params;

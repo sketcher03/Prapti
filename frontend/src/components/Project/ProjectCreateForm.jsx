@@ -197,10 +197,12 @@ const SellerStarterForm = () => {
       }
 
       console.log(data, images, user._id);
+      const role = "seller";
 
       const project = new FormData();
 
       project.append("user_id", user._id);
+      project.append("role", role);
       project.append("title", data.title);
       project.append("category", JSON.stringify(data.category));
       project.append("description", data.description);
@@ -596,7 +598,7 @@ const SellerStarterForm = () => {
                     fontSize: "30px",
                     margin: "auto"
                   },
-                  "& .Mui-completed": {
+                  "&.Mui-completed": {
                     color: "green",
                   }
                 }}
@@ -634,7 +636,7 @@ const SellerStarterForm = () => {
         {activeStep === steps.length && (
           <Paper square elevation={0} sx={{ p: 3 }}>
             <Typography>All steps completed - You may proceed to your dashboard</Typography>
-            <button type="submit" sx={{ mt: 1, mr: 1 }}>
+            <button className="projectbtn4" type="submit">
               Submit for Review
             </button>
             <button

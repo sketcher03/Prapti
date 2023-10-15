@@ -20,12 +20,13 @@ import SellerStarter from './pages/Seller/SellerStarter';
 import ProjectStarter from './pages/Project/ProjectStarter';
 import MyProfile from './pages/MyProfile';
 import EditProfile from './pages/EditProfile';
+import SellerDashboard from './pages/Seller/SellerDashboard';
 
 const title = 'React';
 
 function App() {
 
-  const { isAuthenticated, user } = useSelector((state) => state.user);
+  const { isAuthenticated, isSeller, user } = useSelector((state) => state.user);
 
   useEffect(() => {
     Store.dispatch(saveUser());
@@ -90,7 +91,7 @@ function App() {
             <Route
               path="/seller/dashboard"
               element={
-                user.role === "seller" ? (
+                isSeller ? (
                   <SellerDashboard />
                 ) : (
                   <Navigate to="/project/starter" />
