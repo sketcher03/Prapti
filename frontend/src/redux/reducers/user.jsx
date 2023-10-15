@@ -3,7 +3,6 @@ import { createReducer } from "@reduxjs/toolkit";
 const defaultUser = {
     email: "",
     username: "",
-    profilePic: "",
     name: "",
     display_name: "",
     description: "",
