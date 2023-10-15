@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import '../css/Login_Signup.css';
+import '../../css/Login_Signup.css';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link } from 'react-router-dom';
-import { server } from '../../server';
+import { server } from '../../../server';
 import axios from 'axios';
 
 const AdminLogin = () => {
@@ -66,7 +66,7 @@ const AdminLogin = () => {
 
     return (
         <form className="AdminLogin" onSubmit={handleSubmit}>
-            <h3 className="text-center">Login to your account</h3>
+            <h3 className="text-center">Login to your Admin Account</h3>
 
             <label htmlFor='email'>Email</label>
             <input

@@ -60,7 +60,12 @@ router.post('/admin/login', async (req, res) => {
         const admin = await Admin.login(email, password);
 
         console.log(admin.verified);
-        res.status(200).send({admin, message: "login successfull"})
+
+        if (!admin.verified) {
+            throw Error("Please wait for verification");
+        }
+
+        res.status(200).send({admin, message: "login successful"})
         //saveCookie(admin, res, 201);
 
     } catch (error) {
