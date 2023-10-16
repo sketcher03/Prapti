@@ -107,7 +107,13 @@ const getProject = async (req, res) => {
         return res.status(404).send({ message: 'No Such Project' });
     }
 
-    res.status(200).send({ project });
+    const user = await User.findById(project.user_id);
+
+    if (!user) {
+        return res.status(404).send({ message: 'User Not Found' });
+    }
+
+    res.status(200).send({ project, user, message: "Extraction Successful" });
 };
 
 //Delete a project

@@ -54,10 +54,9 @@ const AllProjects = () => {
                     allProjects.map((project) => (
                         <div key={project._id}>
                             <Swiper
-                                modules={[Navigation, Pagination, Scrollbar]}
+                                modules={[Pagination, Scrollbar]}
                                 spaceBetween={1}
                                 slidesPerView={1}
-                                navigation
                                 pagination={{ clickable: true }}
                                 scrollbar={{ draggable: true }}
                                 onSlideChange={() => console.log('slide change')}

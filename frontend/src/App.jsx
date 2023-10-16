@@ -24,6 +24,7 @@ import SellerDashboard from './pages/Seller/SellerDashboard';
 import AllRequests from './pages/Request/AllRequests';
 import Projects from './pages/Project/Projects';
 import AllProjects from './pages/Project/AllProjects';
+import SingleProject from './pages/Project/SingleProject';
 
 const title = 'React';
 
@@ -122,9 +123,13 @@ function App() {
               }
             />
             <Route
+              path="/project/:id"
+              element={<SingleProject />}
+            />
+            <Route
               path="/project/starter"
               element={
-                !(mode === "seller" && isSeller) ? (
+                (mode === "seller" && isSeller) ? (
                   <ProjectStarter />
                 ) : (
                   <Navigate to="/" />
