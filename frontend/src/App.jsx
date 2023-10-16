@@ -18,9 +18,13 @@ import Dashboard from './pages/Dashboard';
 import Home from './pages/Home'
 import SellerStarter from './pages/Seller/SellerStarter';
 import ProjectStarter from './pages/Project/ProjectStarter';
-import MyProfile from './pages/MyProfile';
-import EditProfile from './pages/EditProfile';
-
+import MyProfile from './pages/Profile/MyProfile';
+import EditProfile from './pages/Profile/EditProfile';
+import SellerDashboard from './pages/Seller/SellerDashboard';
+import AllRequests from './pages/Request/AllRequests';
+import Projects from './pages/Project/Projects';
+import AllProjects from './pages/Project/AllProjects';
+import SingleProject from './pages/Project/SingleProject';
 const title = 'React';
 
 function App() {
@@ -124,9 +128,13 @@ function App() {
               }
             />
             <Route
+              path="/project/:id"
+              element={<SingleProject />}
+            />
+            <Route
               path="/project/starter"
               element={
-                !(mode === "seller" && isSeller) ? (
+                (mode === "seller" && isSeller) ? (
                   <ProjectStarter />
                 ) : (
                   <Navigate to="/" />
