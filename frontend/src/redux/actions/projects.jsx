@@ -1,6 +1,38 @@
 import axios from "axios";
 import { server } from "../../../server";
 
+//set requests
+export const setProjects = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: "SetProjects",
+        });
+
+        const url = `${server}/projects`;
+
+        await axios.get(url, { withCredentials: true })
+            .then((res) => {
+                //console.log(res);
+                dispatch({
+                    type: "SetProjectsSuccess",
+                    payload: res.data.projects,
+                });
+            })
+            .catch((error) => {
+                dispatch({
+                    type: "SetProjectsFailure",
+                    payload: error.response.data.message,
+                });
+            });
+    }
+    catch (err) {
+        dispatch({
+            type: "SetProjectsFailure",
+            payload: err.response.data.message,
+        });
+    }
+};
+
 //create project
 export const createProject = (project, setData, setError, setImages, setCategory) => async (dispatch) => {
     try {
@@ -66,4 +98,39 @@ export const createProject = (project, setData, setError, setImages, setCategory
             payload: error.message,
         });
     }
+};
+
+//delete project
+export const deleteProject = (id) => async (dispatch) => {
+
+    try {
+        dispatch({
+            type: "SetProjects",
+        });
+
+        await axios
+            .delete(`${server}/projects/${id}`, { withCredentials: true })
+            .then((res) => {
+                console.log(res);
+
+                dispatch({
+                    type: "CreateProjectSuccess",
+                    payload: res.data.project,
+                });
+            })
+            .catch((err) => {
+
+                dispatch({
+                    type: "DeleteProjectFailure",
+                    payload: err.response.data.message,
+                });
+            });
+    }
+    catch (error) {
+        dispatch({
+            type: "DeleteProjectFailure",
+            payload: error.message,
+        });
+    }
+
 };

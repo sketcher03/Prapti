@@ -20,10 +20,8 @@ const getRequests = async (req, res) => {
 //GET all requests
 const getAllRequests = async (req, res) => {
 
-    const user_id = req.user._id;
-
     try {
-        const requests = await Request.find({ user_id }).sort({createdAt: -1});
+        const requests = await Request.find();
 
         res.status(200).send({ requests, success: true });
     }
@@ -151,5 +149,6 @@ module.exports = {
     getRequests,
     getRequest,
     deleteRequest,
-    updateRequest
+    updateRequest,
+    getAllRequests
 };

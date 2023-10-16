@@ -218,7 +218,7 @@ const SellerStarterForm = () => {
         createProject(project, setData, setError, setImages, setCategory)
       );
 
-      
+      window.location("/");
     }
     catch (error) {
       setError(error.message);

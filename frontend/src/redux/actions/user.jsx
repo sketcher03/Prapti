@@ -17,6 +17,8 @@ export const saveUser = () => async (dispatch) => {
           payload: res.data.user
         });
 
+        console.log(res.data.user.role)
+
         if (res.data.user.role === "seller") {
           dispatch({
             type: "SaveUserRole",

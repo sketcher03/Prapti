@@ -1,10 +1,10 @@
 import React from 'react';
-import UpdateInfoForm from '../components/Seller/UpdateInfoForm';
+import UpdateInfoForm from '../../components/Seller/UpdateInfoForm';
 
 const EditProfile = () => {
     return (
         <div>
-            <UpdateInfoForm/>
+            <UpdateInfoForm />
         </div>
     )
 }

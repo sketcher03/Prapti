@@ -4,9 +4,9 @@ const {
     createRequest,
     getRequest,
     getRequests,
-    getAllRequests,
     updateRequest,
-    deleteRequest
+    deleteRequest,
+    getAllRequests
 } = require('../controllers/requestController');
 
 const requireAuth = require('../middleware/requireAuthentication')

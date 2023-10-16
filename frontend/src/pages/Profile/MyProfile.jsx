@@ -1,5 +1,5 @@
 import React from "react";
-import "../css/profile.css";
+import "../../css/profile.css";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -11,7 +11,7 @@ import Rating from '@mui/material/Rating';
 import Divider from "@mui/material/Divider";
 
 import { useSelector } from "react-redux";
-import { server } from "../../server";
+import { server } from "../../../server";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { format } from 'date-fns'
@@ -60,13 +60,13 @@ const MyProfile = () => {
                             alt="Profile Picture"
                             src={`${server}/${image}`}
                         />
-                    ): (
+                    ) : (
                         <Avatar sx={{ width: 50, height: 50 }}>A</Avatar>
                     )
                 }
-                
+
             </Badge>
-            
+
             <h1 style={{ margin: "0px" }}>{user.display_name}</h1>
             <h6 style={{ color: "grey", marginBottom: "15px" }}>@{user.username}</h6>
 
@@ -82,7 +82,7 @@ const MyProfile = () => {
                 size="large"
             />
 
-            <button className="profilebtn1" style={{marginTop: "0px"}}>See Public View</button>
+            <button className="profilebtn1" style={{ marginTop: "0px" }}>See Public View</button>
 
             <Accordion
                 sx={{
@@ -92,7 +92,7 @@ const MyProfile = () => {
                     boxShadow: "none",
                 }}
             >
-                <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{padding: "5px 30px"}}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ padding: "5px 30px" }}>
                     <Typography>Personal Details</Typography>
                 </AccordionSummary>
                 <AccordionDetails className="accordion-details">
@@ -103,10 +103,10 @@ const MyProfile = () => {
                         <h2>Joined</h2>
                     </div>
                     <div style={{ marginRight: "50px", textAlign: "right" }}>
-                        <h3>{ user.name ? user.name : "Not Yet Provided" }</h3>
-                        <h3>{ user.email }</h3>
-                        <h3>{ user.phoneNumber ? user.phoneNumber : "Not Yet Provided" }</h3> 
-                        <h3>{ format(new Date(user.createdAt), 'MM/dd/yyyy') }</h3> 
+                        <h3>{user.name ? user.name : "Not Yet Provided"}</h3>
+                        <h3>{user.email}</h3>
+                        <h3>{user.phoneNumber ? user.phoneNumber : "Not Yet Provided"}</h3>
+                        <h3>{format(new Date(user.createdAt), 'MM/dd/yyyy')}</h3>
                     </div>
                 </AccordionDetails>
             </Accordion>
@@ -118,7 +118,7 @@ const MyProfile = () => {
                     boxShadow: "none",
                 }}
             >
-                <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{padding: "5px 30px"}}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ padding: "5px 30px" }}>
                     <Typography>Description</Typography>
                 </AccordionSummary>
                 <AccordionDetails className="accordion-details">
@@ -128,7 +128,7 @@ const MyProfile = () => {
                                 <h2>Description</h2>
                                 <p>{user.description}</p>
                             </div>
-                        ): (
+                        ) : (
                             <h2>You have not added a description yet</h2>
                         )
                     }
@@ -142,7 +142,7 @@ const MyProfile = () => {
                     boxShadow: "none",
                 }}
             >
-                <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{padding: "5px 30px"}}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ padding: "5px 30px" }}>
                     <Typography>Talents</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -150,11 +150,11 @@ const MyProfile = () => {
                         <h2>Talent</h2>
                         <h2 style={{ marginRight: "50px", textAlign: "right" }} >Description</h2>
                     </div>
-                    
+
                     {talents?.map((x, i) => {
                         return (
                             <div key={i} className="accordion-details">
-                                <div style={{ marginRight: "50px"}}>
+                                <div style={{ marginRight: "50px" }}>
                                     <h3>{talents[i].talent}</h3>
                                 </div>
                                 <div style={{ marginRight: "50px", textAlign: "right", maxWidth: "450px" }}>
@@ -174,11 +174,11 @@ const MyProfile = () => {
                     boxShadow: "none",
                 }}
             >
-                <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{padding: "5px 30px"}}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ padding: "5px 30px" }}>
                     <Typography>Billing Addresses</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    
+
                     {billingAddresses?.map((x, i) => {
                         return (
                             <div key={i} className="accordion-details">
@@ -199,10 +199,10 @@ const MyProfile = () => {
                     })}
                 </AccordionDetails>
             </Accordion>
-            
+
 
             <div>
-                <button className="profilebtn1" onClick={() => {navigate("/profile/edit"); }}>Edit Information</button>
+                <button className="profilebtn1" onClick={() => { navigate("/profile/edit"); }}>Edit Information</button>
                 <button className="profilebtn1">Reset Password</button>
                 <button className="profilebtn2">Delete Account</button>
             </div>

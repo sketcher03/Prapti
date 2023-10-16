@@ -23,15 +23,21 @@ import Logout from "@mui/icons-material/Logout";
 
 const Navbar = () => {
   const { isAuthenticated, isSeller, user } = useSelector((state) => state.user);
-  //console.log(user.role);
+  //console.log(isSeller);
 
   const navigate = useNavigate();
 
   const [image, setImage] = useState(null);
+  const [mode, setMode] = useState("buyer");
+  const [modeText, setModeText] = useState("Seller Dashboard");
 
   useEffect(() => {
     //console.log(user.profilePic);
     setImage(user.profilePic);
+
+    if (!isSeller) {
+      setModeText("Become A Seller")
+    }
   }, [user]);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -40,31 +46,47 @@ const Navbar = () => {
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+  const handleMode = () => {
+
+    if (!isSeller) {
+      if (user.role === "user") {
+        navigate("/seller/starter");
+        console.log("user recognised");
+      }
+
+      if (user.role === "user100") {
+        navigate("/project/starter");
+        console.log("user100 recognised");
+      }
+    }
+    else {
+      if (mode === "buyer") {
+        setMode("seller");
+        setModeText("Seller Dashboard");
+      }
+      else {
+        setMode("buyer");
+        setModeText("Buyer Dashboard");
+      }
+    }
+
+    console.log(mode);
+    setActive(0);
+    navigate("/");
+  };
+
   const handleProfile = () => {
+    setActive(0);
     navigate("/profile")
   };
 
-  const handleSeller = () => {
-
-    if (user.role === "user") {
-      navigate("/seller/starter");
-      console.log("user recognised");
-    }
-
-    if (user.role === "user100") {
-      navigate("/project/starter");
-      console.log("user100 recognised");
-    }
-
-    if (isSeller) {
-      navigate("/seller/dashboard");
-      console.log("seller recognised");
-    }
-
+  const handleRefresh = () => {
+    setActive(0);
   };
 
   const handleLogout = () => {
@@ -72,23 +94,60 @@ const Navbar = () => {
     Store.dispatch(logoutUser());
   };
 
-  const Menus = [
+  const Menus = mode === "seller" ? [
     {
       name: "Dashboard",
       icon: "home-outline",
-      path: isSeller ? `/seller/dashboard` : `/`,
+      path: `/`,
       dis: "translate-x-4",
     },
     {
-      name: isSeller ? `My Projects` : `Categories`,
+      name: `Categories`,
       icon: "shapes-outline",
-      path: isSeller ? `/seller/projects` : `/projects`,
+      path: `/projects`,
       dis: "translate-x-[110px]",
     },
     {
       name: "Requests",
       icon: "create-outline",
-      path: "/requests",
+      path: `/requests`,
+      dis: "translate-x-[208px]",
+    },
+    {
+      name: "My Orders",
+      icon: "layers-outline",
+      path: "/",
+      dis: "translate-x-[305px]",
+    },
+    {
+      name: "Inbox",
+      icon: "chatbox-ellipses-outline",
+      path: "/inbox",
+      dis: "translate-x-[400px]",
+    },
+    {
+      name: "Help",
+      icon: "help-circle-outline",
+      path: "/help",
+      dis: "translate-x-[496px]",
+    },
+  ] : [
+    {
+      name: "Dashboard",
+      icon: "home-outline",
+      path: `/seller/dashboard`,
+      dis: "translate-x-4",
+    },
+    {
+      name: `My Projects`,
+      icon: "shapes-outline",
+      path: `/seller/projects`,
+      dis: "translate-x-[110px]",
+    },
+    {
+      name: "Requests",
+      icon: "create-outline",
+      path: `/requests/all`,
       dis: "translate-x-[208px]",
     },
     {
@@ -115,7 +174,7 @@ const Navbar = () => {
 
   return (
     <div className="container">
-      <Link to="/">
+      <Link to="/" onClick={handleRefresh}>
         <h1>
           <img src={praptiLogo} alt="Prapti" />
         </h1>
@@ -260,13 +319,11 @@ const Navbar = () => {
                 My Profile
               </MenuItem>
               <Divider sx={{ maxWidth: "200px", margin: "auto" }} />
-              <MenuItem onClick={handleSeller}>
+              <MenuItem onClick={handleMode}>
                 <ListItemIcon>
                   <StorefrontIcon fontSize="small" />
                 </ListItemIcon>
-                {isSeller
-                  ? "Seller Dashboard"
-                  : "Become a Seller"}
+                {modeText}
               </MenuItem>
               <Divider sx={{ maxWidth: "200px", margin: "auto" }} />
               <MenuItem onClick={handleClose}>

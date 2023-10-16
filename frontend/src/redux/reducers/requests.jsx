@@ -2,6 +2,7 @@ import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
     requests: [],
+    allRequests: [],
     postSuccess: false,
 };
 
@@ -16,6 +17,10 @@ export const requestsReducer = createReducer(initialState, {
   SetRequestsFailure: (state, action) => {
     state.loading = false;
     state.error = action.payload;
+  },
+  SetAllRequestsSuccess: (state, action) => {
+    state.loading = false;
+    state.allRequests = action.payload;
   },
   CreateRequestSuccess: (state, action) => {
     state.loading = false;
