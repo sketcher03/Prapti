@@ -12,6 +12,8 @@ const SellerStarter = () => {
   const [starter, setStarter] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
 
+  //console.log("first")
+
   const handleClickOpen = () => {
     setOpen(true);
   };

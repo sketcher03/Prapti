@@ -3,7 +3,6 @@ import { createReducer } from "@reduxjs/toolkit";
 const defaultUser = {
     email: "",
     username: "",
-    profilePic: "",
     name: "",
     display_name: "",
     description: "",
@@ -18,11 +17,16 @@ const defaultUser = {
 const initialState = {
     isAuthenticated: false,
     user: defaultUser,
+    isSeller: false,
+    mode: "buyer"
 };
 
 export const userReducer = createReducer(initialState, {
     SaveUserRequest: (state) => {
         state.loading = true;
+    },
+    SaveUserRole: (state) => {
+        state.isSeller = true;
     },
     SaveUserSuccess: (state, action) => {
         state.isAuthenticated = true;
@@ -42,6 +46,18 @@ export const userReducer = createReducer(initialState, {
     LogoutFailure: (state, action) => {
         state.loading = false;
         state.isAuthenticated = true;
+        state.error = action.payload;
+    },
+    SetMode: (state, action) => {
+        state.mode = action.payload;
+    },
+    ChangeModeToSeller: (state) => {
+        state.mode = "seller";
+    },
+    ChangeModeToBuyer: (state) => {
+        state.mode = "buyer";
+    },
+    ChangeModeFailure: (state, action) => {
         state.error = action.payload;
     },
     dissolveErrors: (state) => {

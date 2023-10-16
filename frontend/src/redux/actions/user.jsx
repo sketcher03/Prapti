@@ -16,6 +16,14 @@ export const saveUser = () => async (dispatch) => {
           type: "SaveUserSuccess",
           payload: res.data.user
         });
+
+        //console.log(res.data.user.role)
+
+        if (res.data.user.role === "seller") {
+          dispatch({
+            type: "SaveUserRole",
+          });
+        }
       })
       .catch((error) => {
         dispatch({
@@ -133,3 +141,41 @@ export const editUser =
         });
       }
     };
+
+export const changeMode = (mode) => async (dispatch) => {
+  try {
+    if (mode === "buyer") {
+      dispatch({
+        type: "ChangeModeToSeller",
+      });
+    }
+    else {
+      dispatch({
+        type: "ChangeModeToBuyer",
+      });
+    }
+  }
+  catch (error) {
+    dispatch({
+      type: "ChangeModeFailure",
+      payload: err.response.data.message,
+    });
+  }
+}
+
+export const setMode = (role) => async (dispatch) => {
+  try {
+    if (role === "seller") {
+      dispatch({
+        type: "ChangeModeToSeller",
+        payload: "seller",
+      });
+    }
+  }
+  catch (error) {
+    dispatch({
+      type: "ChangeModeFailure",
+      payload: err.response.data.message,
+    });
+  }
+}

@@ -4,7 +4,7 @@ import praptiLogo from '../images/logo.png';
 import '../css/Navbar_Footer.css'
 import { useSelector } from 'react-redux';
 import Store from "../redux/store";
-import { logoutUser } from "../redux/actions/user";
+import { changeMode, logoutUser } from "../redux/actions/user";
 import { server } from "../../server";
 
 //MUI imports
@@ -22,16 +22,23 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 
 const Navbar = () => {
-  const { isAuthenticated, user } = useSelector((state) => state.user);
-  //console.log(user.role);
+  const { isAuthenticated, isSeller, user, mode } = useSelector((state) => state.user);
+  //console.log(isSeller);
 
   const navigate = useNavigate();
 
   const [image, setImage] = useState(null);
+  const [modeText, setModeText] = useState("Become A Seller");
 
   useEffect(() => {
     //console.log(user.profilePic);
     setImage(user.profilePic);
+
+    if (mode === "buyer") {
+      setModeText("Seller Dashboard");
+      navigate("/")
+    }
+
   }, [user]);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -40,33 +47,51 @@ const Navbar = () => {
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+  const handleMode = () => {
+
+    if (!isSeller) {
+      if (user.role === "user") {
+        setActive(0);
+        navigate("/seller/starter");
+        console.log("user recognised");
+      }
+
+      if (user.role === "user100") {
+        setActive(0);
+        navigate("/project/starter");
+        console.log("user100 recognised");
+      }
+    }
+    else {
+      Store.dispatch(changeMode(mode));
+
+      if (mode === "buyer") {
+        setModeText("Buyer Dashboard");
+      }
+      else {
+        setModeText("Seller Dashboard")
+      }
+
+      setActive(0);
+      navigate("/");
+    }
+    
+  };
+
+  console.log(mode)
+
   const handleProfile = () => {
+    setActive(0);
     navigate("/profile")
   };
 
-  const handleSeller = () => {
-
-    console.log("button clicked");
-
-    if (user.role === "user") {
-      navigate("/seller/starter");
-      console.log("user recognised");
-    }
-
-    if (user.role === "user100") {
-      navigate("/project/starter");
-      console.log("user100 recognised");
-    }
-
-    if (user.role === "seller") {
-      navigate("/seller/dashboard");
-      console.log("seller recognised");
-    }
-
+  const handleRefresh = () => {
+    setActive(0);
   };
 
   const handleLogout = () => {
@@ -74,23 +99,60 @@ const Navbar = () => {
     Store.dispatch(logoutUser());
   };
 
-  const Menus = [
+  const Menus = !(mode === "seller") ? [
     {
       name: "Dashboard",
       icon: "home-outline",
-      path: "/",
+      path: `/`,
       dis: "translate-x-4",
     },
     {
-      name: "Categories",
+      name: `Categories`,
       icon: "shapes-outline",
-      path: "/",
+      path: `/projects`,
       dis: "translate-x-[110px]",
     },
     {
       name: "Requests",
       icon: "create-outline",
-      path: "/requests",
+      path: `/requests`,
+      dis: "translate-x-[208px]",
+    },
+    {
+      name: "My Orders",
+      icon: "layers-outline",
+      path: "/",
+      dis: "translate-x-[305px]",
+    },
+    {
+      name: "Inbox",
+      icon: "chatbox-ellipses-outline",
+      path: "/inbox",
+      dis: "translate-x-[400px]",
+    },
+    {
+      name: "Help",
+      icon: "help-circle-outline",
+      path: "/help",
+      dis: "translate-x-[496px]",
+    },
+  ] : [
+    {
+      name: "Dashboard",
+      icon: "home-outline",
+      path: `/seller/dashboard`,
+      dis: "translate-x-4",
+    },
+    {
+      name: `My Projects`,
+      icon: "shapes-outline",
+      path: `/seller/projects`,
+      dis: "translate-x-[110px]",
+    },
+    {
+      name: "Requests",
+      icon: "create-outline",
+      path: `/requests/all`,
       dis: "translate-x-[208px]",
     },
     {
@@ -117,7 +179,7 @@ const Navbar = () => {
 
   return (
     <div className="container">
-      <Link to="/">
+      <Link to="/" onClick={handleRefresh}>
         <h1>
           <img src={praptiLogo} alt="Prapti" />
         </h1>
@@ -262,13 +324,11 @@ const Navbar = () => {
                 My Profile
               </MenuItem>
               <Divider sx={{ maxWidth: "200px", margin: "auto" }} />
-              <MenuItem onClick={handleSeller}>
+              <MenuItem onClick={handleMode}>
                 <ListItemIcon>
                   <StorefrontIcon fontSize="small" />
                 </ListItemIcon>
-                {user.role === "seller"
-                  ? "Seller Dashboard"
-                  : "Become a Seller"}
+                {modeText}
               </MenuItem>
               <Divider sx={{ maxWidth: "200px", margin: "auto" }} />
               <MenuItem onClick={handleClose}>

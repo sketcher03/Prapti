@@ -3,34 +3,35 @@ import { useEffect } from "react";
 import { useSelector } from 'react-redux';
 
 //Pages and Components
-import Requests from './pages/Requests';
+import Requests from './pages/Request/Requests';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import AdminSignup from './pages/Admin/AdminSignup';
-import AdminLogin from './pages/Admin/AdminLogin';
+import AdminSignup from './pages/AdminSignup';
+import AdminLogin from './pages/AdminLogin';
 import RequestUpdateForm from './pages/RequestUpdateForm'
 import Activation from './pages/Activation/Activation'
 import Navbar from './components/Navbar';
-import Footer from './components/Footer'; 
+import Footer from './components/Footer';
 import Store from './redux/store';
-import { saveUser } from './redux/actions/user';
+import { saveUser, setMode } from './redux/actions/user';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home'
 import SellerStarter from './pages/Seller/SellerStarter';
 import ProjectStarter from './pages/Project/ProjectStarter';
 import MyProfile from './pages/MyProfile';
 import EditProfile from './pages/EditProfile';
-import AdminDashBoard from './pages/Admin/AdminDashBoard';
 
 const title = 'React';
 
 function App() {
 
-  const { isAuthenticated, user } = useSelector((state) => state.user);
+  const { isAuthenticated, isSeller, user, mode } = useSelector((state) => state.user);
 
   useEffect(() => {
     Store.dispatch(saveUser());
     //console.log(user)
+
+    Store.dispatch(setMode(user.role))
   }, []);
 
   return (
@@ -51,7 +52,7 @@ function App() {
               path="/admin/signup"
               element={<AdminSignup />}
             />
-             <Route
+            <Route
               path="/admin/login"
               element={<AdminLogin /> }
             />
@@ -65,6 +66,10 @@ function App() {
               element={isAuthenticated ? <Requests /> : <Navigate to="/" />}
             />
             <Route
+              path="/requests/all"
+              element={isAuthenticated ? <AllRequests /> : <Navigate to="/" />}
+            />
+            <Route
               path="/requests/update/:id"
               element={
                 isAuthenticated ? <RequestUpdateForm /> : <Navigate to="/" />
@@ -72,11 +77,11 @@ function App() {
             />
             <Route
               path='/profile'
-              element={<MyProfile/>}
+              element={<MyProfile />}
             />
             <Route
               path='/profile/edit'
-              element={<EditProfile/>}
+              element={<EditProfile />}
             />
 
             <Route
@@ -86,18 +91,12 @@ function App() {
 
             <Route
               path="/seller/starter"
-              element={
-                user.role === "user" ? (
-                  <SellerStarter />
-                ) : (
-                  <Navigate to="/project/starter" />
-                )
-              }
+              element={<SellerStarter />}
             />
             <Route
               path="/seller/dashboard"
               element={
-                user.role === "seller" ? (
+                isSeller ? (
                   <SellerDashboard />
                 ) : (
                   <Navigate to="/project/starter" />
@@ -105,12 +104,32 @@ function App() {
               }
             />
             <Route
+              path="/seller/projects"
+              element={
+                isSeller ? (
+                  <Projects />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route
+              path="/projects"
+              element={
+                (mode === "buyer") ? (
+                  <AllProjects />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route
               path="/project/starter"
               element={
-                user.role === "user100" ? (
+                !(mode === "seller" && isSeller) ? (
                   <ProjectStarter />
                 ) : (
-                  <Navigate to="/seller/starter" />
+                  <Navigate to="/" />
                 )
               }
             />

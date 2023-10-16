@@ -1,15 +1,12 @@
 import React from "react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../../css/project.css";
 import "../../css/PopupForm.css";
-import CloseIcon from "@mui/icons-material/Close";
 import { useSelector } from "react-redux";
-import { server } from "../../../server";
 import Store from "../../redux/store";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { RxAvatar } from "react-icons/rx";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import '../../css/Login_Signup.css';
@@ -20,10 +17,12 @@ import StepContent from '@mui/material/StepContent';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Avatar from "@mui/material/Avatar";
+import { createProject } from "../../redux/actions/projects";
 
 
 const SellerStarterForm = () => {
-  //const { user } = useSelector((state) => state.user);
+
+  const { user } = useSelector((state) => state.user);
   //console.log(user);
   const navigate = useNavigate();
 
@@ -45,16 +44,17 @@ const SellerStarterForm = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const category = ["Photography", "Graphic Design", "Traditional Painting", "Printing Art", "Repairs", "Crafting", "Programming", "Banking"];
+  const categoryList = ["Photography", "Graphic Design", "Traditional Painting", "Printing Art", "Repairs", "Crafting", "Programming", "Banking"];
   const req_type = ["text", "file", "number"];
+
+  const [category, setCategory] = useState([categoryList[0]]);
 
   const [error, setError] = useState(null);
   const [images, setImages] = useState([]);
 
-  //const [image, setImage] = useState();
-
   const [data, setData] = useState({
     title: "",
+    category: category,
     description: "",
     deliverables: [""],
     priceTiers: [
@@ -68,7 +68,7 @@ const SellerStarterForm = () => {
     requirements: [
       {
         req_title: "",
-        req_type: "",
+        req_type: "text",
       }
     ]
   });
@@ -138,7 +138,7 @@ const SellerStarterForm = () => {
       ...data,
       priceTiers: [...data.priceTiers, {
         tier_title: '',
-        tier_price: 0,
+        tier_price: "",
         tier_description: '',
         tier_deliverables: '',
       }],
@@ -146,9 +146,19 @@ const SellerStarterForm = () => {
   };
 
   const handleReqChange = (e, i) => {
+    e.preventDefault();
     const { name, value } = e.target;
     const list = [...data.requirements];
     list[i][name] = value;
+
+    setData({ ...data, requirements: list });
+  };
+
+  const handleReqTypeChange = (e, i, newValue) => {
+    e.preventDefault();
+    const name = "req_type";
+    const list = [...data.requirements];
+    list[i][name] = newValue;
 
     setData({ ...data, requirements: list });
   };
@@ -165,7 +175,7 @@ const SellerStarterForm = () => {
       ...data,
       requirements: [...data.requirements, {
         req_title: "",
-        req_type: "",
+        req_type: "text",
       }],
     });
   };
@@ -173,6 +183,46 @@ const SellerStarterForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     //console.log(data);
+
+    try {
+      //empty fields errors
+      if (data.title === "" || data.category.length === 0 || data.description === "" || data.deliverables.length === 0 || data.priceTiers.length === 0 || data.requirements.length === 0) {
+        setError("One or Few fields are Empty");
+        throw Error();
+      }
+
+      if (images.length === 0) {
+        setError("Please add some portfolio for your project");
+        throw Error();
+      }
+
+      console.log(data, images, user._id);
+      const role = "seller";
+
+      const project = new FormData();
+
+      project.append("user_id", user._id);
+      project.append("role", role);
+      project.append("title", data.title);
+      project.append("category", JSON.stringify(data.category));
+      project.append("description", data.description);
+      project.append("deliverables", JSON.stringify(data.deliverables));      
+      project.append("priceTiers", JSON.stringify(data.priceTiers));
+      project.append("requirements", JSON.stringify(data.requirements));
+
+      for (let i = 0; i < images.length; i++){
+        project.append("files", images[i]);
+      }
+
+      Store.dispatch(
+        createProject(project, setData, setError, setImages, setCategory)
+      );
+
+      window.location("/");
+    }
+    catch (error) {
+      setError(error.message);
+    }
 
     console.log("submit clicked");
   };
@@ -196,9 +246,16 @@ const SellerStarterForm = () => {
 
           <label className="create-project-label">Select some categories you project fall into</label>
           <Autocomplete
+            value={category}
             multiple
             id="tags-outlined"
-            options={category}
+            options={categoryList}
+            onChange={(event, newValue) => {
+
+              setCategory(newValue);
+
+              setData({ ...data, category: category });
+            }}
             filterSelectedOptions
             ChipProps={{
               sx: {
@@ -206,7 +263,7 @@ const SellerStarterForm = () => {
                 minHeight: "40px",
                 padding: "10px 5px",
                 "& .MuiChip-label": {
-                  paddingTop: "18px",
+                  paddingTop: "0px",
                 },
               },
             }}
@@ -399,17 +456,22 @@ const SellerStarterForm = () => {
               >
 
                 <div className="create-project-shortinput">
-                  <input
+                  <TextField
                     type="text"
-                    name="feature"
+                    name="req_title"
+                    label="Requirement"
                     onChange={(e) => handleReqChange(e, i)}
                     placeholder="Ex - Photography"
-                    value={item.req_title}
+                    defaultValue={item.req_title}
+                    sx={{ marginTop: "12px", width: "510px" }}
+                    InputProps={{ sx: { borderRadius: "8px" } }}
                   />
 
                   <Autocomplete
-                    id="combo-box-demo"
+                    
+                    id="req_type"
                     options={req_type}
+                    onChange={(event, newValue) => handleReqTypeChange(event, i, newValue)}
                     ChipProps={{
                       sx: {
                         fontFamily: "poppins",
@@ -536,7 +598,7 @@ const SellerStarterForm = () => {
                     fontSize: "30px",
                     margin: "auto"
                   },
-                  "& .Mui-completed": {
+                  "&.Mui-completed": {
                     color: "green",
                   }
                 }}
@@ -574,7 +636,7 @@ const SellerStarterForm = () => {
         {activeStep === steps.length && (
           <Paper square elevation={0} sx={{ p: 3 }}>
             <Typography>All steps completed - You may proceed to your dashboard</Typography>
-            <button type="submit" sx={{ mt: 1, mr: 1 }}>
+            <button className="projectbtn4" type="submit">
               Submit for Review
             </button>
             <button

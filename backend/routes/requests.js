@@ -5,7 +5,8 @@ const {
     getRequest,
     getRequests,
     updateRequest,
-    deleteRequest
+    deleteRequest,
+    getAllRequests
 } = require('../controllers/requestController');
 
 const requireAuth = require('../middleware/requireAuthentication')
@@ -15,8 +16,11 @@ const router = express.Router();
 //require authorization before firing all other routes
 router.use(requireAuth);
 
-//GET all requests
+//GET all requests posted by authenticated user
 router.get('/', getRequests);
+
+//GET all requests
+router.get('/all', getAllRequests);
 
 //GET a single request info
 router.get('/:id', getRequest);

@@ -1,4 +1,5 @@
 const Request = require('../models/requestModel');
+const User = require('../models/userModel');
 const mongoose = require('mongoose');
 
 //GET all requests
@@ -8,6 +9,20 @@ const getRequests = async (req, res) => {
 
     try {
         const requests = await Request.find({ user_id }).sort({createdAt: -1});
+
+        res.status(200).send({ requests, success: true });
+    }
+    catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+    
+};
+
+//GET all requests
+const getAllRequests = async (req, res) => {
+
+    try {
+        const requests = await Request.find();
 
         res.status(200).send({ requests, success: true });
     }
@@ -63,7 +78,11 @@ const createRequest = async (req, res) => {
     try{
         const user_id = req.user._id;
 
-        const request = await Request.create({title, description, category, budget, timeline, user_id});
+        const user = await User.findOne({ _id: user_id });
+
+        const user_username = user.username;
+
+        const request = await Request.create({ title, description, category, budget, timeline, user_id, user_username });
         res.status(200).send({ request });
     } 
     catch (error){
@@ -135,5 +154,6 @@ module.exports = {
     getRequests,
     getRequest,
     deleteRequest,
-    updateRequest
+    updateRequest,
+    getAllRequests
 };

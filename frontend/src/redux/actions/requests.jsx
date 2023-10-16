@@ -33,6 +33,40 @@ export const setRequests = () => async (dispatch) => {
     }
 };
 
+//set all requests
+export const setAllRequests = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: "SetRequests",
+        });
+
+        const url = `${server}/requests/all`;
+
+        await axios.get(url, { withCredentials: true })
+            .then((res) => {
+                //console.log(res);
+                dispatch({
+                    type: "SetAllRequestsSuccess",
+                    payload: res.data.requests,
+                });
+            })
+            .catch((error) => {
+                dispatch({
+                    type: "SetRequestsFailure",
+                    payload: error.response.data.message,
+                });
+            });
+    }
+    catch (err) {
+        dispatch({
+            type: "SetRequestsFailure",
+            payload: err.response.data.message,
+        });
+    }
+};
+
+
+//create request
 export const createRequest = (request, setData, setEmptyFields, setError, props) => async (dispatch) => {
   try {
     dispatch({
@@ -82,6 +116,7 @@ export const createRequest = (request, setData, setEmptyFields, setError, props)
     }
 };
 
+//delete request
 export const deleteRequest = (id) => async (dispatch) => {
 
     try {
@@ -116,6 +151,8 @@ export const deleteRequest = (id) => async (dispatch) => {
     
 };
 
+
+//update request
 export const editRequest = (editrequest, id, setData, setEmptyFields, setError) => async (dispatch) => {
     try {
       dispatch({
