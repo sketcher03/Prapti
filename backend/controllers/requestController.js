@@ -1,4 +1,5 @@
 const Request = require('../models/requestModel');
+const User = require('../models/userModel');
 const mongoose = require('mongoose');
 
 //GET all requests
@@ -77,7 +78,11 @@ const createRequest = async (req, res) => {
     try{
         const user_id = req.user._id;
 
-        const request = await Request.create({title, description, category, budget, timeline, user_id});
+        const user = await User.findOne({ _id: user_id });
+
+        const user_username = user.username;
+
+        const request = await Request.create({ title, description, category, budget, timeline, user_id, user_username });
         res.status(200).send({ request });
     } 
     catch (error){

@@ -8,17 +8,18 @@ import { Link } from "react-router-dom";
 
 //mui imports
 import { DataGrid } from "@mui/x-data-grid";
+import Chip from '@mui/material/Chip';
 
 //components
-import RequestDetails from '../../components/RequestDetails';
-import RequestForm from '../../components/RequestForm';
+import RequestDetails from '../../components/Request/RequestDetails';
+import RequestForm from '../../components/Request/RequestForm';
 
 //date ffns
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 
 const AllRequests = () => {
-  const { isSeller } = useSelector((state) => state.user);
+  const { isSeller, mode } = useSelector((state) => state.user);
   const { allRequests } = useSelector((state) => state.requests)
   const [requestFormPopup, setRequestFormPopup] = useState(false);
   const [open, setOpen] = useState(false);
@@ -28,6 +29,7 @@ const AllRequests = () => {
   useEffect(() => {
     // console.log(requests);
     // console.log(user)
+    
     Store.dispatch(setAllRequests());
 
   }, [allRequests]);
@@ -65,6 +67,14 @@ const AllRequests = () => {
           addSuffix: true,
         });
       },
+    },
+    {
+      field: "user_username",
+      headerName: "Published by",
+      flex: 1,
+      renderCell: (params) => (
+        <Chip label={params.value} color="secondary" />
+      ),
     },
   ];
 

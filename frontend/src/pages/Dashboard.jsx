@@ -5,12 +5,12 @@ import BuyerDashboard from './Buyer/BuyerDashboard';
 import { useSelector } from 'react-redux';
 
 const Dashboard = () => {
-  const { isSeller } = useSelector((state) => state.user);
+  const { mode } = useSelector((state) => state.user);
 
   return (
     <div className='dashboard-container'>
       {
-        isSeller ? (
+        !(mode === "seller") ? (
           <SellerDashboard />
         ) : (
           <BuyerDashboard />

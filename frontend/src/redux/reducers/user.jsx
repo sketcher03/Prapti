@@ -18,6 +18,7 @@ const initialState = {
     isAuthenticated: false,
     user: defaultUser,
     isSeller: false,
+    mode: "buyer"
 };
 
 export const userReducer = createReducer(initialState, {
@@ -45,6 +46,15 @@ export const userReducer = createReducer(initialState, {
     LogoutFailure: (state, action) => {
         state.loading = false;
         state.isAuthenticated = true;
+        state.error = action.payload;
+    },
+    ChangeModeToSeller: (state) => {
+        state.mode = "seller";
+    },
+    ChangeModeToBuyer: (state) => {
+        state.mode = "buyer";
+    },
+    ChangeModeFailure: (state, action) => {
         state.error = action.payload;
     },
     dissolveErrors: (state) => {

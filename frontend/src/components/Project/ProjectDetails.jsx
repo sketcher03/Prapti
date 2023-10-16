@@ -26,6 +26,8 @@ const ProjectDetails = (props) => {
   const handleDelete = async () => {
 
     Store.dispatch(deleteProject(props.projectID));
+    
+    handleClose();
   };
 
   //console.log(props.projectID)

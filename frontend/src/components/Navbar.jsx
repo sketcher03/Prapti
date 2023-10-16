@@ -4,7 +4,7 @@ import praptiLogo from '../images/logo.png';
 import '../css/Navbar_Footer.css'
 import { useSelector } from 'react-redux';
 import Store from "../redux/store";
-import { logoutUser } from "../redux/actions/user";
+import { changeMode, logoutUser } from "../redux/actions/user";
 import { server } from "../../server";
 
 //MUI imports
@@ -22,13 +22,12 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 
 const Navbar = () => {
-  const { isAuthenticated, isSeller, user } = useSelector((state) => state.user);
+  const { isAuthenticated, isSeller, user, mode } = useSelector((state) => state.user);
   //console.log(isSeller);
 
   const navigate = useNavigate();
 
   const [image, setImage] = useState(null);
-  const [mode, setMode] = useState("buyer");
   const [modeText, setModeText] = useState("Seller Dashboard");
 
   useEffect(() => {
@@ -65,13 +64,13 @@ const Navbar = () => {
       }
     }
     else {
-      if (mode === "buyer") {
-        setMode("seller");
-        setModeText("Seller Dashboard");
+      Store.dispatch(changeMode(mode));
+
+      if (mode === "seller") {
+        setModeText("Buyer Dashboard");
       }
       else {
-        setMode("buyer");
-        setModeText("Buyer Dashboard");
+        setModeText("Seller Dashboard")
       }
     }
 

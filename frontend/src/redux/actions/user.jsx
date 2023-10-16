@@ -141,3 +141,24 @@ export const editUser =
         });
       }
     };
+
+export const changeMode = (mode) => async (dispatch) => {
+  try {
+    if (mode === "buyer") {
+      dispatch({
+        type: "ChangeModeToSeller",
+      });
+    }
+    else {
+      dispatch({
+        type: "ChangeModeToBuyer",
+      });
+    }
+  }
+  catch (error) {
+    dispatch({
+      type: "ChangeModeFailure",
+      payload: err.response.data.message,
+    });
+  }
+}

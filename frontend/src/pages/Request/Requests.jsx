@@ -9,17 +9,16 @@ import { Link } from "react-router-dom";
 //mui imports
 import { DataGrid } from "@mui/x-data-grid";
 
-
 //components
-import RequestDetails from '../../components/RequestDetails';
-import RequestForm from '../../components/RequestForm';
+import RequestDetails from '../../components/Request/RequestDetails';
+import RequestForm from '../../components/Request/RequestForm';
 
 //date ffns
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 
 const Requests = () => {
-  const { isSeller } = useSelector((state) => state.user);
+  const { mode } = useSelector((state) => state.user);
   const { requests } = useSelector((state) => state.requests)
   const [requestFormPopup, setRequestFormPopup] = useState(false);
   const [open, setOpen] = useState(false);
@@ -73,7 +72,7 @@ const Requests = () => {
   return (
     <div className="req-container">
       
-      {!isSeller ? (
+      {!(mode === "buyer") ? (
         <div>
           <p className="req-subheading">Can't find a Specific Service?</p>
           <h2 className="req-heading">Well... Look no further!</h2>

@@ -23,12 +23,13 @@ import EditProfile from './pages/Profile/EditProfile';
 import SellerDashboard from './pages/Seller/SellerDashboard';
 import AllRequests from './pages/Request/AllRequests';
 import Projects from './pages/Project/Projects';
+import AllProjects from './pages/Project/AllProjects';
 
 const title = 'React';
 
 function App() {
 
-  const { isAuthenticated, isSeller, user } = useSelector((state) => state.user);
+  const { isAuthenticated, isSeller, user, mode } = useSelector((state) => state.user);
 
   useEffect(() => {
     Store.dispatch(saveUser());
@@ -110,7 +111,17 @@ function App() {
                 isSeller ? (
                   <Projects />
                 ) : (
-                  <Navigate to="//" />
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route
+              path="/projects"
+              element={
+                !(mode === "buyer") ? (
+                  <AllProjects />
+                ) : (
+                  <Navigate to="/" />
                 )
               }
             />

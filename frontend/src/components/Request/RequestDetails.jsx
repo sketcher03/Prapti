@@ -1,10 +1,12 @@
-import Store from "../redux/store";
-import { deleteRequest } from "../redux/actions/requests";
+import Store from "../../redux/store";
+import { deleteRequest } from "../../redux/actions/requests";
 import { useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import "../css/PopupForm.css";
+import "../../css/PopupForm.css";
+import { setAllRequests, setRequests } from '../../redux/actions/requests';
+import { useEffect, useState } from 'react';
 
 //date ffns
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
@@ -19,8 +21,21 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 const RequestDetails = (props) => {
 
   const { allRequests, requests } = useSelector((state) => state.requests);
-  const { isSeller } = useSelector((state) => state.user);
+  const { isSeller, mode } = useSelector((state) => state.user);
   //console.log(requests)
+
+  useEffect(() => {
+    // console.log(requests);
+    // console.log(user)
+
+    if (mode === "seller") {
+      Store.dispatch(setAllRequests());
+    }
+    else {
+      Store.dispatch(setRequests());
+    }
+    
+  }, [allRequests, requests]);
 
   const handleClose = () => {
     props.setOpen(false);
@@ -29,6 +44,8 @@ const RequestDetails = (props) => {
   const handleDelete = async () => {
 
     Store.dispatch(deleteRequest(props.requestID));
+
+    handleClose();
   };
 
   //console.log(props.requestID)
@@ -51,48 +68,48 @@ const RequestDetails = (props) => {
           },
         }}
       >
-        {isSeller ? (
+        {mode === "seller" ? (
           allRequests
-          .filter((request) => request._id === props.requestID)
-          .map((filteredRequest) => (
-            <div className="request-each" key={filteredRequest._id}>
-              <DialogTitle
-                style={{
-                  textAlign: "center",
-                  fontWeight: "700",
-                  fontFamily: "Poppins",
-                  fontSize: "24px",
-                  margin: "20px 0px",
-                }}
-              >
-                {filteredRequest.title}
-              </DialogTitle>
-              <DialogContent>
-                <p>
-                  <strong>Description: </strong>
-                  {filteredRequest.description}
-                </p>
-                <p>
-                  <strong>Service: </strong>
-                  {filteredRequest.category}
-                </p>
-                <p>
-                  <strong>Budget: </strong>
-                  {filteredRequest.budget}
-                </p>
-                <p>
-                  <strong>Time (days): </strong>
-                  {filteredRequest.timeline}
-                </p>
-                <p className="date">
-                  Published{" "}
-                  {formatDistanceToNow(new Date(filteredRequest.createdAt), {
-                    addSuffix: true,
-                  })}
-                </p>
-              </DialogContent>
-            </div>
-          ))
+            .filter((request) => request._id === props.requestID)
+            .map((filteredRequest) => (
+              <div className="request-each" key={filteredRequest._id}>
+                <DialogTitle
+                  style={{
+                    textAlign: "center",
+                    fontWeight: "700",
+                    fontFamily: "Poppins",
+                    fontSize: "24px",
+                    margin: "20px 0px",
+                  }}
+                >
+                  {filteredRequest.title}
+                </DialogTitle>
+                <DialogContent>
+                  <p>
+                    <strong>Description: </strong>
+                    {filteredRequest.description}
+                  </p>
+                  <p>
+                    <strong>Service: </strong>
+                    {filteredRequest.category}
+                  </p>
+                  <p>
+                    <strong>Budget: </strong>
+                    {filteredRequest.budget}
+                  </p>
+                  <p>
+                    <strong>Time (days): </strong>
+                    {filteredRequest.timeline}
+                  </p>
+                  <p className="date">
+                    Published{" "}
+                    {formatDistanceToNow(new Date(filteredRequest.createdAt), {
+                      addSuffix: true,
+                    })}
+                  </p>
+                </DialogContent>
+              </div>
+            ))
         ) : (
           requests
             .filter((request) => request._id === props.requestID)
@@ -142,14 +159,14 @@ const RequestDetails = (props) => {
             <CloseIcon />
           </button>
           <Link
-            to={isSeller ? "/" : `/requests/update/${props.requestID}`}
+            to={!(mode === "seller") ? "/" : `/requests/update/${props.requestID}`}
             className="edit-req"
           >
-            {isSeller ? "Apply" : "Edit"}
-            {isSeller ? <ForwardIcon /> : <EditIcon />}
+            {!(mode === "seller") ? "Apply" : "Edit"}
+            {!(mode === "seller") ? <ForwardIcon /> : <EditIcon />}
           </Link>
           {
-            !isSeller ? (
+            (mode === "seller") ? (
               <button className="delete-req" onClick={handleDelete}>
                 Delete
                 <DeleteForeverIcon />
@@ -161,7 +178,7 @@ const RequestDetails = (props) => {
               </button>
             )
           }
-          
+
         </DialogActions>
         {props.children}
 

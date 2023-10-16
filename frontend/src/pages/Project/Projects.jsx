@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 import Store from "../../redux/store";
 import { FiArrowRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { setProjects } from "../../redux/actions/projects"
+import { setProjects } from "../../redux/actions/projects";
+import Chip from '@mui/material/Chip';
 
 //mui imports
 import { DataGrid } from "@mui/x-data-grid";
@@ -14,6 +15,7 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 //components
 import ProjectDetails from '../../components/Project/ProjectDetails';
+
 
 const Projects = () => {
     //const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -44,14 +46,17 @@ const Projects = () => {
             field: "category",
             headerName: "Category",
             flex: 1,
+            // renderCell: (params) => (
+            //     <Chip label={params.value} color="secondary" />
+            // ),
         },
         {
             field: "verified",
             headerName: "Approval Status",
             flex: 1,
-            renderCell: (params) => {
-                return (params.value === false) ? "Pending" : "Approved";
-            },
+            renderCell: (params) => (
+                <Chip label={(params.value === false) ? "Pending" : "Approved"} color={(params.value === false) ? "warning" : "success" } />
+            ),
         },
         {
             field: "createdAt",
