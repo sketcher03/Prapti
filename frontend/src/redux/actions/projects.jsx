@@ -1,7 +1,7 @@
 import axios from "axios";
 import { server } from "../../../server";
 
-//set requests
+//set projects
 export const setProjects = () => async (dispatch) => {
     try {
         dispatch({
@@ -15,6 +15,38 @@ export const setProjects = () => async (dispatch) => {
                 //console.log(res);
                 dispatch({
                     type: "SetProjectsSuccess",
+                    payload: res.data.projects,
+                });
+            })
+            .catch((error) => {
+                dispatch({
+                    type: "SetProjectsFailure",
+                    payload: error.response.data.message,
+                });
+            });
+    }
+    catch (err) {
+        dispatch({
+            type: "SetProjectsFailure",
+            payload: err.response.data.message,
+        });
+    }
+};
+
+//set all projects
+export const setAllProjects = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: "SetProjects",
+        });
+
+        const url = `${server}/projects/all`;
+
+        await axios.get(url, { withCredentials: true })
+            .then((res) => {
+                //console.log(res);
+                dispatch({
+                    type: "SetAllProjectsSuccess",
                     payload: res.data.projects,
                 });
             })

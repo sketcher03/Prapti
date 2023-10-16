@@ -2,6 +2,7 @@ import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
     projects: [],
+    allProjects: [],
     postSuccess: false,
 }
 
@@ -16,6 +17,10 @@ export const projectsReducer = createReducer(initialState, {
     SetProjectsFailure: (state, action) => {
         state.loading = false;
         state.error = action.payload;
+    },
+    SetAllProjectsSuccess: (state, action) => {
+        state.loading = false;
+        state.allProjects = action.payload;
     },
     CreateProjectSuccess: (state, action) => {
         state.loading = false;

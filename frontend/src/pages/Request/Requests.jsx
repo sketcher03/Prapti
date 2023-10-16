@@ -30,7 +30,7 @@ const Requests = () => {
     // console.log(user)
     Store.dispatch(setRequests());
 
-  }, [requests]);
+  }, []);
 
   const columns = [
     {

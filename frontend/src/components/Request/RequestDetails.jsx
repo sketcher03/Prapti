@@ -35,7 +35,7 @@ const RequestDetails = (props) => {
       Store.dispatch(setRequests());
     }
     
-  }, [allRequests, requests]);
+  }, []);
 
   const handleClose = () => {
     props.setOpen(false);

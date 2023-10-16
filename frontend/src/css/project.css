@@ -2,14 +2,15 @@
 
 /* Seller Pages CSS */
 .project-container {
-    margin: 0;
+    margin: 0 auto;
     display: flex;
-    margin-top: 20px;
     flex-direction: column;
     align-items: center;
+    margin-top: 30px;
+    max-width: 1200px;
 }
 
-.create-project-input{
+.create-project-input {
     width: 690px;
     margin-bottom: 20px;
 }
@@ -96,7 +97,7 @@
     font-size: 18px;
 }
 
-.projectbtn3 svg{
+.projectbtn3 svg {
     font-size: 36px;
 }
 
@@ -137,6 +138,61 @@
     border: 2px solid rgb(0, 61, 0);
 }
 
-.project-steps{
+.project-steps {
     margin: 20px 10px;
+}
+
+
+.projectbtn {
+    color: #006b37;
+    border: 3px solid green;
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+    margin-bottom: 20px;
+    margin-left: 65%;
+}
+
+.projectbtn svg {
+    margin-left: 0.3rem;
+    font-size: 2rem;
+}
+
+.projectbtn:hover {
+    border: 3px solid rgb(0, 64, 0);
+    background-color: #e6fff3;
+    cursor: pointer;
+}
+
+.project-shop {
+    display: flex;
+    margin-top: 30px;
+    align-items: left;
+    width: 100%;
+}
+
+.project-card{
+    margin: 0px 10px;
+    padding: 20px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.carousel{
+    width: 280px;
+    box-shadow: 0px 0px 12px #b7b7b7;
+    color: transparent;
+    border-radius: 10px;
+}
+
+.carousel-images{
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 10px;
 }

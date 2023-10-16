@@ -63,7 +63,7 @@ const createProject = async (req, res) => {
     }
 };
 
-//GET all requests
+//GET all projects from a single user
 const getProjects = async (req, res) => {
 
     const user_id = req.user._id;
@@ -79,7 +79,7 @@ const getProjects = async (req, res) => {
 
 };
 
-//GET all requests
+//GET all projects
 const getAllProjects = async (req, res) => {
 
     try {

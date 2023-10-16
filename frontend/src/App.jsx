@@ -128,10 +128,10 @@ function App() {
             <Route
               path="/project/starter"
               element={
-                user.role === "user100" ? (
+                !(mode === "seller") ? (
                   <ProjectStarter />
                 ) : (
-                  <Navigate to="/seller/starter" />
+                  <Navigate to="/" />
                 )
               }
             />

@@ -3,7 +3,7 @@ import '../../css/requests.css';
 import { useSelector } from 'react-redux';
 import Store from "../../redux/store";
 import { FiArrowRight } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setProjects } from "../../redux/actions/projects";
 import Chip from '@mui/material/Chip';
 
@@ -11,25 +11,26 @@ import Chip from '@mui/material/Chip';
 import { DataGrid } from "@mui/x-data-grid";
 
 //date ffns
-import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 //components
 import ProjectDetails from '../../components/Project/ProjectDetails';
 
 
 const Projects = () => {
-    //const { isAuthenticated, user } = useSelector((state) => state.user);
-    const { projects } = useSelector((state) => state.projects)
+    const { mode } = useSelector((state) => state.user);
+    const { projects } = useSelector((state) => state.projects);
     const [projectId, setProjectId] = useState("");
     const [open, setOpen] = useState(false);
 
+    const navigate = useNavigate();
 
     useEffect(() => {
         // console.log(requests);
         // console.log(user)
         Store.dispatch(setProjects());
 
-    }, [projects]);
+    }, []);
 
     const columns = [
         {
@@ -70,9 +71,24 @@ const Projects = () => {
         },
     ];
 
-    //console.log(requestId)
+    const handleNewProject = () => {
+        navigate('/project/starter');
+    }
+
     return (
         <div className="req-container">
+
+            {!(mode === "seller") ? (
+
+                <button
+                    className="projectbtn"
+                    onClick={handleNewProject}
+                >
+                    Post a New Project<FiArrowRight />
+                </button>
+            ) : (
+                ""
+            )}
 
             <div className="requests">
                 <h1>My Projects</h1>
