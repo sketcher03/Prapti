@@ -28,15 +28,17 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const [image, setImage] = useState(null);
-  const [modeText, setModeText] = useState("Seller Dashboard");
+  const [modeText, setModeText] = useState("Become A Seller");
 
   useEffect(() => {
     //console.log(user.profilePic);
     setImage(user.profilePic);
 
-    if (!isSeller) {
-      setModeText("Become A Seller")
+    if (mode === "buyer") {
+      setModeText("Seller Dashboard");
+      navigate("/")
     }
+
   }, [user]);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -54,11 +56,13 @@ const Navbar = () => {
 
     if (!isSeller) {
       if (user.role === "user") {
+        setActive(0);
         navigate("/seller/starter");
         console.log("user recognised");
       }
 
       if (user.role === "user100") {
+        setActive(0);
         navigate("/project/starter");
         console.log("user100 recognised");
       }
@@ -66,18 +70,20 @@ const Navbar = () => {
     else {
       Store.dispatch(changeMode(mode));
 
-      if (mode === "seller") {
+      if (mode === "buyer") {
         setModeText("Buyer Dashboard");
       }
       else {
         setModeText("Seller Dashboard")
       }
-    }
 
-    console.log(mode);
-    setActive(0);
-    navigate("/");
+      setActive(0);
+      navigate("/");
+    }
+    
   };
+
+  console.log(mode)
 
   const handleProfile = () => {
     setActive(0);
@@ -93,7 +99,7 @@ const Navbar = () => {
     Store.dispatch(logoutUser());
   };
 
-  const Menus = mode === "seller" ? [
+  const Menus = !(mode === "seller") ? [
     {
       name: "Dashboard",
       icon: "home-outline",

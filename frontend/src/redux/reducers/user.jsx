@@ -48,6 +48,9 @@ export const userReducer = createReducer(initialState, {
         state.isAuthenticated = true;
         state.error = action.payload;
     },
+    SetMode: (state, action) => {
+        state.mode = action.payload;
+    },
     ChangeModeToSeller: (state) => {
         state.mode = "seller";
     },

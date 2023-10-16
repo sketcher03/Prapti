@@ -159,14 +159,14 @@ const RequestDetails = (props) => {
             <CloseIcon />
           </button>
           <Link
-            to={!(mode === "seller") ? "/" : `/requests/update/${props.requestID}`}
+            to={(mode === "seller") ? "/" : `/requests/update/${props.requestID}`}
             className="edit-req"
           >
-            {!(mode === "seller") ? "Apply" : "Edit"}
-            {!(mode === "seller") ? <ForwardIcon /> : <EditIcon />}
+            {(mode === "seller") ? "Apply" : "Edit"}
+            {(mode === "seller") ? <ForwardIcon /> : <EditIcon />}
           </Link>
           {
-            (mode === "seller") ? (
+            !(mode === "seller") ? (
               <button className="delete-req" onClick={handleDelete}>
                 Delete
                 <DeleteForeverIcon />

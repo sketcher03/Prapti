@@ -78,7 +78,7 @@ const Projects = () => {
     return (
         <div className="req-container">
 
-            {!(mode === "seller") ? (
+            {(mode === "seller") ? (
 
                 <button
                     className="projectbtn"

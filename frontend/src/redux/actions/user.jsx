@@ -17,7 +17,7 @@ export const saveUser = () => async (dispatch) => {
           payload: res.data.user
         });
 
-        console.log(res.data.user.role)
+        //console.log(res.data.user.role)
 
         if (res.data.user.role === "seller") {
           dispatch({
@@ -152,6 +152,23 @@ export const changeMode = (mode) => async (dispatch) => {
     else {
       dispatch({
         type: "ChangeModeToBuyer",
+      });
+    }
+  }
+  catch (error) {
+    dispatch({
+      type: "ChangeModeFailure",
+      payload: err.response.data.message,
+    });
+  }
+}
+
+export const setMode = (role) => async (dispatch) => {
+  try {
+    if (role === "seller") {
+      dispatch({
+        type: "ChangeModeToSeller",
+        payload: "seller",
       });
     }
   }

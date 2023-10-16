@@ -10,7 +10,7 @@ const Dashboard = () => {
   return (
     <div className='dashboard-container'>
       {
-        !(mode === "seller") ? (
+        (mode === "seller") ? (
           <SellerDashboard />
         ) : (
           <BuyerDashboard />

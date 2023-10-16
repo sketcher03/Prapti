@@ -13,7 +13,7 @@ import Activation from './pages/Activation/Activation'
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Store from './redux/store';
-import { saveUser } from './redux/actions/user';
+import { saveUser, setMode } from './redux/actions/user';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home'
 import SellerStarter from './pages/Seller/SellerStarter';
@@ -34,6 +34,8 @@ function App() {
   useEffect(() => {
     Store.dispatch(saveUser());
     //console.log(user)
+
+    Store.dispatch(setMode(user.role))
   }, []);
 
   return (
@@ -87,13 +89,7 @@ function App() {
             />
             <Route
               path="/seller/starter"
-              element={
-                user.role === "user" ? (
-                  <SellerStarter />
-                ) : (
-                  <Navigate to="/project/starter" />
-                )
-              }
+              element={<SellerStarter />}
             />
             <Route
               path="/seller/dashboard"
@@ -118,7 +114,7 @@ function App() {
             <Route
               path="/projects"
               element={
-                !(mode === "buyer") ? (
+                (mode === "buyer") ? (
                   <AllProjects />
                 ) : (
                   <Navigate to="/" />
@@ -128,7 +124,7 @@ function App() {
             <Route
               path="/project/starter"
               element={
-                !(mode === "seller") ? (
+                !(mode === "seller" && isSeller) ? (
                   <ProjectStarter />
                 ) : (
                   <Navigate to="/" />

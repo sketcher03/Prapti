@@ -72,7 +72,7 @@ const Requests = () => {
   return (
     <div className="req-container">
       
-      {!(mode === "buyer") ? (
+      {(mode === "buyer") ? (
         <div>
           <p className="req-subheading">Can't find a Specific Service?</p>
           <h2 className="req-heading">Well... Look no further!</h2>
