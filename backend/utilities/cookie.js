@@ -1,6 +1,5 @@
-const saveCookie = (user, res, statusCode, isAdmin) => {
+const saveCookie = (user, res, statusCode) => {
     
-    const cookieName = isAdmin ? "admin" : "user";
     const token = user.createJwtToken();
 
     const options = {
@@ -10,7 +9,7 @@ const saveCookie = (user, res, statusCode, isAdmin) => {
         expires: new Date(Date.now() + 3 * 24 * 3600 * 1000)
     };
 
-    res.status(statusCode).cookie(cookieName, token, options).send({
+    res.status(statusCode).cookie("user", token, options).send({
         user,
         token
     });

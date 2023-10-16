@@ -1,11 +1,18 @@
 import { useState } from 'react';
 import '../../css/Login_Signup.css';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
 import { server } from '../../../server';
 import axios from 'axios';
+import Store from "../../redux/store";
+import { logoutUser } from "../../redux/actions/user";
+import { useSelector } from 'react-redux';
 
 const AdminLogin = () => {
+
+    const { isAuthenticated} = useSelector((state) => state.user);
+
+    const navigate = useNavigate();
 
     const [data, setData] = useState({
         email: "",
@@ -34,23 +41,33 @@ const AdminLogin = () => {
             const url = `${server}/auth/admin/login`;
 
             console.log(data)
+
+            const newForm = new FormData();
+            const email = data.email;
+            const password = data.password;
+
+            newForm.append("email", email);
+            newForm.append("password", password);
             
-            axios.post(url, data, {
+            await axios.post(url, newForm ,{
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             })
                 .then((res) => {
                     console.log("Login Successful")
                     //console.log(JSON.stringify(res.data));
-                     console.log(res.data.admin)
+                     console.log(res.data.token)
                     /*
                     setData({ 
                         email: "",
                         password: "",
                     });
                     */
+                   if(isAuthenticated){
+                    Store.dispatch(logoutUser());
+                   }
                     
-                    //window.location = "/Admin_Dashboard";
+                    navigate("/admin/dashboard");
                 })
                 .catch((err) => {
                     setError(err.response.data.message);
