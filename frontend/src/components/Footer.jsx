@@ -13,7 +13,7 @@ const Footer = () => {
     const navigate = useNavigate();
 
     const handleAdmin = () => {
-        navigate("/admin/signup");
+        navigate("/admin/dashboard");
     }
 
     //const { isAuthenticated } = useSelector((state) => state.user);

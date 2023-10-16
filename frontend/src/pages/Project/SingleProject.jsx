@@ -102,10 +102,9 @@ const SingleProject = () => {
                 <h1 className='project-title'>{projectData.title}</h1>
                 
                 <Swiper
-                    modules={[Navigation, Pagination, Scrollbar]}
+                    modules={[Pagination, Scrollbar]}
                     spaceBetween={1}
                     slidesPerView={1}
-                    navigation
                     pagination={{ clickable: true }}
                     scrollbar={{ draggable: true }}
                     onSlideChange={() => console.log('slide change')}
