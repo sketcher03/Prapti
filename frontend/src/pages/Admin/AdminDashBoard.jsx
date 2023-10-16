@@ -1,5 +1,5 @@
 import React from 'react'
-import '.../css/dashboard.css'
+import '../../css/Dashboard.css'
 
 const AdminDashBoard = () => {
   return (
@@ -7,4 +7,4 @@ const AdminDashBoard = () => {
   )
 }
 
-export default AdminDashBoard
+export default AdminDashBoard;

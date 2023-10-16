@@ -16,7 +16,14 @@ export const saveAdmin = () => async (dispatch) => {
           type: "SaveAdminSuccess",
           payload: res.data.user
         });
+
+        if (res.data.user.role === "admin") {
+          dispatch({
+            type: "SaveAdminRole",
+          });
+        }
       })
+
       .catch((error) => {
         dispatch({
           type: "SaveAdminFailure",

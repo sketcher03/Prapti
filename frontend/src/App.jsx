@@ -20,6 +20,7 @@ import SellerStarter from './pages/Seller/SellerStarter';
 import ProjectStarter from './pages/Project/ProjectStarter';
 import MyProfile from './pages/MyProfile';
 import EditProfile from './pages/EditProfile';
+import AdminDashBoard from './pages/Admin/AdminDashBoard';
 
 const title = 'React';
 
@@ -77,6 +78,12 @@ function App() {
               path='/profile/edit'
               element={<EditProfile/>}
             />
+
+            <Route
+              path='/admin/dashboard'
+              element={<AdminDashBoard/>}
+            />
+
             <Route
               path="/seller/starter"
               element={

@@ -16,18 +16,19 @@ const defaultUser = {
 const initialState = {
     isAuthenticated: false,
     user: defaultUser,
+    role: "admin",
 };
 
 export const adminReducer = createReducer(initialState, {
-    SaveUserRequest: (state) => {
+    SaveAdminRequest: (state) => {
         state.loading = true;
     },
-    SaveUserSuccess: (state, action) => {
+    SaveAdminSuccess: (state, action) => {
         state.isAuthenticated = true;
         state.loading = false;
         state.admin = action.payload;
     },
-    SaveUserFailure: (state, action) => {
+    SaveUAdminrFailure: (state, action) => {
         state.loading = false;
         state.error = action.payload;
         state.isAuthenticated = false;
