@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdminSignup from './pages/Admin/AdminSignup';
 import AdminLogin from './pages/Admin/AdminLogin';
+import AdminDashBoard from './pages/Admin/AdminDashBoard';
 import RequestUpdateForm from './pages/Request/RequestUpdateForm'
 import Activation from './pages/Activation/Activation'
 import Navbar from './components/Navbar';

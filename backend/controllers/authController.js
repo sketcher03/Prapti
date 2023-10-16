@@ -5,6 +5,7 @@ const express = require('express');
 const crypto = require("crypto");
 const sendMail = require('../utilities/sendMail');
 const saveCookie = require('../utilities/cookie');
+const saveAdminCookie = require('../utilities/cookieAdmin');
 const requireAuth = require('../middleware/requireAuthentication');
 
 const router = express.Router();
@@ -66,7 +67,7 @@ router.post('/admin/login', async (req, res) => {
         }
 
         res.status(200).send({admin, message: "login successful"})
-        //saveCookie(admin, res, 201);
+        saveAdminCookie(admin, res, 201);
 
     } catch (error) {
         res.status(400).send({ message: error.message });
