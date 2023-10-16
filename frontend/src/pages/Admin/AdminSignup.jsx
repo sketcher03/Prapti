@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import '../css/Login_Signup.css';
+import '../../css/Login_Signup.css';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from 'react-router-dom';
 import { RxAvatar } from "react-icons/rx";
 import axios from "axios";
-import { server } from '../../server';
+import { server } from '../../../server';
 //const navigate = useNavigate();
 
 const AdminSignup = () => {
@@ -247,7 +247,7 @@ const AdminSignup = () => {
                 
                 <h4>Already have an account?</h4>
 
-                <Link to="/Adminlogin" className="text-green-600 pl-4">
+                <Link to="/admin/login" className="text-green-600 pl-4">
                     Login
                 </Link>
             </div>

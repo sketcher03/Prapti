@@ -8,7 +8,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdminSignup from './pages/AdminSignup';
 import AdminLogin from './pages/AdminLogin';
-import RequestUpdateForm from './pages/Request/RequestUpdateForm'
+import RequestUpdateForm from './pages/RequestUpdateForm'
 import Activation from './pages/Activation/Activation'
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -25,7 +25,6 @@ import AllRequests from './pages/Request/AllRequests';
 import Projects from './pages/Project/Projects';
 import AllProjects from './pages/Project/AllProjects';
 import SingleProject from './pages/Project/SingleProject';
-
 const title = 'React';
 
 function App() {
@@ -59,7 +58,7 @@ function App() {
             />
             <Route
               path="/admin/login"
-              element={<AdminLogin />}
+              element={<AdminLogin /> }
             />
             <Route path="/users/:id/verify/:token" element={<Activation />} />
             <Route
@@ -88,6 +87,12 @@ function App() {
               path='/profile/edit'
               element={<EditProfile />}
             />
+
+            <Route
+              path='/admin/dashboard'
+              element={<AdminDashBoard/>}
+            />
+
             <Route
               path="/seller/starter"
               element={<SellerStarter />}
