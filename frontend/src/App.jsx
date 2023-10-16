@@ -6,9 +6,10 @@ import { useSelector } from 'react-redux';
 import Requests from './pages/Request/Requests';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import AdminSignup from './pages/AdminSignup';
-import AdminLogin from './pages/AdminLogin';
-import RequestUpdateForm from './pages/RequestUpdateForm'
+import AdminSignup from './pages/Admin/AdminSignup';
+import AdminLogin from './pages/Admin/AdminLogin';
+import AdminDashBoard from './pages/Admin/AdminDashBoard';
+import RequestUpdateForm from './pages/Request/RequestUpdateForm'
 import Activation from './pages/Activation/Activation'
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
