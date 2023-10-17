@@ -15,12 +15,15 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import Divider from '@mui/material/Divider';
 import GpsNotFixedIcon from '@mui/icons-material/GpsNotFixed';
 import Chip from '@mui/material/Chip';
+import Badge from '@mui/material/Badge';
+import Avatar from "@mui/material/Avatar";
+import Rating from '@mui/material/Rating';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // import Swiper core and required modules
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import { Pagination, Scrollbar } from 'swiper/modules';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -34,6 +37,9 @@ const SingleProject = () => {
 
     //console.log(param.id);
     const [error, setError] = useState(null);
+
+    const [userImage, setUserImage] = useState('');
+
     const [projectData, setProjectData] = useState({
         title: "",
         category: [""],
@@ -53,9 +59,16 @@ const SingleProject = () => {
                 req_type: "text",
             }
         ],
-        pictures: ['']
+        pictures: [''],
+        user_id: ""
     });
-    const [userData, setUserData] = useState();
+
+    const [userData, setUserData] = useState({
+        verified: false,
+        display_name: "",
+        username: "",
+        description: ""
+    });
 
     const [activeStep, setActiveStep] = useState(0);
     const maxSteps = projectData.priceTiers.length;
@@ -81,6 +94,8 @@ const SingleProject = () => {
 
                     setProjectData(res.data.project);
                     setUserData(res.data.user);
+                    setUserImage(res.data.user.profilePic);
+
                 })
                 .catch((err) => {
                     setError(err.response.data.message);
@@ -94,7 +109,7 @@ const SingleProject = () => {
         
     }, [])
 
-    console.log(projectData);
+    console.log(projectData,  userData);
 
     return (
         <div className='single-project-container'>
@@ -133,8 +148,8 @@ const SingleProject = () => {
             <div className="project-priceTiers" >
                 <div style={{ marginLeft: "18px", marginBottom: "18px", display: 'flex' }}>
                     {
-                        projectData.category.map((category) => (
-                            <div style={{ margin: "5px" }}>
+                        projectData.category.map((category, index) => (
+                            <div key={index} style={{ margin: "5px" }}>
                                 <Chip size='medium' variant='outlined' color='secondary' label={ category } />
                             </div>
 
@@ -191,8 +206,8 @@ const SingleProject = () => {
                 <div className="project-deliverables">
                     <h2 className='project-title'>Project Deliverables</h2>
                     {
-                        projectData.deliverables.map((deliverable) => (
-                            <div style={{ marginTop: "20px"}}>
+                        projectData.deliverables.map((deliverable, index) => (
+                            <div key={index} style={{ marginTop: "20px"}}>
                                 <Divider />
                                 <div style={{display: "flex", alignItems: "center"}}>
                                     <GpsNotFixedIcon />
@@ -205,6 +220,40 @@ const SingleProject = () => {
                     }
                 </div>
 
+                <div className='project-user-highlight'>
+                    <Badge badgeContent={userData.verified ? "Verified" : "Not Verified"} color={userData.verified ? "success" : "error"}>
+                        {
+                            userImage ? (
+                                <Avatar
+                                    sx={{ width: "200px", height: "200px", marginBottom: "30px" }}
+                                    alt="Profile Picture"
+                                    src={`${server}/${userImage}`}
+                                />
+                            ) : (
+                                <Avatar sx={{ width: 50, height: 50 }}>A</Avatar>
+                            )
+                        }
+
+                    </Badge>
+
+                    <h1 style={{ margin: "0px" }}>{userData.display_name}</h1>
+                    <h6 style={{ color: "grey", marginBottom: "15px" }}>@{userData.username}</h6>
+
+                    {/* rating */}
+                    <Rating
+                        sx={{
+                            marginBottom: "20px"
+                        }}
+                        name="rating"
+                        value={0}
+                        precision={0.1}
+                        readOnly
+                        size="large"
+                    />
+                    <p style={{textAlign: "center"}}>{userData.description}</p>
+                    <button className="profilebtn1" style={{ marginBottom: "0px", marginTop: "30px" }}>Contact Me</button>
+
+                </div>
                 
                 
             </div>

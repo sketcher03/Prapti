@@ -263,3 +263,15 @@
     height: 30px;
     color: #006b37;
 }
+
+.project-user-highlight {
+    border: 3px solid rgb(184, 184, 184);
+    margin: 30px;
+    margin-top: 40px;
+    padding-bottom: 0px;
+    padding: 50px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+}

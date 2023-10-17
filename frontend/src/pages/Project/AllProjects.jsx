@@ -14,7 +14,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // import Swiper core and required modules
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import { Pagination, Scrollbar } from 'swiper/modules';
 
 // Import Swiper styles
 import 'swiper/css';

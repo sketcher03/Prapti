@@ -26,8 +26,7 @@ import AllRequests from './pages/Request/AllRequests';
 import Projects from './pages/Project/Projects';
 import AllProjects from './pages/Project/AllProjects';
 import SingleProject from './pages/Project/SingleProject';
-import AdminDashBoard from './pages/Admin/AdminDashBoard'
-
+import Inbox from './pages/Chat/Inbox';
 
 const title = 'React';
 
@@ -68,6 +67,10 @@ function App() {
             <Route
               path="/"
               element={isAuthenticated ? <Dashboard /> : <Home />}
+            />
+            <Route
+              path="/inbox"
+              element={<Inbox/>}
             />
             <Route
               path="/requests"

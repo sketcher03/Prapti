@@ -27,8 +27,10 @@ const authRoutes = require('./controllers/authController');
 const userRoutes = require('./controllers/userController');
 const adminRoutes = require('./controllers/adminController');
 const projectRoutes = require('./routes/projects')
+const chatRoutes = require('./routes/chats')
 
 //route
+app.use('/api/chat', chatRoutes);
 app.use('/api/requests', requestRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/user', userRoutes);

@@ -38,7 +38,7 @@ router.post('/signup', upload.single("file"), async (req, res, next) => {
         )
 
         res.status(201).send({ message: `Please Check your Email: ${user.email} to activate your account` });
-            
+
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
@@ -47,12 +47,12 @@ router.post('/signup', upload.single("file"), async (req, res, next) => {
 //activation 
 router.get("/:id/verify/:token", async (req, res) => {
     try {
-        
+
         //console.log("Error Here")
 
         const token = await Token.findOne({
             userId: req.params.id,
-			token: req.params.token,
+            token: req.params.token,
         });
 
         if (!token) {
@@ -113,7 +113,7 @@ router.put('/updateall/:id', upload.single("file"), async (req, res, next) => {
         console.log("error here");
 
         res.status(200).send({ user, success: true, message: "Your information has been saved Successfully!" });
-            
+
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
@@ -149,10 +149,28 @@ router.put('/update/:id', async (req, res, next) => {
         console.log("error here");
 
         res.status(200).send({ user, success: true, message: "Your information has been saved Successfully!" });
-            
+
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
 });
+
+//update user route
+router.get('/', async (req, res) => {
+
+    const keyword = req.query.search ? {
+        $or: [
+            { name: { $regex: req.query.search, $options: "i" } },
+            { email: { $regex: req.query.search, $options: "i" } },
+        ]
+    } : {};
+
+    const users = await User.find(keyword)//.find({_id: {$ne: req.user._id}})
+
+    console.log(keyword);
+
+    res.status(200).send({ users, success: true, message: "Users extracted successfully!" });
+
+})
 
 module.exports = router;
