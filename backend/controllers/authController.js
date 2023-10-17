@@ -66,7 +66,7 @@ router.post('/admin/login', async (req, res) => {
             throw Error("Please wait for verification");
         }
 
-        res.status(200).send({admin, message: "login successful"})
+        /*res.status(200).send({admin, message: "login successful"})*/
         saveAdminCookie(admin, res, 201);
 
     } catch (error) {
