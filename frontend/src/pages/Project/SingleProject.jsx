@@ -3,6 +3,9 @@ import { Link, useParams } from "react-router-dom";
 import '../../css/project.css';
 import { server } from "../../../server";
 import axios from 'axios';
+import { accessChats } from '../../redux/actions/chats';
+import Store from "../../redux/store";
+import { useSelector } from 'react-redux';
 
 //MUI imports
 import Box from '@mui/material/Box';
@@ -34,6 +37,9 @@ import 'swiper/css/scrollbar';
 const SingleProject = () => {
 
     const param = useParams();
+
+    const { chats } = useSelector((state) => state.chats);
+    const { user } = useSelector((state) => state.user);
 
     //console.log(param.id);
     const [error, setError] = useState(null);
@@ -81,6 +87,13 @@ const SingleProject = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+
+    const handleChat = () => {
+        console.log("chat creation pressed");
+
+        Store.dispatch(accessChats(chats, setError, userData._id, user._id));
+    };
+
     useEffect(() => {
 
         try {
@@ -101,7 +114,7 @@ const SingleProject = () => {
                     setError(err.response.data.message);
                 })
 
-            console.log(projectData, userData);
+            //console.log(projectData, userData);
         }
         catch (error) {
             setError(error.message);
@@ -109,7 +122,10 @@ const SingleProject = () => {
         
     }, [])
 
-    console.log(projectData,  userData);
+    //console.log(user._id);
+    //console.log(userData._id);
+
+    //console.log(projectData,  userData);
 
     return (
         <div className='single-project-container'>
@@ -251,7 +267,7 @@ const SingleProject = () => {
                         size="large"
                     />
                     <p style={{textAlign: "center"}}>{userData.description}</p>
-                    <button className="profilebtn1" style={{ marginBottom: "0px", marginTop: "30px" }}>Contact Me</button>
+                    <button onClick={handleChat} className="profilebtn1" style={{ marginBottom: "0px", marginTop: "30px" }}>Contact Me</button>
 
                 </div>
                 

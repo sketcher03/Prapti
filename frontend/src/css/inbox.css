@@ -6,4 +6,71 @@
     grid-template-columns: auto 750px 300px;
     margin-top: 60px;
     max-width: 1400px;
+    /* height: 80vh; */
+}
+
+.chat-heads{
+    margin-right: 20px;
+}
+
+.chat-head{
+    display: flex;
+    border: 2px solid rgb(212, 212, 212);
+    border-radius: 10px;
+    margin: 20px;
+    padding: 12px 15px;
+    background-color: rgb(242, 255, 251);
+    cursor: pointer;
+    align-items: center;
+}
+
+.single-chat{
+    padding: 20px;
+    background-color: aliceblue;
+    margin-right: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.chat-header{
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 15px 13px;
+}
+
+.send-message {
+    margin: 10px 0px;
+    display: flex;
+    align-items: center;
+}
+
+.sendbtn {
+    border: 2px solid rgb(0, 104, 0);
+    color: #006015;
+    background-color: transparent;
+    padding: 20px 60px;
+    margin: 10px 0px;
+    border-radius: 18px;
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+    margin-bottom: 20px;
+}
+
+.sendbtn:hover {
+    border: 2px solid rgb(0, 104, 0);
+    color: #006015;
+    background-color: wy;
+    padding: 20px 60px;
+    margin: 10px 0px;
+    border-radius: 18px;
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+    margin-bottom: 20px;
 }

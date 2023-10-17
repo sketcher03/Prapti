@@ -6,16 +6,14 @@ const messageSchema = new Schema({
     sender: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true,
-    },
-    reciever: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
     },
     isRead: {
         type: Boolean,
         default: false,
+    },
+    chat: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "chat"
     },
     text: {
         type: String,

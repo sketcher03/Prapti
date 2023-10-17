@@ -10,7 +10,7 @@ const requireAuth = async (req, res, next) => {
 
         const token = req.cookies.user;
 
-        if(!token) {
+        if (!token) {
             return res.status(401).send({ message: 'You are not logged in' });
         }
 
@@ -27,5 +27,5 @@ const requireAuth = async (req, res, next) => {
     }
 
 }
- 
+
 module.exports = requireAuth;

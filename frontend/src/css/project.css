@@ -171,8 +171,8 @@
 .project-shop {
     display: flex;
     margin-top: 30px;
-    align-items: left;
     width: 100%;
+    margin-left: -40px;
 }
 
 .project-card{

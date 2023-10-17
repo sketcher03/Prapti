@@ -62,7 +62,7 @@ function App() {
             />
             <Route
               path="/admin/login"
-              element={<AdminLogin /> }
+              element={<AdminLogin />}
             />
             <Route path="/users/:id/verify/:token" element={<Activation />} />
             <Route
@@ -71,7 +71,7 @@ function App() {
             />
             <Route
               path="/inbox"
-              element={<Inbox/>}
+              element={<Inbox />}
             />
             <Route
               path="/requests"
@@ -98,7 +98,7 @@ function App() {
 
             <Route
               path='/admin/dashboard'
-              element={<AdminDashBoard/>}
+              element={<AdminDashBoard />}
             />
 
             <Route
