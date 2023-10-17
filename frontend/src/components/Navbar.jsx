@@ -5,6 +5,7 @@ import '../css/Navbar_Footer.css'
 import { useSelector } from 'react-redux';
 import Store from "../redux/store";
 import { changeMode, logoutUser } from "../redux/actions/user";
+import { logoutAdmin } from "../redux/actions/admin";
 import { server } from "../../server";
 
 //MUI imports
@@ -23,6 +24,7 @@ import Logout from "@mui/icons-material/Logout";
 
 const Navbar = () => {
   const { isAuthenticated, isSeller, user, mode } = useSelector((state) => state.user);
+  const { isAdminAuthenticated, admin } = useSelector((state) => state.admin);
   //console.log(isSeller);
 
   const navigate = useNavigate();
@@ -39,7 +41,7 @@ const Navbar = () => {
       navigate("/")
     }
 
-  }, [user]);
+  }, [user, admin]);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -80,9 +82,7 @@ const Navbar = () => {
       setActive(0);
       navigate("/");
     }
-    
   };
-
   console.log(mode)
 
   const handleProfile = () => {
@@ -98,7 +98,12 @@ const Navbar = () => {
     //console.log("logout");
     Store.dispatch(logoutUser());
   };
+  const handleAdminLogout = () => {
+    //console.log("logout");
+    Store.dispatch(logoutAdmin());
+  };
 
+  //seller Dashboard
   const Menus = !(mode === "seller") ? [
     {
       name: "Dashboard",
@@ -175,6 +180,33 @@ const Navbar = () => {
     },
   ];
 
+  //admin Dashboard
+  const adminMenus = [
+    {
+      name: "All Users",
+      icon: "home-outline",
+      path: `/AdminDashBoard`,
+      dis: "translate-x-4",
+    },
+    {
+      name: `Projects`,
+      icon: "shapes-outline",
+      path: `/projects`,
+      dis: "translate-x-[110px]",
+    },
+    {
+      name: "Requests",
+      icon: "create-outline",
+      path: `/requests/all`,
+      dis: "translate-x-[208px]",
+    },
+    {
+      name: "Help",
+      icon: "help-circle-outline",
+      path: "/help",
+      dis: "translate-x-[305px]",
+    },
+  ]
   const [active, setActive] = useState(0);
 
   return (
@@ -212,18 +244,64 @@ const Navbar = () => {
                     onClick={() => setActive(i)}
                   >
                     <span
-                      className={`text-base text-green-600 font-semibold ${
-                        active === i
+                      className={`text-base text-green-600 font-semibold ${active === i
                           ? "translate-y-[10px] duration-700 opacity-100 "
                           : "opacity-0 translate-y-10"
-                      }`}
+                        }`}
                     >
                       {menu.name}
                     </span>
                     <span
-                      className={`text-3xl font-[800] cursor-pointer mb-4 duration-500 ${
-                        i === active && "text-green-100 translate-y-12"
-                      }`}
+                      className={`text-3xl font-[800] cursor-pointer mb-4 duration-500 ${i === active && "text-green-100 translate-y-12"
+                        }`}
+                    >
+                      <ion-icon name={menu.icon}></ion-icon>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+
+      {isAdminAuthenticated && (
+        <div className="nav-menu">
+          <div className="bg-green-100 max-h-32 px-10 rounded-2xl mt-12">
+            <ul className="flex relative items-center">
+              <span
+                className={`bg-lime-500 duration-500 ${adminMenus[active].dis} border-[6px] border-white h-16 w-16 absolute 
+                            -bottom-7 rounded-full scale-125`}
+              >
+                <span
+                  className="w-4 h-4 bg-transparent absolute top-[14px] -left-[21.1px] rotate-90 rounded-tr-[10px]
+                                shadow-myShadow1"
+                ></span>
+
+                <span
+                  className="w-4 h-4 bg-transparent absolute top-[14px] -right-[21.1px] -rotate-90 rounded-tl-[11px]
+                                shadow-myShadow2"
+                ></span>
+              </span>
+
+              {adminMenus.map((menu, i) => (
+                <li key={i} className="w-24 translate-y-1 text-center">
+                  <Link
+                    to={menu.path}
+                    className="flex flex-col text-center mt-4 mb-5"
+                    onClick={() => setActive(i)}
+                  >
+                    <span
+                      className={`text-base text-green-600 font-semibold ${active === i
+                          ? "translate-y-[10px] duration-700 opacity-100 "
+                          : "opacity-0 translate-y-10"
+                        }`}
+                    >
+                      {menu.name}
+                    </span>
+                    <span
+                      className={`text-3xl font-[800] cursor-pointer mb-4 duration-500 ${i === active && "text-green-100 translate-y-12"
+                        }`}
                     >
                       <ion-icon name={menu.icon}></ion-icon>
                     </span>
@@ -353,19 +431,22 @@ const Navbar = () => {
         // </div>
       )}
 
-      {!isAuthenticated && (
+      {isAdminAuthenticated ? (
         <div className="text-l font-[700] mr-6 cursor-pointer align-center">
-          <Link className="login-link" to="/login">
-            Login
-            {/* <span
-                            className="text-3xl font-[800] mr-6 cursor-pointer px-2 align-center"
-                        >
-                            <ion-icon className="nav-login" name="log-in-outline"></ion-icon>
-                        </span> */}
-          </Link>
-          <Link className="ml-8 signup-btn" to="/signup">
-            Register
-          </Link>
+          <button onClick={handleAdminLogout} >Logout</button>
+        </div>
+      ) : (
+        <div>
+          {!isAuthenticated && (
+            <div className="text-l font-[700] mr-6 cursor-pointer align-center">
+              <Link className="login-link" to="/login">
+                Login
+              </Link>
+              <Link className="ml-8 signup-btn" to="/signup">
+                Register
+              </Link>
+            </div>
+          )}
         </div>
       )}
     </div>

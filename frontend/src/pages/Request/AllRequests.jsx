@@ -3,7 +3,7 @@ import '../../css/requests.css';
 import { useSelector } from 'react-redux';
 import Store from "../../redux/store";
 import { FiArrowRight } from "react-icons/fi";
-import { setAllRequests } from '../../redux/actions/requests';
+import { setAllRequests , setAllRequestsAdmin} from '../../redux/actions/requests';
 import { Link } from "react-router-dom";
 
 //mui imports
@@ -18,19 +18,26 @@ import RequestForm from '../../components/Request/RequestForm';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 
+
 const AllRequests = () => {
   const { isSeller, mode } = useSelector((state) => state.user);
   const { allRequests } = useSelector((state) => state.requests)
   const [requestFormPopup, setRequestFormPopup] = useState(false);
   const [open, setOpen] = useState(false);
   const [requestId, setRequestId] = useState("");
+  const { isAdminAuthenticated, admin } = useSelector((state) => state.admin);
 
 
   useEffect(() => {
     // console.log(requests);
     // console.log(user)
-    
-    Store.dispatch(setAllRequests());
+    if (isAdminAuthenticated) 
+    {
+      Store.dispatch(setAllRequestsAdmin());
+    }
+    else{
+      Store.dispatch(setAllRequests());
+    }
 
   }, []);
 
@@ -82,7 +89,7 @@ const AllRequests = () => {
   return (
     <div className="req-container">
       
-      {!isSeller ? (
+      {(!isSeller && !isAdminAuthenticated) ? (
         <div>
           <p className="req-subheading">Can't find a Specific Service?</p>
           <h2 className="req-heading">Well... Look no further!</h2>
@@ -98,7 +105,7 @@ const AllRequests = () => {
       )}
 
       <div className="requests">
-        <h1>{isSeller ? "All Requests" : "Your Requests"}</h1>
+        <h1>{(isSeller || isAdminAuthenticated) ? "All Requests" : "Your Requests"}</h1>
         <div className="requests-section">
           <DataGrid
             disableRowSelectionOnClick

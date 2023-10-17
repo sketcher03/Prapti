@@ -16,6 +16,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Store from './redux/store';
 import { saveUser, setMode } from './redux/actions/user';
+import { saveAdmin } from './redux/actions/admin';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home'
 import SellerStarter from './pages/Seller/SellerStarter';
@@ -34,10 +35,13 @@ const title = 'React';
 function App() {
 
   const { isAuthenticated, isSeller, user, mode } = useSelector((state) => state.user);
+  const { isAdminAuthenticated, admin } = useSelector((state) => state.admin);
 
   useEffect(() => {
     Store.dispatch(saveUser());
+    Store.dispatch(saveAdmin());
     //console.log(user)
+    console.log(admin, isAdminAuthenticated)
 
     Store.dispatch(setMode(user.role))
   }, []);
@@ -58,16 +62,16 @@ function App() {
             />
             <Route
               path="/admin/signup"
-              element={<AdminSignup />}
+              element={!isAdminAuthenticated ? <AdminSignup /> : <Navigate to="/admin/dashboard" />}
             />
             <Route
               path="/admin/login"
-              element={<AdminLogin />}
+              element={!isAdminAuthenticated ? <AdminLogin /> : <Navigate to="/admin/dashboard" />}
             />
             <Route path="/users/:id/verify/:token" element={<Activation />} />
             <Route
               path="/"
-              element={isAuthenticated ? <Dashboard /> : <Home />}
+              element={(!isAuthenticated && !isAdminAuthenticated) ? <Home /> : (isAuthenticated ? <Dashboard/> : <Navigate to="/admin/dashboard" /> )}
             />
             <Route
               path="/inbox"
@@ -79,7 +83,7 @@ function App() {
             />
             <Route
               path="/requests/all"
-              element={isAuthenticated ? <AllRequests /> : <Navigate to="/" />}
+              element={(isAuthenticated || isAdminAuthenticated) ?<AllRequests /> : <Navigate to="/" />}
             />
             <Route
               path="/requests/update/:id"
@@ -98,7 +102,7 @@ function App() {
 
             <Route
               path='/admin/dashboard'
-              element={<AdminDashBoard />}
+              element={< AdminDashBoard/>}
             />
 
             <Route
@@ -128,7 +132,7 @@ function App() {
             <Route
               path="/projects"
               element={
-                (mode === "buyer") ? (
+                (mode === "buyer" || isAdminAuthenticated) ? (
                   <AllProjects />
                 ) : (
                   <Navigate to="/" />
