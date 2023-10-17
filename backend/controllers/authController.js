@@ -7,6 +7,7 @@ const sendMail = require('../utilities/sendMail');
 const saveCookie = require('../utilities/cookie');
 const saveAdminCookie = require('../utilities/cookieAdmin');
 const requireAuth = require('../middleware/requireAuthentication');
+const requireAdminAuth = require('../middleware/requireAdminAuthentication');
 
 const router = express.Router();
 
@@ -94,14 +95,16 @@ router.get('/saveuser', requireAuth, async (req, res, next) => {
 })
 
 //save admin information
-router.get('/saveadmin', requireAuth, async (req, res, next) => {
+router.get('/saveadmin', requireAdminAuth, async (req, res, next) => {
+    console.log(req.admin.id)
     
     try {
-        const admin = await admin.findById(req.user.id);
+        const admin = await Admin.findById(req.admin.id);
+        console.log()
 
         if (!admin) {
             console.log("cant find user")
-            throw Error("User does not Exist");
+            throw Error("Admin does not Exist");
         }
 
         res.status(200).send({ admin, success: true });
@@ -126,7 +129,7 @@ router.post('/logout', async (req, res) => {
 })
 
 //admin logout route
-router.post('/logout', async (req, res) => {
+router.post('/admin/logout', async (req, res) => {
 
     try{
 

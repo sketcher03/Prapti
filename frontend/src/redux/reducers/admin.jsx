@@ -1,46 +1,43 @@
 import { createReducer } from "@reduxjs/toolkit";
 
-const defaultUser = {
+const defaultAdmin = {
     email: "",
     username: "",
     profilePic: "",
-    name: "",
-    display_name: "",
-    description: "",
+    fname: "",
+    lname: "",
     phoneNumber: 0,
     profilePic: null,
-    role: "admin",
     createdAt: null
 };
 
 const initialState = {
-    isAuthenticated: false,
-    user: defaultUser,
-    role: "admin",
+    isAdminAuthenticated: false,
+    admin: defaultAdmin,
 };
 
 export const adminReducer = createReducer(initialState, {
-    SaveAdminRequest: (state) => {
+    SaveAdmin: (state) => {
         state.loading = true;
     },
     SaveAdminSuccess: (state, action) => {
-        state.isAuthenticated = true;
+        state.isAdminAuthenticated = true;
         state.loading = false;
         state.admin = action.payload;
     },
     SaveUAdminrFailure: (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        state.isAuthenticated = false;
+        state.isAdminAuthenticated = false;
     },
     LogoutSuccess: (state, action) => {
         state.loading = false;
-        state.isAuthenticated = false;
+        state.isAdminAuthenticated = false;
         state.success = action.payload;
     },
     LogoutFailure: (state, action) => {
         state.loading = false;
-        state.isAuthenticated = true;
+        state.isAdminAuthenticated = true;
         state.error = action.payload;
     },
     dissolveErrors: (state) => {

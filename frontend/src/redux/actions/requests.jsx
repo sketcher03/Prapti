@@ -66,6 +66,39 @@ export const setAllRequests = () => async (dispatch) => {
 };
 
 
+export const setAllRequestsAdmin = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: "SetRequests",
+        });
+
+        const url = `${server}/requests/admin/all`;
+
+        await axios.get(url, { withCredentials: true })
+            .then((res) => {
+                //console.log(res);
+                dispatch({
+                    type: "SetAllRequestsSuccess",
+                    payload: res.data.requests,
+                });
+            })
+            .catch((error) => {
+                dispatch({
+                    type: "SetRequestsFailure",
+                    payload: error.response.data.message,
+                });
+            });
+    }
+    catch (err) {
+        dispatch({
+            type: "SetRequestsFailure",
+            payload: err.response.data.message,
+        });
+    }
+};
+
+
+
 //create request
 export const createRequest = (request, setData, setEmptyFields, setError, props) => async (dispatch) => {
   try {

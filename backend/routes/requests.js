@@ -9,29 +9,34 @@ const {
     getAllRequests
 } = require('../controllers/requestController');
 
+const requireAdminAuth = require('../middleware/requireAdminAuthentication')
 const requireAuth = require('../middleware/requireAuthentication')
 
 const router = express.Router();
 
 //require authorization before firing all other routes
-router.use(requireAuth);
+//router.use(requireAuth);
 
 //GET all requests posted by authenticated user
-router.get('/', getRequests);
+router.get('/', requireAuth, getRequests);
+router.get('/admin', requireAdminAuth, getRequests);
 
 //GET all requests
-router.get('/all', getAllRequests);
+router.get('/all', requireAuth, getAllRequests);
+router.get('/admin/all', requireAdminAuth, getAllRequests);
 
 //GET a single request info
-router.get('/:id', getRequest);
+router.get('/:id', requireAuth, getRequest);
+router.get('/admin/:id', requireAdminAuth, getRequest);
 
 //POST a new request
-router.post('/', createRequest);
+router.post('/', requireAuth, createRequest);
 
 //DELETE a request
-router.delete('/:id', deleteRequest);
+router.delete('/:id', requireAuth, deleteRequest);
+router.delete('/admin/:id', requireAdminAuth, deleteRequest);
 
 //UPDATE a request
-router.put('/:id', updateRequest);
+router.put('/:id', requireAuth, updateRequest);
 
 module.exports = router;

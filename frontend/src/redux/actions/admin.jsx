@@ -5,7 +5,7 @@ import { server } from "../../../server";
 export const saveAdmin = () => async (dispatch) => {
   try {
     dispatch({
-      type: "SaveAdminRequest"
+      type: "SaveAdmin"
     })
 
     const url = `${server}/auth/saveadmin`;
@@ -14,16 +14,9 @@ export const saveAdmin = () => async (dispatch) => {
       .then((res) => {
         dispatch({
           type: "SaveAdminSuccess",
-          payload: res.data.user
+          payload: res.data.admin
         });
-
-        if (res.data.user.role === "admin") {
-          dispatch({
-            type: "SaveAdminRole",
-          });
-        }
       })
-
       .catch((error) => {
         dispatch({
           type: "SaveAdminFailure",
@@ -39,20 +32,20 @@ export const saveAdmin = () => async (dispatch) => {
   }
 }
 
-//logout
+//logout admin
 export const logoutAdmin = () => async (dispatch) => {
   try {
     dispatch({
       type: "SaveAdminRequest"
     })
 
-    const url = `${server}/auth/logout`;
+    const url = `${server}/auth/admin/logout`;
 
     await axios.post(url, {}, { withCredentials: true })
       .then((res) => {
         dispatch({
           type: "LogoutSuccess",
-          payload: res.data.user
+          payload: res.data.admin
         });
       })
       .catch((error) => {
@@ -89,15 +82,15 @@ export const editAdmin =
         console.log("dispatch success")
 
         const url = profilePic
-          ? `${server}/user/updateall/${id}`
-          : `${server}/user/update/${id}`;
+          ? `${server}/admin/updateall/${id}`
+          : `${server}/admin/update/${id}`;
 
         const header = profilePic
           ? `multipart/form-data`
           : `application/json`;
 
         await axios
-          .put(url, updateUser, {
+          .put(url, updateAdmin, {
             withCredentials: true,
             headers: { "Content-Type": header },
           })
@@ -105,19 +98,19 @@ export const editAdmin =
             console.log(res);
 
             setData({
-              name: res.data.user.name,
-              display_name: res.data.user.display_name,
-              description: res.data.user.description,
-              phoneNumber: res.data.user.phoneNumber,
-              email: res.data.user.email,
-              username: res.data.user.username,
+              name: res.data.admin.name,
+              display_name: res.data.admin.display_name,
+              description: res.data.admin.description,
+              phoneNumber: res.data.admin.phoneNumber,
+              email: res.data.admin.email,
+              username: res.data.admin.username,
             });
 
             setError(res.data.message);
 
             dispatch({
               type: "SaveAdminSuccess",
-              payload: res.data.user,
+              payload: res.data.admin,
             });
           })
           .catch((error) => {
