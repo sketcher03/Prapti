@@ -72,11 +72,13 @@ export const setAllRequestsAdmin = () => async (dispatch) => {
             type: "SetRequests",
         });
 
+        //console.log("jndjskbfjsdfjdfbjsbfjsfb")
+
         const url = `${server}/requests/admin/all`;
 
         await axios.get(url, { withCredentials: true })
             .then((res) => {
-                //console.log(res);
+                console.log(res);
                 dispatch({
                     type: "SetAllRequestsSuccess",
                     payload: res.data.requests,
@@ -163,7 +165,42 @@ export const deleteRequest = (id) => async (dispatch) => {
                 console.log(res);
 
                 dispatch({
-                    type: "CreateRequestSuccess",
+                    type: "DeleteRequestSuccess",
+                    payload: res.data.request,
+                });
+            })
+            .catch((err) => {
+                
+                dispatch({
+                    type: "DeleteRequestFailure",
+                    payload: err.response.data.message,
+                });
+            });
+    }
+    catch (error) {
+        dispatch({
+            type: "DeleteRequestFailure",
+            payload: error.message,
+        });
+    }
+    
+};
+
+//delete request admin
+export const deleteRequestAdmin = (id) => async (dispatch) => {
+
+    try {
+        dispatch({
+            type: "SetRequests",
+        });
+        
+        await axios
+            .delete(`${server}/requests/admin/${id}`, { withCredentials: true })
+            .then((res) => {
+                console.log(res);
+
+                dispatch({
+                    type: "DeleteRequestSuccess",
                     payload: res.data.request,
                 });
             })

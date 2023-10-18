@@ -1,5 +1,5 @@
 import Store from "../../redux/store";
-import { deleteRequest } from "../../redux/actions/requests";
+import { deleteRequest, deleteRequestAdmin, setAllRequestsAdmin } from "../../redux/actions/requests";
 import { useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -22,18 +22,25 @@ const RequestDetails = (props) => {
 
   const { allRequests, requests } = useSelector((state) => state.requests);
   const { isSeller, mode } = useSelector((state) => state.user);
+  const { isAdminAuthenticated, admin } = useSelector((state) => state.admin);
   //console.log(requests)
 
   useEffect(() => {
-    // console.log(requests);
+    console.log(isAdminAuthenticated);
     // console.log(user)
 
-    if (mode === "seller") {
-      Store.dispatch(setAllRequests());
+    if (isAdminAuthenticated) {
+      Store.dispatch(setAllRequestsAdmin());
     }
     else {
-      Store.dispatch(setRequests());
+      if (mode === "seller") {
+        Store.dispatch(setAllRequests());
+      }
+      else {
+        Store.dispatch(setRequests());
+      }
     }
+    
     
   }, []);
 
@@ -43,7 +50,12 @@ const RequestDetails = (props) => {
 
   const handleDelete = async () => {
 
-    Store.dispatch(deleteRequest(props.requestID));
+    if (isAdminAuthenticated) {
+      Store.dispatch(deleteRequestAdmin(props.requestID));
+    }
+    else{
+      Store.dispatch(deleteRequest(props.requestID));
+    }
 
     handleClose();
   };
@@ -68,7 +80,7 @@ const RequestDetails = (props) => {
           },
         }}
       >
-        {mode === "seller" ? (
+        {mode === "seller" || isAdminAuthenticated ? (
           allRequests
             .filter((request) => request._id === props.requestID)
             .map((filteredRequest) => (
