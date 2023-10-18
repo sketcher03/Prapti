@@ -94,6 +94,26 @@ router.get('/saveuser', requireAuth, async (req, res, next) => {
     }
 })
 
+//get single user information
+router.get('/getuser/:id', requireAuth, async (req, res, next) => {
+    
+    try {
+        const { id } = req.params;
+
+        const user = await User.findById(id);
+
+        if (!user) {
+            console.log("cant find user");
+            throw Error("User does not Exist");
+        }
+
+        res.status(200).send({ user, success: true });
+    }
+    catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+})
+
 //save admin information
 router.get('/saveadmin', requireAdminAuth, async (req, res, next) => {
     console.log(req.admin.id)

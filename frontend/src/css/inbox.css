@@ -2,16 +2,16 @@
 
 .inbox-container {
     margin: 0;
-    margin-left: -75px;
+    margin-left: -100px;
     display: grid;
-    grid-template-columns: auto 1000px auto;
+    grid-template-columns: auto 950px auto;
     margin-top: 20px;
     max-width: 1800px;
     /* height: 80vh; */
 }
 
 .chat-heads{
-    margin-right: 20px;
+    margin-right: 0px;
 }
 
 .chat-head{

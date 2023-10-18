@@ -4,20 +4,41 @@ import { useSelector } from 'react-redux';
 import { setChats, setSelectedChat } from '../../redux/actions/chats';
 import Store from "../../redux/store";
 import { getSender, getSenderImage } from '../../config/ChatLogic';
-import { server } from "../../../server";
 import Avatar from "@mui/material/Avatar";
 import SingleChat from '../../components/Inbox/SingleChat';
 import Badge from '@mui/material/Badge';
 import Rating from '@mui/material/Rating';
+import { useNavigate } from "react-router-dom";
+
+import axios from "axios";
+import { server } from "../../../server";
 
 const Inbox = () => {
 
     const { user } = useSelector((state) => state.user);
     const { chats, selectedChat } = useSelector((state) => state.chats);
 
+    const navigate = useNavigate();
+
     //console.log(chats)
 
     const [error, setError] = useState("");
+    const [userData, setUserData] = useState({
+        email: "",
+        username: "",
+        name: "",
+        display_name: "",
+        description: "",
+        phoneNumber: 0,
+        talents: [],
+        profilePic: null,
+        billingAddresses: [],
+        role: "user",
+        createdAt: null
+    });
+    const [userImage, setUserImage] = useState('');
+
+    const recieverID = (user?._id === selectedChat?.users[0]._id) ? selectedChat?.users[1]._id : selectedChat?.users[0]._id;
 
     const handleSelectChat = (chat) => {
         //console.log("Chat selected");
@@ -27,12 +48,32 @@ const Inbox = () => {
         //console.log(isSelected)
     };
 
+
+    const handleProfile = () => {
+        
+        navigate(`/profile/${recieverID}`)
+
+    };
+
+    
+
     useEffect(() => {
         // console.log(requests);
         // console.log(user)
         Store.dispatch(setChats(setError));
 
-    }, []);
+        const url = `${server}/auth/getuser/${recieverID}`;
+
+        axios.get(url, { withCredentials: true })
+            .then((res) => {
+                setUserData(res.data.user);
+                setUserImage(res.data.user.profilePic);
+            })
+            .catch((error) => {
+                setError(error.response.data.message)
+            });
+
+    }, [recieverID]);
 
     return (
         <div className='inbox-container'>
@@ -82,12 +123,12 @@ const Inbox = () => {
             <div>
                 <SingleChat />
             </div>
-            <div>
-                {/* <Badge badgeContent={userData.verified ? "Verified" : "Not Verified"} color={userData.verified ? "success" : "error"}>
+            <div style={{display: "flex", flexDirection: "column", alignItems: "center", padding: "20px", marginRight: "500px"}}>
+                <Badge badgeContent={userData.verified ? "Verified" : "Not Verified"} color={userData.verified ? "success" : "error"}>
                     {
                         userImage ? (
                             <Avatar
-                                sx={{ width: "200px", height: "200px", marginBottom: "30px" }}
+                                sx={{ width: "150px", height: "150px", marginBottom: "30px" }}
                                 alt="Profile Picture"
                                 src={`${server}/${userImage}`}
                             />
@@ -113,7 +154,7 @@ const Inbox = () => {
                     size="large"
                 />
                 <p style={{ textAlign: "center" }}>{userData.description}</p>
-                <button onClick={handleChat} className="profilebtn1" style={{ marginBottom: "0px", marginTop: "30px" }}>Contact Me</button> */}
+                <button onClick={handleProfile} className="profilebtn1" style={{ marginBottom: "0px", marginTop: "30px" }}>Visit My Profile</button>
 
             </div>
         </div>

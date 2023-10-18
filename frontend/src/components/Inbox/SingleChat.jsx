@@ -63,6 +63,8 @@ const SingleChat = () => {
         
     }, [selectedChat])
 
+    const recieverID = (user?._id === selectedChat?.users[0]._id) ? selectedChat?.users[1]._id : selectedChat?.users[0]._id;
+
     console.log(selectedChat)
 
     const handleSendMessage = async (e) => {
@@ -73,8 +75,6 @@ const SingleChat = () => {
         try {
 
             const url = `${server}/message`;
-
-            const recieverID = (user?._id === selectedChat?.users[0]._id) ? selectedChat?.users[1]._id : user?._id;
 
             await axios.post(url,
                 {
