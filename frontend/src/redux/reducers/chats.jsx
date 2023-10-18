@@ -8,7 +8,8 @@ const initialState = {
         },
         {
             profilePic: ""
-        }]
+        }],
+        latestMessage: ""
     },
 }
 
@@ -23,6 +24,7 @@ export const chatsReducer = createReducer(initialState, {
     SetSelectedChatSuccess: (state, action) => {
         state.loading = false;
         state.selectedChat = action.payload;
+        //state.reciever = action.payload;
     },
     SetChatsFailure: (state, action) => {
         state.loading = false;

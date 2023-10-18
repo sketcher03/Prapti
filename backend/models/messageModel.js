@@ -7,6 +7,10 @@ const messageSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
+    reciever: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    },
     isRead: {
         type: Boolean,
         default: false,
@@ -21,6 +25,6 @@ const messageSchema = new Schema({
     file: {
         type: String,
     },
-}, { timestamps: true })
+}, { timestamps: true, toJSON: { virtuals: true } })
 
 module.exports = mongoose.model('message', messageSchema);

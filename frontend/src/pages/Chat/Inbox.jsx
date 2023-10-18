@@ -7,16 +7,25 @@ import { getSender, getSenderImage } from '../../config/ChatLogic';
 import { server } from "../../../server";
 import Avatar from "@mui/material/Avatar";
 import SingleChat from '../../components/Inbox/SingleChat';
+import Badge from '@mui/material/Badge';
+import Rating from '@mui/material/Rating';
 
 const Inbox = () => {
 
     const { user } = useSelector((state) => state.user);
-    const { chats } = useSelector((state) => state.chats);
+    const { chats, selectedChat } = useSelector((state) => state.chats);
 
     //console.log(chats)
 
     const [error, setError] = useState("");
-    const [isSelected, setIsSelected] = useState(false);
+
+    const handleSelectChat = (chat) => {
+        //console.log("Chat selected");
+
+        Store.dispatch(setSelectedChat(setError, chat));
+
+        //console.log(isSelected)
+    };
 
     useEffect(() => {
         // console.log(requests);
@@ -24,16 +33,6 @@ const Inbox = () => {
         Store.dispatch(setChats(setError));
 
     }, []);
-
-    const handleSelectChat = (chat) => {
-        //console.log("Chat selected");
-
-        Store.dispatch(setSelectedChat(setError, chat));
-
-        setIsSelected(true);
-
-        console.log(isSelected)
-    };
 
     return (
         <div className='inbox-container'>
@@ -61,10 +60,10 @@ const Inbox = () => {
 
                                             {chat.latestMessage && (
                                                 <p >
-                                                    <b>{chat.latestMessage.sender.name} : </b>
-                                                    {chat.latestMessage.content.length > 50
-                                                        ? chat.latestMessage.content.substring(0, 51) + "..."
-                                                        : chat.latestMessage.content}
+                                                    <b>{chat.latestMessage.sender.display_name} : </b>
+                                                    {chat.latestMessage.text.length > 10
+                                                        ? chat.latestMessage.text.substring(0, 11) + "..."
+                                                        : chat.latestMessage.text}
                                                 </p>
                                             )}
                                         </div>
@@ -81,10 +80,41 @@ const Inbox = () => {
                 
             </div>
             <div>
-                <SingleChat select={isSelected} />
+                <SingleChat />
             </div>
             <div>
-                Chat Information
+                {/* <Badge badgeContent={userData.verified ? "Verified" : "Not Verified"} color={userData.verified ? "success" : "error"}>
+                    {
+                        userImage ? (
+                            <Avatar
+                                sx={{ width: "200px", height: "200px", marginBottom: "30px" }}
+                                alt="Profile Picture"
+                                src={`${server}/${userImage}`}
+                            />
+                        ) : (
+                            <Avatar sx={{ width: 50, height: 50 }}>A</Avatar>
+                        )
+                    }
+
+                </Badge>
+
+                <h1 style={{ margin: "0px" }}>{userData.display_name}</h1>
+                <h6 style={{ color: "grey", marginBottom: "15px" }}>@{userData.username}</h6>
+
+                
+                <Rating
+                    sx={{
+                        marginBottom: "20px"
+                    }}
+                    name="rating"
+                    value={0}
+                    precision={0.1}
+                    readOnly
+                    size="large"
+                />
+                <p style={{ textAlign: "center" }}>{userData.description}</p>
+                <button onClick={handleChat} className="profilebtn1" style={{ marginBottom: "0px", marginTop: "30px" }}>Contact Me</button> */}
+
             </div>
         </div>
     )

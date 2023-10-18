@@ -3,7 +3,6 @@ import { createReducer } from "@reduxjs/toolkit";
 const defaultAdmin = {
     email: "",
     username: "",
-    profilePic: "",
     fname: "",
     lname: "",
     phoneNumber: 0,
