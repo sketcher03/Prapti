@@ -29,6 +29,7 @@ const adminRoutes = require('./controllers/adminController');
 const projectRoutes = require('./routes/projects');
 const chatRoutes = require('./routes/chats');
 const messageRoutes = require('./routes/messages');
+const helpRoutes = require('./routes/help');
 
 //route
 app.use('/api/chat', chatRoutes);
@@ -38,5 +39,7 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/help', helpRoutes);
+
 
 module.exports = app;

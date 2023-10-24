@@ -29,6 +29,13 @@ import Projects from './pages/Project/Projects';
 import AllProjects from './pages/Project/AllProjects';
 import SingleProject from './pages/Project/SingleProject';
 import Inbox from './pages/Chat/Inbox';
+import HelpPage from './pages/Help/HelpPage';
+import Guide from './pages/Help/Guide';
+import FAQs from './pages/Help/FAQs';
+import Complaint from './pages/Help/Complaint';
+import Feedback from './pages/Help/Feedback';
+import CreateComplaint from './pages/Help/CreateComplaint';
+
 
 const title = 'React';
 
@@ -152,6 +159,30 @@ function App() {
                   <Navigate to="/" />
                 )
               }
+            />
+            <Route
+            path="/help"
+            element={<HelpPage/>}
+            />
+            <Route
+            path='/complaint'
+            element = {<Complaint/>}
+            />
+            <Route
+            path='/feedback'
+            element = {<Feedback/>}
+            />
+            <Route
+            path='/faq'
+            element = {<FAQs/>}
+            />
+            <Route
+            path='/guide'
+            element = {<Guide/>}
+            />
+            <Route
+            path='/complaint/create'
+            element = {<CreateComplaint/>}
             />
           </Routes>
         </div>
