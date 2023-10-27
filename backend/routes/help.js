@@ -9,7 +9,7 @@ const router = express.Router();
 router.post ('/complaint', createComplaint);
 
 //get complaint
-router.get('/complaint', getComplaints);
+router.get('/complaint/:id', getComplaints);
 
 //get all complaints
 

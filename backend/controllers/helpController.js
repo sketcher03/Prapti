@@ -24,11 +24,13 @@ const createComplaint = async(req, res) => {
 //get complaint from a single user
 
 const getComplaints = async (req, res) => {
-     const user_id = req.user._id;
-    console.log
+
+
+    const { id } = req.params;
+    //console.log
 
     try {
-        const complaints = await Complaint.find({user_id}).sort({createdAt: -1});
+        const complaints = await Complaint.find({user_id: id}).sort({createdAt: -1});
         res.status(200).send({complaints, message: "All Your Complaints are found."});
     }
     catch(error){

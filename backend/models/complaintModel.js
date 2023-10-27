@@ -17,6 +17,14 @@ const complaintSchema = new Schema ({
         type: String,
         required: true
     },
+    response: [{
+        admin_id: {
+            type: String,
+        },
+        response_text:{
+            type: String,
+        }
+    }]
 
 }, { timestamps: true });
 

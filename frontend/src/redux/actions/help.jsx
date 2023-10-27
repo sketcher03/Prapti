@@ -3,13 +3,13 @@ import axios from "axios";
 
 
 //set all complaints from a single user
-export const setComplaints = () => async (dispatch) => {
+export const setComplaints = (id) => async (dispatch) => {
     try{
         dispatch({
             type: "SetComplaints",
         });
 
-        const url = `${server}/help/complaint`;
+        const url = `${server}/help/complaint/${id}`;
 
         await axios.get(url, {withCredentials: true})
             .then ((res) => {
