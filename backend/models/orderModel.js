@@ -15,6 +15,10 @@ const orderSchema = new Schema({
         type: String,
         required: true,
     },
+    description: {
+        type: String,
+        required: true,
+    },
     price: { 
         type: Number,
         required: true,
@@ -35,6 +39,10 @@ const orderSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now(),
+    },
+    isDelivered: {
+        type: Boolean,
+        default: false,
     },
     deliveredAt: {
         type: Date,
