@@ -32,7 +32,7 @@ import Inbox from './pages/Chat/Inbox';
 import HelpPage from './pages/Help/HelpPage';
 import Guide from './pages/Help/Guide';
 import FAQs from './pages/Help/FAQs';
-import Complaint from './pages/Help/Complaint';
+import Complaint from './pages/Help/complaint';
 import Feedback from './pages/Help/Feedback';
 import CreateComplaint from './pages/Help/CreateComplaint';
 
@@ -78,7 +78,7 @@ function App() {
             <Route path="/users/:id/verify/:token" element={<Activation />} />
             <Route
               path="/"
-              element={(!isAuthenticated && !isAdminAuthenticated) ? <Home /> : (isAuthenticated ? <Dashboard/> : <Navigate to="/admin/dashboard" /> )}
+              element={(!isAuthenticated && !isAdminAuthenticated) ? <Home /> : (isAuthenticated ? <Dashboard /> : <Navigate to="/admin/dashboard" />)}
             />
             <Route
               path="/inbox"
@@ -90,7 +90,7 @@ function App() {
             />
             <Route
               path="/requests/all"
-              element={(isAuthenticated || isAdminAuthenticated) ?<AllRequests /> : <Navigate to="/" />}
+              element={(isAuthenticated || isAdminAuthenticated) ? <AllRequests /> : <Navigate to="/" />}
             />
             <Route
               path="/requests/update/:id"
@@ -109,7 +109,7 @@ function App() {
 
             <Route
               path='/admin/dashboard'
-              element={< AdminDashBoard/>}
+              element={< AdminDashBoard />}
             />
 
             <Route
@@ -161,28 +161,28 @@ function App() {
               }
             />
             <Route
-            path="/help"
-            element={<HelpPage/>}
+              path="/help"
+              element={<HelpPage />}
             />
             <Route
-            path='/complaint'
-            element = {<Complaint/>}
+              path='/complaint'
+              element={<Complaint />}
             />
             <Route
-            path='/feedback'
-            element = {<Feedback/>}
+              path='/feedback'
+              element={<Feedback />}
             />
             <Route
-            path='/faq'
-            element = {<FAQs/>}
+              path='/faq'
+              element={<FAQs />}
             />
             <Route
-            path='/guide'
-            element = {<Guide/>}
+              path='/guide'
+              element={<Guide />}
             />
             <Route
-            path='/complaint/create'
-            element = {<CreateComplaint/>}
+              path='/complaint/create'
+              element={<CreateComplaint />}
             />
           </Routes>
         </div>

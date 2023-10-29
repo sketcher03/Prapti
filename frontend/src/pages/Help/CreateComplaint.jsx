@@ -10,4 +10,4 @@ const CreateComplaint = () => {
   )
 }
 
-export default CreateComplaint
+export default CreateComplaint;

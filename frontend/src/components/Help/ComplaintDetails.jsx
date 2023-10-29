@@ -2,10 +2,11 @@ import Store from "../../redux/store";
 import { deleteRequest, deleteRequestAdmin, setAllRequestsAdmin } from "../../redux/actions/requests";
 import { useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
+import { setComplaints } from '../../redux/actions/help';
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import "../../css/PopupForm.css";
-import { setAllRequests, setRequests } from '../../redux/actions/requests';
+//import { setComplaints } from '../../redux/actions/help';
 import { useEffect, useState } from 'react';
 
 //date ffns
@@ -18,14 +19,14 @@ import DialogTitle from "@mui/material/DialogTitle";
 import ForwardIcon from '@mui/icons-material/Forward';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-const RequestDetails = (props) => {
+const ComplaintDetails = (props) => {
 
-  const { allRequests, requests } = useSelector((state) => state.requests);
+  const { complaints } = useSelector((state) => state.help);
   const {  mode } = useSelector((state) => state.user);
-  const { isAdminAuthenticated, admin } = useSelector((state) => state.admin);
+  const { isAdminAuthenticated } = useSelector((state) => state.admin);
   //console.log(requests)
 
-  useEffect(() => {
+ /* useEffect(() => {
     console.log(isAdminAuthenticated);
     // console.log(user)
 
@@ -33,7 +34,7 @@ const RequestDetails = (props) => {
       Store.dispatch(setAllRequestsAdmin());
     }
     else {
-      if (mode === "seller") {
+      if (mode === "user") {
         Store.dispatch(setAllRequests());
       }
       else {
@@ -42,7 +43,7 @@ const RequestDetails = (props) => {
     }
     
     
-  }, []);
+  }, []);*/
 
   const handleClose = () => {
     props.setOpen(false);
@@ -50,12 +51,12 @@ const RequestDetails = (props) => {
 
   const handleDelete = async () => {
 
-    if (isAdminAuthenticated) {
+    /*if (isAdminAuthenticated) {
       Store.dispatch(deleteRequestAdmin(props.requestID));
     }
     else{
       Store.dispatch(deleteRequest(props.requestID));
-    }
+    }*/
 
     handleClose();
   };
@@ -63,7 +64,7 @@ const RequestDetails = (props) => {
   //console.log(props.requestID)
 
   return (
-    <div className="request-details">
+    <div className="complaint-details">
       <Dialog
         open={props.open}
         onClose={handleClose}
@@ -80,11 +81,11 @@ const RequestDetails = (props) => {
           },
         }}
       >
-        {mode === "seller" || isAdminAuthenticated ? (
-          allRequests
-            .filter((request) => request._id === props.requestID)
-            .map((filteredRequest) => (
-              <div className="request-each" key={filteredRequest._id}>
+        {mode === "user" || isAdminAuthenticated ? (
+          complaints
+            .filter((complaint) => complaint._id === props.complaintID)
+            .map((filteredComplaint) => (
+              <div className="each-complaint" key={filteredComplaint._id}>
                 <DialogTitle
                   style={{
                     textAlign: "center",
@@ -94,28 +95,20 @@ const RequestDetails = (props) => {
                     margin: "20px 0px",
                   }}
                 >
-                  {filteredRequest.title}
+                  {filteredComplaint.title}
                 </DialogTitle>
                 <DialogContent>
                   <p>
                     <strong>Description: </strong>
                     {filteredRequest.description}
                   </p>
-                  <p>
-                    <strong>Service: </strong>
-                    {filteredRequest.category}
-                  </p>
-                  <p>
-                    <strong>Budget: </strong>
-                    {filteredRequest.budget}
-                  </p>
-                  <p>
-                    <strong>Time (days): </strong>
-                    {filteredRequest.timeline}
-                  </p>
+                  <P>
+                  <strong>Time (days): </strong>
+                    {filteredComplaint.timeline}
+                  </P>
                   <p className="date">
                     Published{" "}
-                    {formatDistanceToNow(new Date(filteredRequest.createdAt), {
+                    {formatDistanceToNow(new Date(filteredComplaint.createdAt), {
                       addSuffix: true,
                     })}
                   </p>
@@ -123,10 +116,10 @@ const RequestDetails = (props) => {
               </div>
             ))
         ) : (
-          requests
-            .filter((request) => request._id === props.requestID)
-            .map((filteredRequest) => (
-              <div className="request-each" key={filteredRequest._id}>
+          complaints
+            .filter((complaint) => complaint._id === props.complaintID)
+            .map((filteredComplaint) => (
+              <div className="each-complaint" key={filteredComplaint._id}>
                 <DialogTitle
                   style={{
                     textAlign: "center",
@@ -136,28 +129,20 @@ const RequestDetails = (props) => {
                     margin: "20px 0px",
                   }}
                 >
-                  {filteredRequest.title}
+                  {filteredComplaint.title}
                 </DialogTitle>
                 <DialogContent>
                   <p>
                     <strong>Description: </strong>
-                    {filteredRequest.description}
-                  </p>
-                  <p>
-                    <strong>Service: </strong>
-                    {filteredRequest.category}
-                  </p>
-                  <p>
-                    <strong>Budget: </strong>
-                    {filteredRequest.budget}
+                    {filteredComplaint.description}
                   </p>
                   <p>
                     <strong>Time (days): </strong>
-                    {filteredRequest.timeline}
+                    {filteredComplaint.timeline}
                   </p>
                   <p className="date">
                     Published{" "}
-                    {formatDistanceToNow(new Date(filteredRequest.createdAt), {
+                    {formatDistanceToNow(new Date(filteredComplaint.createdAt), {
                       addSuffix: true,
                     })}
                   </p>
@@ -170,26 +155,12 @@ const RequestDetails = (props) => {
             Close
             <CloseIcon />
           </button>
-          <Link
-            to={(mode === "seller") ? "/" : `/requests/update/${props.requestID}`}
-            className="edit-req"
-          >
-            {(mode === "seller") ? "Apply" : "Edit"}
-            {(mode === "seller") ? <ForwardIcon /> : <EditIcon />}
-          </Link>
-          {
-            !(mode === "seller") ? (
-              <button className="delete-req" onClick={handleDelete}>
-                Delete
-                <DeleteForeverIcon />
-              </button>
-            ) : (
+          : (
               <button className="delete-req" onClick={handleDelete}>
                 Save
                 <FavoriteIcon />
               </button>
             )
-          }
 
         </DialogActions>
         {props.children}
@@ -200,4 +171,4 @@ const RequestDetails = (props) => {
 
 }
 
-export default RequestDetails;
+export default ComplaintDetails;
