@@ -31,6 +31,9 @@ const orderSchema = new Schema({
             req_type: {
                 type: String,
             },
+            req_content: {
+                type: String,
+            }
         }
     ],
     timeline: {

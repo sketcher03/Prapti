@@ -87,6 +87,9 @@ const SingleProject = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+    const handleOrder = () => {
+        console.log("Order Placed");
+    };
 
     const handleChat = () => {
         console.log("chat creation pressed");
@@ -186,12 +189,14 @@ const SingleProject = () => {
                 >
                     <Typography sx={{ fontFamily: "poppins", fontWeight: "700", fontSize: "20px" }}>{projectData.priceTiers[activeStep].tier_title}</Typography>
                 </Paper>
-                <Box sx={{ height: 300, maxWidth: 400, width: '100%', p: 2 }}>
+                <Box sx={{ height: 380, maxWidth: 400, width: '100%', p: 2 }}>
                     <Typography sx={{ fontFamily: "poppins", fontWeight: "400", fontSize: "15px" }}>{projectData.priceTiers[activeStep].tier_description}</Typography>
                     
                     <Typography sx={{ fontFamily: "poppins", fontWeight: "400", fontSize: "15px", marginTop: "10px" }}><span style={{ fontWeight: "600", fontSize: "17px", color: "green" }}>Deliverables <br/></span>{projectData.priceTiers[activeStep].tier_deliverables}</Typography>
 
                     <Typography sx={{ fontFamily: "poppins", fontWeight: "700", fontSize: "24px", marginTop: "10px" }}><span style={{ fontWeight: "600", fontSize: "17px", color: "green"}}>BDT. </span>{projectData.priceTiers[activeStep].tier_price}</Typography>
+
+                    <button onClick={handleOrder} style={{marginTop: "20px"}}>Place an Order</button>
                 </Box>
                 <MobileStepper
                     variant="text"
