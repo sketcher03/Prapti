@@ -27,10 +27,10 @@ const AllRequests = () => {
   const [requestId, setRequestId] = useState("");
   const { isAdminAuthenticated, admin } = useSelector((state) => state.admin);
 
-
   useEffect(() => {
     // console.log(requests);
-    // console.log(user)
+    // console.log(user);
+    
     if (isAdminAuthenticated) 
     {
       Store.dispatch(setAllRequestsAdmin());
