@@ -17,8 +17,6 @@ import RequestForm from '../../components/Request/RequestForm';
 //date ffns
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
-
-
 const AllRequests = () => {
   const { isSeller, mode } = useSelector((state) => state.user);
   const { allRequests } = useSelector((state) => state.requests)

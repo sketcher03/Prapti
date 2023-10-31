@@ -7,7 +7,15 @@ const orderSchema = new Schema({
         type: String,
         required: true,
     },
+    buyerUsername: { //user.username
+        type: String,
+        required: true,
+    },
     sellerId: { //user_id
+        type: String,
+        required: true,
+    },
+    sellerUsername: { //user.username
         type: String,
         required: true,
     },
@@ -37,7 +45,7 @@ const orderSchema = new Schema({
         }
     ],
     timeline: {
-        type: Number, //in days
+        type: Date, //in days
     },
     createdAt: {
         type: Date,

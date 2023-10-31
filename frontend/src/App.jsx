@@ -29,6 +29,8 @@ import Projects from './pages/Project/Projects';
 import AllProjects from './pages/Project/AllProjects';
 import SingleProject from './pages/Project/SingleProject';
 import Inbox from './pages/Chat/Inbox';
+import BuyerOrders from './pages/Order/BuyerOrders';
+import SellerOrders from './pages/Order/SellerOrders';
 
 const title = 'React';
 
@@ -152,6 +154,14 @@ function App() {
                   <Navigate to="/" />
                 )
               }
+            />
+            <Route
+              path="/orders/buyer"
+              element={<BuyerOrders/>}
+            />
+            <Route
+              path="/orders/seller"
+              element={<SellerOrders/>}
             />
           </Routes>
         </div>

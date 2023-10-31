@@ -31,6 +31,9 @@ const projectSchema = new Schema({
             },
             tier_deliverables: {
                 type: String,
+            },
+            tier_timeline: {
+                type: Number,
             }
         }
     ],

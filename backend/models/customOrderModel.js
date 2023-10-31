@@ -37,4 +37,4 @@ const customOrderSchema = new Schema({
     }
 })
 
-module.exports = mongoose.Schema("customOrder", customOrderSchema);
+module.exports = mongoose.model("customOrder", customOrderSchema);
