@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import '../css/Login_Signup.css'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { server } from '../../server';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Login = () => {
+
+    const navigate = useNavigate();
 
     const [data, setData] = useState({
         email: "",
@@ -27,7 +30,7 @@ const Login = () => {
         try {
             //empty fields errors
             if (data.email === "" || data.password === "") {
-                setError("One or Few fields are Empty");
+                toast.error("One or Few fields are Empty");
                 throw Error();
             }
 
@@ -38,26 +41,17 @@ const Login = () => {
                 withCredentials: true
             })
                 .then((res) => {
-                    console.log("Login Successful")
-                    //console.log(JSON.stringify(res.data));
-
-                    /*
-                    setData({ 
-                        email: "",
-                        password: "",
-                    });
-                    */
-                    
-                    window.location = "/";
+                    toast.success("Login Successful");
+                    navigate("/");
                 })
                 .catch((err) => {
-                    setError(err.response.data.message);
+                    toast.error(err.response.data.message);
                 });;
         }
         catch (error) {
             if (error.response && error.response.status >= 400 && error.response.status <= 500)
             {
-                setError(error.response.data.message);
+                toast.error(error.response.data.message);
             }
         }
     }

@@ -130,7 +130,7 @@ const SingleChat = () => {
 
                             <h1 style={{ marginTop: "0px" }}>{getSender(user._id, selectedChat.users)}</h1>
                         </div>
-                        <div style={{ overflowY: "scroll", height: "475px", padding: "10px 20px"}}>
+                        <div style={{ overflowY: "scroll", height: "450px", padding: "10px 30px", display: "flex", flexDirection: "column", placeContent: "flex-end" }}>
                             {messages &&
                                 messages.map((m, i) => (
                                     <div style={{ display: "flex" }} key={m._id}>

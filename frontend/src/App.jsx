@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect } from "react";
 import { useSelector } from 'react-redux';
 import { Popper } from "@mui/material";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 //Pages and Components
 import Requests from './pages/Request/Requests';
@@ -184,6 +186,8 @@ function App() {
             <Route
               path='/complaint/create'
               element={<CreateComplaint />}
+            />
+            <Route
               path="/orders/buyer"
               element={<BuyerOrders/>}
             />
@@ -194,6 +198,18 @@ function App() {
           </Routes>
         </div>
         <Footer />
+        <ToastContainer
+          position="bottom-left"
+          autoClose={14000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </BrowserRouter>
     </div>
   );
