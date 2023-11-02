@@ -1,4 +1,6 @@
 const Complaint = require ('../models/complaintModel');
+const Feedback = require ('../models/feedbackModel');
+
 
 //create new complaint
 const createComplaint = async(req, res) => {
@@ -21,8 +23,27 @@ const createComplaint = async(req, res) => {
     }
 }
 
-//get complaint from a single user
+//create new feedback
+const createFeedback = async(req, res) => {
+     
+    const { subject, feedback,user_id } = req.body;
 
+    try{
+        const newFeedback = {
+            subject: subject,
+            feedback: feedback,
+            user_id : user_id,
+        }
+
+        const feedback = await Feedback.create(newFeedback);
+        res.status(200).send({ message : "Feedback submitted successfully.", feedback});
+    }
+    catch(error){
+        res.status(400).send({ message : error.message});
+    }
+}
+
+//get complaint from a single user
 const getComplaints = async (req, res) => {
 
 
@@ -41,5 +62,6 @@ const getComplaints = async (req, res) => {
 
 module.exports={
 createComplaint,
+createFeedback,
 getComplaints,
 }

@@ -12,10 +12,11 @@ const Complaint = () => {
 
   const { complaints } = useSelector((state) => state.help);
   const [open, setOpen] = useState(false);
+  const [complaintID, setComplaintID] = useState("");
   const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
-    Store.dispatch(setComplaints(complaints._id));
+    Store.dispatch(setComplaints(user._id));
 
   }, []);
   console.log(complaints);
@@ -33,7 +34,7 @@ const Complaint = () => {
           <h1>All Complaints You Posted</h1>
           {complaints && complaints.map((complaint) => (
             <div className="complaint-details" key={complaint._id}>
-              <Link onClick={() => { setOpen(true), setRequestId(complaint._id) }}>
+              <Link onClick={() => { setOpen(true), setComplaintID(complaint._id) }}>
               <h4>{complaint.title}</h4>
               </Link>
               <p><strong>Category: </strong>{complaint.category}</p>
@@ -43,7 +44,7 @@ const Complaint = () => {
             </div>
           ))}
           <ComplaintDetails
-            complaintID={complaints}
+            complaintID={complaintID}
             open={open}
             setOpen={setOpen}
           />

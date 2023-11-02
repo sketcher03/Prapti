@@ -22,28 +22,27 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 const ComplaintDetails = (props) => {
 
   const { complaints } = useSelector((state) => state.help);
-  const {  mode } = useSelector((state) => state.user);
   const { isAdminAuthenticated } = useSelector((state) => state.admin);
   //console.log(requests)
 
- /* useEffect(() => {
-    console.log(isAdminAuthenticated);
-    // console.log(user)
-
-    if (isAdminAuthenticated) {
-      Store.dispatch(setAllRequestsAdmin());
-    }
-    else {
-      if (mode === "user") {
-        Store.dispatch(setAllRequests());
-      }
-      else {
-        Store.dispatch(setRequests());
-      }
-    }
-    
-    
-  }, []);*/
+  /* useEffect(() => {
+     console.log(isAdminAuthenticated);
+     // console.log(user)
+ 
+     if (isAdminAuthenticated) {
+       Store.dispatch(setAllRequestsAdmin());
+     }
+     else {
+       if (mode === "user") {
+         Store.dispatch(setAllRequests());
+       }
+       else {
+         Store.dispatch(setRequests());
+       }
+     }
+     
+     
+   }, []);*/
 
   const handleClose = () => {
     props.setOpen(false);
@@ -81,41 +80,7 @@ const ComplaintDetails = (props) => {
           },
         }}
       >
-        {mode === "user" || isAdminAuthenticated ? (
-          complaints
-            .filter((complaint) => complaint._id === props.complaintID)
-            .map((filteredComplaint) => (
-              <div className="each-complaint" key={filteredComplaint._id}>
-                <DialogTitle
-                  style={{
-                    textAlign: "center",
-                    fontWeight: "700",
-                    fontFamily: "Poppins",
-                    fontSize: "24px",
-                    margin: "20px 0px",
-                  }}
-                >
-                  {filteredComplaint.title}
-                </DialogTitle>
-                <DialogContent>
-                  <p>
-                    <strong>Description: </strong>
-                    {filteredRequest.description}
-                  </p>
-                  <P>
-                  <strong>Time (days): </strong>
-                    {filteredComplaint.timeline}
-                  </P>
-                  <p className="date">
-                    Published{" "}
-                    {formatDistanceToNow(new Date(filteredComplaint.createdAt), {
-                      addSuffix: true,
-                    })}
-                  </p>
-                </DialogContent>
-              </div>
-            ))
-        ) : (
+        {
           complaints
             .filter((complaint) => complaint._id === props.complaintID)
             .map((filteredComplaint) => (
@@ -136,10 +101,6 @@ const ComplaintDetails = (props) => {
                     <strong>Description: </strong>
                     {filteredComplaint.description}
                   </p>
-                  <p>
-                    <strong>Time (days): </strong>
-                    {filteredComplaint.timeline}
-                  </p>
                   <p className="date">
                     Published{" "}
                     {formatDistanceToNow(new Date(filteredComplaint.createdAt), {
@@ -149,18 +110,22 @@ const ComplaintDetails = (props) => {
                 </DialogContent>
               </div>
             ))
-        )}
+        }
         <DialogActions style={{ display: "flex", justifyContent: "space-evenly", height: "100%", alignItems: "center", marginBottom: "60px" }}>
           <button className="close-popup" onClick={handleClose}>
             Close
             <CloseIcon />
           </button>
-          : (
+          {
+            isAdminAuthenticated ? (
               <button className="delete-req" onClick={handleDelete}>
                 Save
                 <FavoriteIcon />
               </button>
+            ) : (
+              <div></div>
             )
+          }
 
         </DialogActions>
         {props.children}
