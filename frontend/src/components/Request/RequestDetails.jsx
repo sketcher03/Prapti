@@ -21,7 +21,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 const RequestDetails = (props) => {
 
   const { allRequests, requests } = useSelector((state) => state.requests);
-  const { isSeller, mode } = useSelector((state) => state.user);
+  const {  mode } = useSelector((state) => state.user);
   const { isAdminAuthenticated, admin } = useSelector((state) => state.admin);
   //console.log(requests)
 

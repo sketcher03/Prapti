@@ -1,7 +1,7 @@
 import axios from "axios";
 import { server } from "../../../server";
 
-//set requests
+//set requests for a single user
 export const setRequests = () => async (dispatch) => {
     try {
         dispatch({
@@ -18,7 +18,7 @@ export const setRequests = () => async (dispatch) => {
                     payload: res.data.requests,
                 });
             })
-            .catch((error) => {
+            .catch((error) => { 
                 dispatch({
                     type: "SetRequestsFailure",
                     payload: error.response.data.message,

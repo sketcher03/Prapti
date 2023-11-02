@@ -2,7 +2,7 @@ const Request = require('../models/requestModel');
 const User = require('../models/userModel');
 const mongoose = require('mongoose');
 
-//GET all requests
+//GET all requests from a single user
 const getRequests = async (req, res) => {
 
     const user_id = req.user._id;
