@@ -2,8 +2,11 @@ import {useState} from 'react'
 import axios from 'axios';
 import { server } from '../../../server';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom'; 
 
 const CreateComplaintForm = () => {
+
+    const navigate = useNavigate();
 
     const { user } = useSelector((state) => state.user);
 
@@ -32,6 +35,7 @@ const CreateComplaintForm = () => {
         await axios.post(url, newComplaint, {withCredentials : true})        
         .then((res) => {
             console.log(res.data.message);
+            navigate("/complaint");
         })
         .catch((error) => {
             console.log(error.response.data.message);

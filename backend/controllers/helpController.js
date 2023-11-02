@@ -35,8 +35,8 @@ const createFeedback = async(req, res) => {
             user_id : user_id,
         }
 
-        const feedback = await Feedback.create(newFeedback);
-        res.status(200).send({ message : "Feedback submitted successfully.", feedback});
+        const feedbacks = await Feedback.create(newFeedback);
+        res.status(200).send({ message : "Feedback submitted successfully.", feedbacks});
     }
     catch(error){
         res.status(400).send({ message : error.message});

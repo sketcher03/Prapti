@@ -2,8 +2,10 @@ import {useState} from 'react'
 import axios from 'axios';
 import { server } from '../../../server';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const CreateFeedbackForm = () => {
+    const navigate = useNavigate();
 
     const { user } = useSelector((state) => state.user);
 
@@ -30,6 +32,7 @@ const CreateFeedbackForm = () => {
         await axios.post(url, newFeedback, {withCredentials : true})        
         .then((res) => {
             console.log(res.data.message);
+            navigate("/help")
         })
         .catch((error) => {
             console.log(error.response.data.message);
@@ -55,6 +58,8 @@ const CreateFeedbackForm = () => {
         onChange={handleChange}
         >
         </textarea>
+        <button>Submit
+        </button>
     </form>
   )
 }
