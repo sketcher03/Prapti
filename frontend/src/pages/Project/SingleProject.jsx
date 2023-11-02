@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import '../../css/project.css';
 import { server } from "../../../server";
 import axios from 'axios';
 import { accessChats } from '../../redux/actions/chats';
+import { createOrder } from '../../redux/actions/orders';
 import Store from "../../redux/store";
 import { useSelector } from 'react-redux';
 
@@ -21,6 +22,8 @@ import Chip from '@mui/material/Chip';
 import Badge from '@mui/material/Badge';
 import Avatar from "@mui/material/Avatar";
 import Rating from '@mui/material/Rating';
+import Dialog from "@mui/material/Dialog";
+import TextField from "@mui/material/TextField";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -37,14 +40,33 @@ import 'swiper/css/scrollbar';
 const SingleProject = () => {
 
     const param = useParams();
+    const navigate = useNavigate();
 
     const { chats } = useSelector((state) => state.chats);
     const { user } = useSelector((state) => state.user);
 
     //console.log(param.id);
     const [error, setError] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [image, setImage] = useState(null);
 
     const [userImage, setUserImage] = useState('');
+
+    const [orderData, setOrderData] = useState({
+        buyerId: "",
+        sellerId: "",
+        projectId: "",
+        description: "",
+        price: 0,
+        requirements: [
+            {
+                req_title: "",
+                req_type: "",
+                req_content: ""
+            }
+        ],
+    });
+
 
     const [projectData, setProjectData] = useState({
         title: "",
@@ -57,6 +79,7 @@ const SingleProject = () => {
                 tier_price: "",
                 tier_description: '',
                 tier_deliverables: '',
+                tier_timeline: '',
             }
         ],
         requirements: [
@@ -79,6 +102,46 @@ const SingleProject = () => {
     const [activeStep, setActiveStep] = useState(0);
     const maxSteps = projectData.priceTiers.length;
 
+    const handleFileInput = (e, i) => {
+        const file = e.target.files[0];
+        setImage(file);
+
+        console.log(file.name)
+
+        const { name } = e.target;
+        const list = [...orderData.requirements];
+
+        const newreq = {
+            req_title: projectData.requirements[i].req_title,
+            req_type: projectData.requirements[i].req_type,
+            req_content: file.name
+        }
+
+        list.push(newreq);
+
+        setOrderData({ ...orderData, requirements: list });
+    };
+
+    const handleRequirementsChange = (e, i) => {
+        const { value } = e.target;
+        const list = [...orderData.requirements];
+        list[i].req_title = projectData.requirements[i].req_title
+        list[i].req_type = projectData.requirements[i].req_type
+        list[i].req_content = value;
+
+        const description = projectData.priceTiers[activeStep].tier_description;
+        const price = projectData.priceTiers[activeStep].tier_price;
+        const buyerId = user._id;
+        const sellerId = userData._id;
+        const buyerUsername = user.username;
+        const sellerUsername = userData.username;
+        const projectId = projectData._id;
+
+        //console.log(i)
+        setOrderData({ ...orderData, buyerId: buyerId, buyerUsername: buyerUsername, sellerId: sellerId, sellerUsername: sellerUsername, projectId: projectId, description: description, price: price, requirements: list });
+        
+    };
+
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
@@ -87,6 +150,48 @@ const SingleProject = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+    const handleOrder = async (e) => {
+        e.preventDefault();  
+        
+        //console.log(orderData);
+
+        const newOrder = new FormData();
+
+        const timeline = new Date(new Date().getTime() + (projectData.priceTiers[activeStep].tier_timeline * 24 * 60 * 60 * 1000));
+
+        newOrder.append("file", image);
+        newOrder.append("timeline", timeline);
+        newOrder.append("orderData", JSON.stringify(orderData));
+
+        console.log(newOrder);
+
+        Store.dispatch(createOrder(newOrder, setError));
+        
+        handleClose();
+
+        //console.log("Order Placed");
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+
+        setOrderData({
+            buyerId: "",
+            sellerId: "",
+            projectId: "",
+            description: "",
+            price: 0,
+            requirements: [
+                {
+                    req_title: "",
+                    req_type: "",
+                    req_content: ""
+                }
+            ],
+        })
+
+        //console.log(orderData)
+    };
 
     const handleChat = () => {
         console.log("chat creation pressed");
@@ -108,7 +213,6 @@ const SingleProject = () => {
                     setProjectData(res.data.project);
                     setUserData(res.data.user);
                     setUserImage(res.data.user.profilePic);
-
                 })
                 .catch((err) => {
                     setError(err.response.data.message);
@@ -186,12 +290,16 @@ const SingleProject = () => {
                 >
                     <Typography sx={{ fontFamily: "poppins", fontWeight: "700", fontSize: "20px" }}>{projectData.priceTiers[activeStep].tier_title}</Typography>
                 </Paper>
-                <Box sx={{ height: 300, maxWidth: 400, width: '100%', p: 2 }}>
+                <Box sx={{ height: 450, maxWidth: 400, width: '100%', p: 2 }}>
                     <Typography sx={{ fontFamily: "poppins", fontWeight: "400", fontSize: "15px" }}>{projectData.priceTiers[activeStep].tier_description}</Typography>
                     
                     <Typography sx={{ fontFamily: "poppins", fontWeight: "400", fontSize: "15px", marginTop: "10px" }}><span style={{ fontWeight: "600", fontSize: "17px", color: "green" }}>Deliverables <br/></span>{projectData.priceTiers[activeStep].tier_deliverables}</Typography>
+                    
+                    <Typography sx={{ fontFamily: "poppins", fontWeight: "400", fontSize: "15px", marginTop: "10px" }}><span style={{ fontWeight: "600", fontSize: "17px", color: "green" }}>Timeline <br /></span>{projectData.priceTiers[activeStep].tier_timeline} days</Typography>
 
                     <Typography sx={{ fontFamily: "poppins", fontWeight: "700", fontSize: "24px", marginTop: "10px" }}><span style={{ fontWeight: "600", fontSize: "17px", color: "green"}}>BDT. </span>{projectData.priceTiers[activeStep].tier_price}</Typography>
+
+                    <button onClick={() => setOpen(true)} style={{marginTop: "20px"}}>Place an Order</button>
                 </Box>
                 <MobileStepper
                     variant="text"
@@ -271,8 +379,75 @@ const SingleProject = () => {
 
                 </div>
                 
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                    maxWidth="lg"
+                    PaperProps={{
+                        style: {
+                            backgroundColor: "white",
+                            borderRadius: "20px",
+                            width: "750px",
+                            display: "flex",
+                        },
+                    }}
+                >
+                    <form style={{ padding: "50px"}} onSubmit={handleOrder}>
+                        {
+                            projectData.requirements.map((req, index) => (
+                                <div key={index} style={{ margin: "5px" }}>
+                                    <label style={{fontWeight: "500", color: "grey"}} htmlFor="title">{req.req_title}</label>
+                                    {
+                                        req.req_type === "file" ? (
+                                            <label
+                                                htmlFor="file-input"
+                                                style={{
+                                                    border: "1px solid grey",
+                                                    padding: "30px",
+                                                    width: "200px",
+                                                    borderRadius: "10px",
+                                                    marginTop: "10px"
+                                                }}
+                                            >
+                                                <span>Upload a file</span>
+
+                                                <input
+                                                    type="file"
+                                                    name="req_content"
+                                                    id="file-input"
+                                                    accept=".jpg,.jpeg,.png"
+                                                    className="sr-only"
+                                                    onChange={(e) => handleFileInput(e, index)}
+                                                />
+                                            </label>
+                                        ) : (
+                                            <TextField
+                                                type="text"
+                                                name="req_content"
+                                                onChange={(e) => handleRequirementsChange(e, index)}
+                                                placeholder="John Doe"
+                                                defaultValue={req.req_content}
+                                                sx={{ marginTop: "12px", width: "100%" }}
+                                                InputProps={{ sx: { borderRadius: "8px" } }}
+                                            />
+                                        )
+                                    }
+                                    
+                                </div>
+
+                            ))
+                        }
+
+                        <button>Place Order</button>
+                    </form>
+                    
+                </Dialog>
                 
             </div>
+
+            {error && <div className="error">{error}</div>}
             
         </div>
     )

@@ -35,8 +35,8 @@ import FAQs from './pages/Help/FAQs';
 import Complaint from './pages/Help/complaint';
 import Feedback from './pages/Help/Feedback';
 import CreateComplaint from './pages/Help/CreateComplaint';
-
-
+import BuyerOrders from './pages/Order/BuyerOrders';
+import SellerOrders from './pages/Order/SellerOrders';
 
 const title = 'React';
 
@@ -184,6 +184,12 @@ function App() {
             <Route
               path='/complaint/create'
               element={<CreateComplaint />}
+              path="/orders/buyer"
+              element={<BuyerOrders/>}
+            />
+            <Route
+              path="/orders/seller"
+              element={<SellerOrders/>}
             />
           </Routes>
         </div>

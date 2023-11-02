@@ -8,6 +8,7 @@ import Rating from '@mui/material/Rating';
 import { server } from "../../../server";
 import Chip from '@mui/material/Chip';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import Tooltip from "@mui/material/Tooltip";
 
 
 // Import Swiper React components
@@ -48,11 +49,11 @@ const AllProjects = () => {
 
     return (
         <div className='project-container'>
-            <p>All Projects</p>
+            <h1>All Projects</h1>
             <div className="project-shop">
                 {
                     allProjects.map((project) => (
-                        <div key={project._id}>
+                        <div className='product-box' key={project._id}>
                             <Swiper
                                 modules={[Pagination, Scrollbar]}
                                 spaceBetween={1}
@@ -77,7 +78,10 @@ const AllProjects = () => {
                             </Swiper>
 
                             <div className="project-card">
-                                <Link to={`/project/${project._id}`}>{project.title}</Link>
+                                <Tooltip arrow title={project.title}>
+                                    <Link className='all-project-title' to={`/project/${project._id}`}>{project.title}</Link>
+                                </Tooltip>
+                                
                                 <div style={{display: "flex", margin: "10px 0px"}}>
                                     {
                                         project.category.map((category) => (

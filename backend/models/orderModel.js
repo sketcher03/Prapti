@@ -7,11 +7,23 @@ const orderSchema = new Schema({
         type: String,
         required: true,
     },
+    buyerUsername: { //user.username
+        type: String,
+        required: true,
+    },
     sellerId: { //user_id
         type: String,
         required: true,
     },
+    sellerUsername: { //user.username
+        type: String,
+        required: true,
+    },
     projectId: { //project_id
+        type: String,
+        required: true,
+    },
+    description: {
         type: String,
         required: true,
     },
@@ -27,14 +39,21 @@ const orderSchema = new Schema({
             req_type: {
                 type: String,
             },
+            req_content: {
+                type: String,
+            }
         }
     ],
     timeline: {
-        type: Number, //in days
+        type: Date, //in days
     },
     createdAt: {
         type: Date,
         default: Date.now(),
+    },
+    isDelivered: {
+        type: Boolean,
+        default: false,
     },
     deliveredAt: {
         type: Date,

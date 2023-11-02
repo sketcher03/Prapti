@@ -126,7 +126,7 @@ const Navbar = () => {
     {
       name: "My Orders",
       icon: "layers-outline",
-      path: "/",
+      path: "/orders/buyer",
       dis: "translate-x-[305px]",
     },
     {
@@ -163,7 +163,7 @@ const Navbar = () => {
     {
       name: "My Orders",
       icon: "layers-outline",
-      path: "/",
+      path: "/orders/seller",
       dis: "translate-x-[305px]",
     },
     {

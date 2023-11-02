@@ -17,8 +17,6 @@ import RequestForm from '../../components/Request/RequestForm';
 //date ffns
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
-
-
 const AllRequests = () => {
   const { isSeller, mode } = useSelector((state) => state.user);
   const { allRequests } = useSelector((state) => state.requests)
@@ -27,10 +25,10 @@ const AllRequests = () => {
   const [requestId, setRequestId] = useState("");
   const { isAdminAuthenticated, admin } = useSelector((state) => state.admin);
 
-
   useEffect(() => {
     // console.log(requests);
-    // console.log(user)
+    // console.log(user);
+    
     if (isAdminAuthenticated) 
     {
       Store.dispatch(setAllRequestsAdmin());
