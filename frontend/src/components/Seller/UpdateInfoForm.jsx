@@ -11,6 +11,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { editUser } from '../../redux/actions/user';
 import Avatar from "@mui/material/Avatar";
+import { toast } from 'react-toastify';
 
 const SellerStarterForm = () => {
 
@@ -75,7 +76,7 @@ const SellerStarterForm = () => {
 
     const updateUser = new FormData();
 
-    console.log(data, talents, profilePic);
+    //console.log(data, talents, profilePic);
 
     if (profilePic) {
       updateUser.append("file", profilePic);
@@ -93,7 +94,7 @@ const SellerStarterForm = () => {
     }
 
     if (data.email === "" || data.username === "") {
-      setError("Email and Username can't be empty");
+      toast.error("Email and Username can't be empty");
     }
     
     updateUser.append("email", data.email);
@@ -105,13 +106,13 @@ const SellerStarterForm = () => {
     updateUser.append("talents", JSON.stringify(talents));
     updateUser.append("role", role);
 
-    console.log(updateUser);
+    //console.log(updateUser);
     
     Store.dispatch(
-      editUser(updateUser, id, setData, setError, setImage, setTalents, profilePic)
+      editUser(updateUser, id, setData, setError, setImage, setTalents, profilePic, toast)
     );
 
-    console.log("submit clicked");
+    //console.log("submit clicked");
   };
 
   useEffect(() => {

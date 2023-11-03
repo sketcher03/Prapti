@@ -18,11 +18,11 @@ const Activation = () => {
             
                 axios.get(url)
                     .then((response) => {
-                        console.log(response.data);
+                        //console.log(response.data);
                         setMessage(response.data.message);
                     })
                     .catch((err) => {
-                        console.log(err.response.data);
+                        //console.log(err.response.data);
                         setMessage(err.response.data.message);
                     });
             }

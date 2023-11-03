@@ -102,14 +102,14 @@ export const setAllRequestsAdmin = () => async (dispatch) => {
 
 
 //create request
-export const createRequest = (request, setData, setEmptyFields, setError, props) => async (dispatch) => {
+export const createRequest = (request, setData, setEmptyFields, setError, props, toast) => async (dispatch) => {
   try {
     dispatch({
       type: "SetRequests",
     });
 
     //empty fields errors
-    console.log(request);
+    //console.log(request);
 
     await axios
         .post(`${server}/requests`, request, { withCredentials: true })
@@ -127,7 +127,7 @@ export const createRequest = (request, setData, setEmptyFields, setError, props)
             setEmptyFields([]);
             props.setTrigger(false);
 
-            setError(res.data.message);
+            toast.success(res.data.message);
 
             dispatch({
                 type: "CreateRequestSuccess",
@@ -135,7 +135,7 @@ export const createRequest = (request, setData, setEmptyFields, setError, props)
             });
         })
         .catch((err) => {
-            setError(err.response.data.message);
+            toast.error(err.response.data.message);
             setEmptyFields(err.response.data.emptyFields);
                 
             dispatch({

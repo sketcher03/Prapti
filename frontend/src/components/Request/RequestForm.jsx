@@ -3,6 +3,7 @@ import "../../css/PopupForm.css"
 import CloseIcon from "@mui/icons-material/Close";
 import Store from "../../redux/store";
 import { createRequest } from '../../redux/actions/requests';
+import { toast } from 'react-toastify';
 
 const RequestForm = (props) => {
 
@@ -41,7 +42,7 @@ const RequestForm = (props) => {
 
     //console.log(request);
 
-    Store.dispatch(createRequest(request, setData, setEmptyFields, setError, props));
+    Store.dispatch(createRequest(request, setData, setEmptyFields, setError, props, toast));
   };
 
   return props.trigger ? (

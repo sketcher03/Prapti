@@ -42,11 +42,12 @@ const Login = () => {
             })
                 .then((res) => {
                     toast.success("Login Successful");
-                    navigate("/");
+                    
+                    window.location = "/";
                 })
                 .catch((err) => {
                     toast.error(err.response.data.message);
-                });;
+                })
         }
         catch (error) {
             if (error.response && error.response.status >= 400 && error.response.status <= 500)

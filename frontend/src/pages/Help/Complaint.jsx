@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import ComplaintDetails from '../../components/Help/ComplaintDetails';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const Complaint = () => {
 
@@ -16,12 +17,10 @@ const Complaint = () => {
   const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
-    Store.dispatch(setComplaints(user._id));
+    Store.dispatch(setComplaints(user._id, toast));
 
   }, []);
-  console.log(complaints);
-
-
+  //console.log(complaints);
 
   return (
     <div className='help-container'>

@@ -7,6 +7,7 @@ import Store from "../redux/store";
 import { changeMode, logoutUser } from "../redux/actions/user";
 import { logoutAdmin } from "../redux/actions/admin";
 import { server } from "../../server";
+import { toast } from "react-toastify"
 
 //MUI imports
 import Box from "@mui/material/Box";
@@ -83,7 +84,8 @@ const Navbar = () => {
       navigate("/");
     }
   };
-  console.log(mode)
+  
+  //toast.info(mode);
 
   const handleProfile = () => {
     setActive(0);

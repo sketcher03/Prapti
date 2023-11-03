@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { RxAvatar } from "react-icons/rx";
 import axios from "axios";
 import { server } from '../../server';
+import { toast } from 'react-toastify';
 
 const Signup = () => {
 
@@ -35,12 +36,12 @@ const Signup = () => {
         try {
             //empty fields errors
             if (data.email === "" || data.username === "" || data.password === "") {
-                setError("One or Few fields are Empty");
+                toast.warn("One or Few fields are Empty");
                 throw Error();
             }
             
             if (profilePic === null) {
-                setError("Please add a profile picture");
+                toast.warn("Please add a profile picture");
                 throw Error();
             }
 
@@ -57,7 +58,7 @@ const Signup = () => {
                 headers: {'Content-Type': 'multipart/form-data'}
             })
                 .then((res) => {
-                    console.log(res);
+                    //console.log(res);
 
                     setData({ 
                         email: "",
@@ -67,20 +68,16 @@ const Signup = () => {
                     
                     setProfilePic(null);
 
-                    // if (res.data.success === true) {
-                    //     navigate("/");
-                    // }
-
-                    setError(res.data.message);
+                    toast.success(res.data.message);
                 })
                 .catch((err) => {
-                    setError(err.response.data.message);
+                    toast.error(err.response.data.message);
                 });
         }
         catch (error) {
             if (error.response && error.response.status >= 400 && error.response.status <= 500)
             {
-                setError(error.response.data.message);
+                toast.error(error.response.data.message);
             }
         }
     }
@@ -176,8 +173,6 @@ const Signup = () => {
             <div className='mt-6 text-center'>
 
                 <button disabled={false}>Sign Up</button>
-
-                {error && <div className='error'>{error}</div>}
                 
             </div>
 

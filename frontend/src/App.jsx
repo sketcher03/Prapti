@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect } from "react";
 import { useSelector } from 'react-redux';
 import { Popper } from "@mui/material";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 //Pages and Components
@@ -50,8 +50,14 @@ function App() {
   useEffect(() => {
     Store.dispatch(saveUser());
     Store.dispatch(saveAdmin());
-    //console.log(user)
-    console.log(admin, isAdminAuthenticated)
+
+    if (isAuthenticated) {
+      toast.success("User Authenticated")
+    }
+
+    if (isAdminAuthenticated) {
+      toast.success("Admin Authenticated")
+    }
 
     Store.dispatch(setMode(user.role))
   }, []);
@@ -200,7 +206,7 @@ function App() {
         <Footer />
         <ToastContainer
           position="bottom-left"
-          autoClose={14000}
+          autoClose={5000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick

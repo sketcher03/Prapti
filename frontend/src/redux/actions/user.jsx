@@ -80,16 +80,17 @@ export const editUser =
     setError,
     setImage,
     setTalents,
-    profilePic
+    profilePic,
+    toast
   ) =>
     async (dispatch) => {
-      console.log(updateUser);
+      //console.log(updateUser);
       try {
         dispatch({
           type: "SaveUserRequest",
         });
 
-        console.log("dispatch success")
+        toast.success("dispatch success")
 
         const url = profilePic
           ? `${server}/user/updateall/${id}`
@@ -105,7 +106,7 @@ export const editUser =
             headers: { "Content-Type": header },
           })
           .then((res) => {
-            console.log(res);
+            //console.log(res);
 
             setData({
               name: res.data.user.name,
@@ -120,7 +121,7 @@ export const editUser =
 
             setTalents(res.data.user.talents);
 
-            setError(res.data.message);
+            toast.success(res.data.message);
 
             dispatch({
               type: "SaveUserSuccess",
@@ -128,7 +129,7 @@ export const editUser =
             });
           })
           .catch((error) => {
-            setError(err.response.data.message);
+            toast.error(err.response.data.message);
             dispatch({
               type: "SaveUserFailure",
               payload: error.response.data.message,
