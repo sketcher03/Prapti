@@ -29,7 +29,6 @@ export const projectsReducer = createReducer(initialState, {
     },
     SetAllProjectsAdminSuccess: (state, action) => {
         state.loading = false;
-        state.allProjectsAdmin = action.payload;
     },
     SetAllProjectsAdminFailure: (state, action) => {
         state.loading = false;
@@ -37,7 +36,6 @@ export const projectsReducer = createReducer(initialState, {
     },
     CreateProjectSuccess: (state, action) => {
         state.loading = false;
-        state.allProjectsAdmin = [action.payload, ...state.requests];
     },
     CreateProjectFailure: (state, action) => {
         state.loading = false;
@@ -45,9 +43,6 @@ export const projectsReducer = createReducer(initialState, {
     },
     DeleteProjectSuccess: (state, action) => {
         state.loading = false;
-        state.allProjectsAdmin = state.projects.filter(
-            (project) => project._id !== action.payload._id
-        );
     },
     DeleteProjectFailure: (state, action) => {
         state.loading = false;
@@ -55,7 +50,6 @@ export const projectsReducer = createReducer(initialState, {
     },
     EditProjectSuccess: (state, action) => {
         state.loading = false;
-        state.allProjectsAdmin = [action.payload, ...state.projects];
     },
     EditProjectFailure: (state, action) => {
         state.loading = false;

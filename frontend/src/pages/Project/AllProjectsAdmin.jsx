@@ -17,9 +17,9 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import ProjectDetails from '../../components/Project/ProjectDetails';
 
 
-const Projects = () => {
+const AllProjectsAdmin = () => {
     const { mode } = useSelector((state) => state.user);
-    const { projects } = useSelector((state) => state.projects);
+    const { allProjects } = useSelector((state) => state.projects);
     const [projectId, setProjectId] = useState("");
     const [open, setOpen] = useState(false);
     const { isAdminAuthenticated, admin } = useSelector((state) => state.admin);
@@ -96,9 +96,9 @@ const Projects = () => {
                     <DataGrid
                         disableRowSelectionOnClick
                         rowHeight={75}
-                        loading={!projects}
+                        loading={!allProjects}
                         getRowId={(row) => row._id}
-                        rows={projects || []}
+                        rows={allProjects || []}
                         columns={columns}
                         sx={{
                             m: 2,
@@ -128,4 +128,4 @@ const Projects = () => {
     );
 }
 
-export default setAllProjectsAdmin;
+export default AllProjectsAdmin;

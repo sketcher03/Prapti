@@ -5,8 +5,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import "../../css/PopupForm.css";
-import { setAllProjects, setProjects } from '../../redux/actions/projects';
+import { setAllProjects, setProjects , setAllProjectsAdmin} from '../../redux/actions/projects';
 import { useEffect, useState } from 'react';
+
 
 //date ffns
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
@@ -15,11 +16,14 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import ForwardIcon from '@mui/icons-material/Forward';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const ProjectDetails = (props) => {
 
-  const { projects } = useSelector((state) => state.projects);
+  const { projects, allProjects } = useSelector((state) => state.projects);
   const { isAdminAuthenticated, admin } = useSelector((state) => state.admin);
+  const { user, mode } = useSelector((state) => state.user);
 
   //console.log(projects)
 
@@ -78,7 +82,7 @@ const ProjectDetails = (props) => {
           },
         }}
       >
-        {mode === "seller" || isAdminAuthenticated ? (
+        { !isAdminAuthenticated ? (
           projects
             .filter((project) => project._id === props.projectID)
             .map((filteredproject) => (
@@ -142,11 +146,11 @@ const ProjectDetails = (props) => {
               </div>
             ))
         ) : (
-          projects
+          allProjects
             .filter((project) => project._id === props.projectID)
             .map((filteredproject) => (
               <div className="request-each" key={filteredproject._id}>
-<DialogTitle
+                <DialogTitle
                   style={{
                     textAlign: "center",
                     fontWeight: "700",
@@ -211,25 +215,16 @@ const ProjectDetails = (props) => {
             <CloseIcon />
           </button>
           <Link
-            to={(mode === "seller") ? "/" : `/projects/update/${props.requestID}`}
+            to={isAdminAuthenticated ? "/" : `/projects/update/${props.requestID}`}
             className="edit-req"
           >
-            {(mode === "seller") ? "Apply" : "Edit"}
-            {(mode === "seller") ? <ForwardIcon /> : <EditIcon />}
+            {isAdminAuthenticated ? "Approve" : "Edit"}
+            {isAdminAuthenticated ? <ForwardIcon /> : <EditIcon />}
           </Link>
-          {
-            !(mode === "seller") ? (
-              <button className="delete-req" onClick={handleDelete}>
+          <button className="delete-req" onClick={handleDelete}>
                 Delete
                 <DeleteForeverIcon />
               </button>
-            ) : (
-              <button className="delete-req" onClick={handleDelete}>
-                Save
-                <FavoriteIcon />
-              </button>
-            )
-          }
 
         </DialogActions>
         {props.children}

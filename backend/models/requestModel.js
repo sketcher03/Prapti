@@ -19,8 +19,9 @@ const requestSchema = new Schema({
         type: Number,
         required: true
     },
-    approved: {
+    isApproved: {
         type: Boolean,
+        default: false
     },
     timeline: {
         type: Number,

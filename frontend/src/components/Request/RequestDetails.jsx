@@ -21,7 +21,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 const RequestDetails = (props) => {
 
   const { allRequests, requests } = useSelector((state) => state.requests);
-  const {  mode } = useSelector((state) => state.user);
+  const { mode } = useSelector((state) => state.user);
   const { isAdminAuthenticated, admin } = useSelector((state) => state.admin);
   //console.log(requests)
 
@@ -40,8 +40,8 @@ const RequestDetails = (props) => {
         Store.dispatch(setRequests());
       }
     }
-    
-    
+
+
   }, []);
 
   const handleClose = () => {
@@ -53,7 +53,7 @@ const RequestDetails = (props) => {
     if (isAdminAuthenticated) {
       Store.dispatch(deleteRequestAdmin(props.requestID));
     }
-    else{
+    else {
       Store.dispatch(deleteRequest(props.requestID));
     }
 
@@ -120,6 +120,32 @@ const RequestDetails = (props) => {
                     })}
                   </p>
                 </DialogContent>
+                <DialogActions style={{ display: "flex", justifyContent: "space-evenly", height: "100%", alignItems: "center", marginBottom: "60px" }}>
+                  <button className="close-popup" onClick={handleClose}>
+                    Close
+                    <CloseIcon />
+                  </button>
+                  <Link
+                    to={isAdminAuthenticated ? "/" : `/projects/update/${props.requestID}`}
+                    className="edit-req"
+                  >
+                    {isAdminAuthenticated ? "Approve" : "Apply"}
+                    <ForwardIcon /> 
+                  </Link>
+                  {isAdminAuthenticated ? (
+                    <button className="delete-req" onClick={handleDelete}>
+                    Delete
+                    <DeleteForeverIcon />
+                  </button>
+                  ):
+                  (
+                    <button className="delete-req" >
+                    Save
+                    <FavoriteIcon />
+                  </button> 
+                  )} 
+
+                </DialogActions>
               </div>
             ))
         ) : (
@@ -162,36 +188,29 @@ const RequestDetails = (props) => {
                     })}
                   </p>
                 </DialogContent>
+                <DialogActions style={{ display: "flex", justifyContent: "space-evenly", height: "100%", alignItems: "center", marginBottom: "60px" }}>
+                  <button className="close-popup" onClick={handleClose}>
+                    Close
+                    <CloseIcon />
+                  </button>
+                  <Link
+                    to={`/requests/update/${props.requestID}`}
+                    className="edit-req"
+                  >
+                    Edit
+                    <EditIcon />
+                  </Link>
+                  <button className="delete-req" onClick={handleDelete}>
+                    Delete
+                    <DeleteForeverIcon />
+                  </button>
+
+
+                </DialogActions>
               </div>
             ))
         )}
-        <DialogActions style={{ display: "flex", justifyContent: "space-evenly", height: "100%", alignItems: "center", marginBottom: "60px" }}>
-          <button className="close-popup" onClick={handleClose}>
-            Close
-            <CloseIcon />
-          </button>
-          <Link
-            to={(mode === "seller") ? "/" : `/requests/update/${props.requestID}`}
-            className="edit-req"
-          >
-            {(mode === "seller") ? "Apply" : "Edit"}
-            {(mode === "seller") ? <ForwardIcon /> : <EditIcon />}
-          </Link>
-          {
-            !(mode === "seller") ? (
-              <button className="delete-req" onClick={handleDelete}>
-                Delete
-                <DeleteForeverIcon />
-              </button>
-            ) : (
-              <button className="delete-req" onClick={handleDelete}>
-                Save
-                <FavoriteIcon />
-              </button>
-            )
-          }
 
-        </DialogActions>
         {props.children}
 
       </Dialog>

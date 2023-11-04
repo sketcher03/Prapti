@@ -152,9 +152,7 @@ function App() {
             />
             <Route
               path="/projects/all/admin"
-              element={
-                <AllProjectsAdmin />
-              }
+              element={<AllProjectsAdmin />}
             />
             <Route
               path="/project/:id"
