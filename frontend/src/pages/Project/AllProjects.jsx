@@ -52,8 +52,8 @@ const AllProjects = () => {
             <h1>All Projects</h1>
             <div className="project-shop">
                 {
-                    allProjects.map((project) => (
-                        <div className='product-box' key={project._id}>
+                    allProjects.map((project, index) => (
+                        <div className='product-box' key={index}>
                             <Swiper
                                 modules={[Pagination, Scrollbar]}
                                 spaceBetween={1}
@@ -85,7 +85,7 @@ const AllProjects = () => {
                                 <div style={{display: "flex", margin: "10px 0px"}}>
                                     {
                                         project.category.map((category) => (
-                                            <Chip sx={{ marginRight: "5px"}} variant='outlined' color='info' label={ category } />
+                                            <Chip key={category._id} sx={{ marginRight: "5px"}} variant='outlined' color='info' label={ category } />
                                         ))
                                     }
                                 </div>

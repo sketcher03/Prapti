@@ -3,6 +3,7 @@ import { createReducer } from "@reduxjs/toolkit";
 const initialState = {
     projects: [],
     allProjects: [],
+    allProjectsAdmin: [],
     postSuccess: false,
 }
 
@@ -22,9 +23,21 @@ export const projectsReducer = createReducer(initialState, {
         state.loading = false;
         state.allProjects = action.payload;
     },
+    SetAllProjectsFailure: (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+    },
+    SetAllProjectsAdminSuccess: (state, action) => {
+        state.loading = false;
+        state.allProjectsAdmin = action.payload;
+    },
+    SetAllProjectsAdminFailure: (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+    },
     CreateProjectSuccess: (state, action) => {
         state.loading = false;
-        state.projects = [action.payload, ...state.requests];
+        state.allProjectsAdmin = [action.payload, ...state.requests];
     },
     CreateProjectFailure: (state, action) => {
         state.loading = false;
@@ -32,7 +45,7 @@ export const projectsReducer = createReducer(initialState, {
     },
     DeleteProjectSuccess: (state, action) => {
         state.loading = false;
-        state.projects = state.projects.filter(
+        state.allProjectsAdmin = state.projects.filter(
             (project) => project._id !== action.payload._id
         );
     },
@@ -42,7 +55,7 @@ export const projectsReducer = createReducer(initialState, {
     },
     EditProjectSuccess: (state, action) => {
         state.loading = false;
-        state.projects = [action.payload, ...state.projects];
+        state.allProjectsAdmin = [action.payload, ...state.projects];
     },
     EditProjectFailure: (state, action) => {
         state.loading = false;

@@ -29,6 +29,7 @@ import SellerDashboard from './pages/Seller/SellerDashboard';
 import AllRequests from './pages/Request/AllRequests';
 import Projects from './pages/Project/Projects';
 import AllProjects from './pages/Project/AllProjects';
+import AllProjectsAdmin from './pages/Project/AllProjectsAdmin';
 import SingleProject from './pages/Project/SingleProject';
 import Inbox from './pages/Chat/Inbox';
 import HelpPage from './pages/Help/HelpPage';
@@ -142,11 +143,17 @@ function App() {
             <Route
               path="/projects"
               element={
-                (mode === "buyer" || isAdminAuthenticated) ? (
+                (mode === "buyer") ? (
                   <AllProjects />
                 ) : (
                   <Navigate to="/" />
                 )
+              }
+            />
+            <Route
+              path="/projects/all/admin"
+              element={
+                <AllProjectsAdmin />
               }
             />
             <Route
@@ -189,11 +196,11 @@ function App() {
             />
             <Route
               path="/orders/buyer"
-              element={<BuyerOrders/>}
+              element={<BuyerOrders />}
             />
             <Route
               path="/orders/seller"
-              element={<SellerOrders/>}
+              element={<SellerOrders />}
             />
           </Routes>
         </div>
