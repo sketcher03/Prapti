@@ -193,7 +193,7 @@ const Navbar = () => {
     {
       name: `Projects`,
       icon: "shapes-outline",
-      path: `/projects`,
+      path: `/projects/all/admin`,
       dis: "translate-x-[110px]",
     },
     {
@@ -420,7 +420,7 @@ const Navbar = () => {
               <Divider sx={{ maxWidth: "200px", margin: "auto" }} />
               <MenuItem onClick={handleLogout}>
                 <ListItemIcon>
-                  <Logout fontSize="small" />
+                  <Logout fontSize="small"/>
                 </ListItemIcon>
                 Logout
               </MenuItem>
@@ -435,8 +435,14 @@ const Navbar = () => {
 
       {isAdminAuthenticated ? (
         <div className="text-l font-[700] mr-6 cursor-pointer align-center">
-          <button onClick={handleAdminLogout} >Logout</button>
+          <button onClick={handleAdminLogout} 
+          style={{     backgroundColor: '#fff',
+            color: 'var(--primary)',
+            border: '2px solid var(--primary)',
+            padding: '10px' }}>
+            Logout</button>
         </div>
+
       ) : (
         <div>
           {!isAuthenticated && (

@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 const path = require("path");
 
-//Create a new request
+//Create a new project
 const createProject = async (req, res) => {
 
     const { user_id, role, title, category, description, deliverables, priceTiers, requirements } = req.body;
